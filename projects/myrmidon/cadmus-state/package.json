@@ -1,5 +1,17 @@
 {
   "name": "@myrmidon/cadmus-state",
+  "description": "Cadmus - state management.",
+  "keywords": [
+    "Cadmus"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-shell",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-shell"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
