@@ -1,0 +1,102 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
+
+import { deepCopy } from '@myrmidon/ng-tools';
+import { AuthJwtService } from '@myrmidon/auth-jwt-login';
+import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
+
+import {
+  DocReferencesPart,
+  DOC_REFERENCES_PART_TYPEID,
+} from '../doc-references-part';
+
+/**
+ * Document references part editor.
+ * Thesauri: doc-reference-tags, doc-reference-types (all optional).
+ */
+@Component({
+  selector: 'cadmus-doc-references-part',
+  templateUrl: './doc-references-part.component.html',
+  styleUrls: ['./doc-references-part.component.css'],
+})
+export class DocReferencesPartComponent
+  extends ModelEditorComponentBase<DocReferencesPart>
+  implements OnInit
+{
+  public references: FormControl;
+  public initialRefs: DocReference[];
+
+  public typeEntries: ThesaurusEntry[] | undefined;
+  public tagEntries: ThesaurusEntry[] | undefined;
+
+  constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
+    super(authService);
+    this.initialRefs = [];
+    // form
+    this.references = formBuilder.control([], Validators.required);
+    this.form = formBuilder.group({
+      references: this.references,
+    });
+  }
+
+  public ngOnInit(): void {
+    this.initEditor();
+  }
+
+  private updateForm(model: DocReferencesPart): void {
+    if (!model) {
+      this.form!.reset();
+      return;
+    }
+    this.initialRefs = model.references || [];
+    this.form!.markAsPristine();
+  }
+
+  protected onModelSet(model: DocReferencesPart): void {
+    this.updateForm(deepCopy(model));
+  }
+
+  protected override onThesauriSet(): void {
+    let key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.tagEntries = this.thesauri[key].entries;
+    } else {
+      this.tagEntries = undefined;
+    }
+
+    key = 'doc-reference-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.typeEntries = this.thesauri[key].entries;
+    } else {
+      this.typeEntries = undefined;
+    }
+  }
+
+  protected getModelFromForm(): DocReferencesPart {
+    let part = deepCopy(this.model);
+    if (!part) {
+      part = {
+        itemId: this.itemId,
+        id: null,
+        typeId: DOC_REFERENCES_PART_TYPEID,
+        roleId: this.roleId,
+        timeCreated: new Date(),
+        creatorId: null,
+        timeModified: new Date(),
+        userId: null,
+        references: [],
+      };
+    }
+    part.references = this.references.value?.length
+      ? this.references.value
+      : undefined;
+    return part;
+  }
+
+  public onReferencesChange(references: DocReference[]): void {
+    this.references.setValue(references);
+    this.form!.markAsDirty();
+  }
+}

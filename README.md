@@ -1,27 +1,22 @@
-# CadmusShell
+# Cadmus Shell
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
-## Development server
+This is a refactoring of the [original shell app](https://github.com/vedph/cadmus-bricks-shell), upgraded to fully support Angular 13+ and remove code which has been refactored into external independent libraries.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+All the version numbers of this refactoring, having a number of breaking changes, start from `1.0.0`. All the Docker images versions start from `2.0.0`.
 
-## Code scaffolding
+Quick Docker image build:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. `npm run build-all`
+2. `ng build --prod`
+3. `docker build . -t vedph2020/cadmus-shell:2.0.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
-## Build
+## History
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- 2021-12-18: recreated an Angular 13.0.4 workspace and moved old shell libraries into it while refactoring:
+  - auth-related libraries replaced with `@myrmidon/auth-jwt-login` and `@myrmidon/auth-jwt-admin`.
+  - base model editor slightly refactored to use new services.
+  - generic models and their editors replaced with bricks.
+  - comment part and fragment now uses `ExternalId`'s for IDs rather than an array of strings. This is also reflected in the backend models (`Cadmus.Parts` from version 2.7.0, `Cadmus.Seed.Parts` from version 1.5.0).
+  - Cadmus material removed, and replaced by more granular imports in each Material consumer.

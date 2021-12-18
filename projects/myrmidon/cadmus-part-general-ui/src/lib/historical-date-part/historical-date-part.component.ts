@@ -1,0 +1,112 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+
+import { deepCopy } from '@myrmidon/ng-tools';
+import {
+  HistoricalDate,
+  HistoricalDateModel,
+} from '@myrmidon/cadmus-refs-historical-date';
+import { AuthJwtService } from '@myrmidon/auth-jwt-login';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
+import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
+
+import {
+  HistoricalDatePart,
+  HISTORICAL_DATE_PART_TYPEID,
+} from '../historical-date-part';
+
+@Component({
+  selector: 'cadmus-historical-date-part',
+  templateUrl: './historical-date-part.component.html',
+  styleUrls: ['./historical-date-part.component.css'],
+})
+export class HistoricalDatePartComponent
+  extends ModelEditorComponentBase<HistoricalDatePart>
+  implements OnInit
+{
+  public hasDate: FormControl;
+  public references: FormControl;
+
+  public date: HistoricalDateModel;
+  public initialRefs: DocReference[];
+
+  public typeEntries: ThesaurusEntry[] | undefined;
+  public tagEntries: ThesaurusEntry[] | undefined;
+
+  constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
+    super(authService);
+    // form
+    this.initialRefs = [];
+    this.hasDate = formBuilder.control(false, Validators.requiredTrue);
+    this.references = formBuilder.control([]);
+    this.form = formBuilder.group({
+      hasDate: this.hasDate,
+      references: this.references,
+    });
+    this.date = new HistoricalDate();
+  }
+
+  ngOnInit(): void {
+    this.initEditor();
+  }
+
+  protected override onThesauriSet(): void {
+    let key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.tagEntries = this.thesauri[key].entries;
+    } else {
+      this.tagEntries = undefined;
+    }
+
+    key = 'doc-reference-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.typeEntries = this.thesauri[key].entries;
+    } else {
+      this.typeEntries = undefined;
+    }
+  }
+
+  protected onModelSet(model: HistoricalDatePart): void {
+    this.initialRefs = model?.references || [];
+    this.date = model?.date ? deepCopy(model.date) : undefined;
+    this.hasDate.setValue(model ? true : false);
+    // TODO: remove hack
+    setTimeout(() => {
+      this.form!.markAsPristine();
+    }, 150);
+  }
+
+  protected getModelFromForm(): HistoricalDatePart {
+    let part = this.model;
+    if (!part) {
+      part = {
+        itemId: this.itemId || '',
+        id: '',
+        typeId: HISTORICAL_DATE_PART_TYPEID,
+        roleId: this.roleId,
+        timeCreated: new Date(),
+        creatorId: '',
+        timeModified: new Date(),
+        userId: '',
+        date: new HistoricalDate(),
+      };
+    }
+    part.date = this.date;
+    part.references = this.references.value?.length
+      ? this.references.value
+      : undefined;
+    return part;
+  }
+
+  public onDateChange(date: HistoricalDateModel): void {
+    this.date = date;
+    this.hasDate.setValue(date ? true : false);
+    this.hasDate.markAsDirty();
+  }
+
+  public onReferencesChange(references: DocReference[]): void {
+    this.references.setValue(references);
+    this.form!.markAsDirty();
+  }
+}
