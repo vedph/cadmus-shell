@@ -45,6 +45,7 @@
     <span class="tb-fill-remaining-space"></span>
 
     <div *ngIf="user" fxLayout="row" fxLayoutAlign="start center">
+      <!-- indicators -->
       <img [src]="getGravatarUrl(user.email, 32)" [alt]="user.userName" />
       <mat-icon
         class="small-icon"
@@ -60,17 +61,27 @@
         }}"
         >feedback</mat-icon
       >
-      <button mat-icon-button [mat-menu-trigger-for]="menu">
+      <!-- <button mat-icon-button [mat-menu-trigger-for]="menu">
         <mat-icon>more_vert</mat-icon>
+      </button> -->
+
+      <!-- user menu -->
+      <button mat-button [matMenuTriggerFor]="userMenu">User</button>
+      <mat-menu #userMenu>
+        <a mat-menu-item routerLink="/reset-password">Reset password</a>
+      </mat-menu>
+
+      <!-- admin menu -->
+      <button
+        *ngIf="user && user.roles.includes('admin')"
+        mat-button
+        [matMenuTriggerFor]="adminMenu"
+      >
+        Admin
       </button>
-      <mat-menu x-position="before" #menu="matMenu">
-        <a
-          mat-menu-item
-          *ngIf="user && user.roles.includes('admin')"
-          routerLink="/admin"
-          >Admin</a
-        >
-        <a mat-menu-item (click)="logout()">Logout</a>
+      <mat-menu #adminMenu>
+        <a mat-menu-item routerLink="/manage-users">Manage users</a>
+        <a mat-menu-item routerLink="/register-user">Register user</a>
       </mat-menu>
     </div>
 

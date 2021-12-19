@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // myrmidon
-import { AuthJwtGuardService } from '@myrmidon/auth-jwt-login';
+import {
+  AuthJwtAdminGuardService,
+  AuthJwtGuardService,
+} from '@myrmidon/auth-jwt-login';
 
 // libraries in this workspace
 import { EditorGuardService } from 'projects/myrmidon/cadmus-api/src/public-api';
@@ -20,9 +23,21 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   // auth
   { path: 'login', component: LoginPageComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'register-user', component: RegisterUserPageComponent },
-  { path: 'manage-users', component: ManageUsersPageComponent },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [AuthJwtGuardService],
+  },
+  {
+    path: 'register-user',
+    component: RegisterUserPageComponent,
+    canActivate: [AuthJwtAdminGuardService],
+  },
+  {
+    path: 'manage-users',
+    component: ManageUsersPageComponent,
+    canActivate: [AuthJwtAdminGuardService],
+  },
   // cadmus
   {
     path: 'demo/layers',
