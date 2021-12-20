@@ -43,7 +43,7 @@ export class EditItemService {
     const appState = this._appQuery.getValue();
 
     // if not a new item, include it in load
-    const layers$ = this._itemService.getItemLayerInfo(itemId || '', true);
+    const layers$ = this._itemService.getItemLayerInfo(itemId || 'new', true);
 
     if (itemId) {
       forkJoin({
