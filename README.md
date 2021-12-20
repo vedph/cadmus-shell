@@ -14,6 +14,8 @@ Quick Docker image build:
 
 ## History
 
+- 2021-12-20: upgraded Angular and fixed ID passed via `getItemLayerInfo` in state library.
+
 - 2021-12-18: recreated an Angular 13.0.4 workspace and moved old shell libraries into it while refactoring:
   - auth-related libraries replaced with `@myrmidon/auth-jwt-login` and `@myrmidon/auth-jwt-admin`.
   - base model editor slightly refactored to use new services.
