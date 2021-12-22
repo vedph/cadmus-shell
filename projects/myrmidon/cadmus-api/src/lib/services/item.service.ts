@@ -344,7 +344,7 @@ export class ItemService {
    */
   public deletePart(id: string): Observable<any> {
     return this._http
-      .delete(`${this._env.get('apiUrl')}items/${id}`)
+      .delete(`${this._env.get('apiUrl')}parts/${id}`)
       .pipe(catchError(this._error.handleError));
   }
 

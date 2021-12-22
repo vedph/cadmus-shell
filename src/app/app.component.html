@@ -88,6 +88,9 @@
     <div *ngIf="!logged">
       <a mat-button routerLink="/login">Login</a>
     </div>
+    <div *ngIf="logged">
+      <a mat-button (click)="logout()">Logout</a>
+    </div>
   </mat-toolbar>
 </header>
 
