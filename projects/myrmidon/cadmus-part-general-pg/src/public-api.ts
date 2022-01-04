@@ -11,6 +11,7 @@ export * from './lib/doc-references-part-feature/doc-references-part-feature.com
 export * from './lib/historical-date-part-feature/historical-date-part-feature.component';
 export * from './lib/index-keywords-part-feature/index-keywords-part-feature.component';
 export * from './lib/keywords-part-feature/keywords-part-feature.component';
+export * from './lib/metadata-part-feature/metadata-part-feature.component';
 export * from './lib/note-part-feature/note-part-feature.component';
 export * from './lib/tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
 export * from './lib/tiled-text-part-feature/tiled-text-part-feature.component';

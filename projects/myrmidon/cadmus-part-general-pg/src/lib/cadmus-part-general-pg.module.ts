@@ -29,6 +29,7 @@ import {
   TILED_TEXT_PART_TYPEID,
   INDEX_KEYWORDS_PART_TYPEID,
   BIBLIOGRAPHY_PART_TYPEID,
+  METADATA_PART_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import {
@@ -53,6 +54,7 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
 import { BibliographyPartFeatureComponent } from './bibliography-part-feature/bibliography-part-feature.component';
 import { CommentPartFeatureComponent } from './comment-part-feature/comment-part-feature.component';
 import { DocReferencesPartFeatureComponent } from './doc-references-part-feature/doc-references-part-feature.component';
+import { MetadataPartFeatureComponent } from './metadata-part-feature/metadata-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -96,6 +98,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     path: `${INDEX_KEYWORDS_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: IndexKeywordsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: `${METADATA_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MetadataPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -179,6 +187,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     HistoricalDatePartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
+    MetadataPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,
@@ -195,6 +204,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     HistoricalDatePartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
+    MetadataPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,

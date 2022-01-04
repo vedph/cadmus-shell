@@ -35,8 +35,9 @@ import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-edit
 import { BibliographyEntryComponent } from './bibliography-entry/bibliography-entry.component';
 import { BibliographyPartComponent } from './bibliography-part/bibliography-part.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
-import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
+import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
+import { MetadataPartComponent } from './metadata-part/metadata-part.component';
 import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
 import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
@@ -92,6 +93,7 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
     IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
+    MetadataPartComponent,
     NotePartComponent,
     TextTileComponent,
     TiledTextPartComponent,
@@ -110,6 +112,7 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
     IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
+    MetadataPartComponent,
     NotePartComponent,
     TiledDataComponent,
     TextTileComponent,

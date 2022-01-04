@@ -30,6 +30,9 @@ export * from './lib/index-keywords-part/index-keywords-part.component';
 export * from './lib/keywords-part';
 export * from './lib/keywords-part/keywords-part.component';
 
+export * from './lib/metadata-part';
+export * from './lib/metadata-part/metadata-part.component';
+
 export * from './lib/note-part';
 export * from './lib/note-part/note-part.component';
 
