@@ -9,6 +9,7 @@ export * from './lib/comment-fragment-feature/comment-fragment-feature.component
 export * from './lib/comment-part-feature/comment-part-feature.component';
 export * from './lib/doc-references-part-feature/doc-references-part-feature.component';
 export * from './lib/historical-date-part-feature/historical-date-part-feature.component';
+export * from './lib/historical-events-part-feature/historical-events-part-feature.component';
 export * from './lib/index-keywords-part-feature/index-keywords-part-feature.component';
 export * from './lib/keywords-part-feature/keywords-part-feature.component';
 export * from './lib/metadata-part-feature/metadata-part-feature.component';

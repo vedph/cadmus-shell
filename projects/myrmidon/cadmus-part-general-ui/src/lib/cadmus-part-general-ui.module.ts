@@ -21,31 +21,35 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 
+import { NgToolsModule } from '@myrmidon/ng-tools';
+import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
 import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
 import { CadmusRefsExternalIdsModule } from '@myrmidon/cadmus-refs-external-ids';
-import { NgToolsModule } from '@myrmidon/ng-tools';
-import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
+import { CadmusRefsAssertedChronotopeModule } from '@myrmidon/cadmus-refs-asserted-chronotope';
+import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 
-import { NotePartComponent } from './note-part/note-part.component';
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-editor.component';
 import { BibliographyEntryComponent } from './bibliography-entry/bibliography-entry.component';
 import { BibliographyPartComponent } from './bibliography-part/bibliography-part.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
-import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
-import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
-import { MetadataPartComponent } from './metadata-part/metadata-part.component';
-import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
-import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
-import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
-import { TextTileComponent } from './text-tile/text-tile.component';
-import { TiledDataComponent } from './tiled-data/tiled-data.component';
 import { CommentEditorComponent } from './comment-editor/comment-editor.component';
 import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
+import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
+import { HistoricalEventEditorComponent } from './historical-event-editor/historical-event-editor.component';
+import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
+import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
+import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
+import { MetadataPartComponent } from './metadata-part/metadata-part.component';
+import { NotePartComponent } from './note-part/note-part.component';
+import { TextTileComponent } from './text-tile/text-tile.component';
+import { TiledDataComponent } from './tiled-data/tiled-data.component';
+import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
+import { HistoricalEventsPartComponent } from './historical-events-part/historical-events-part.component';
 
 @NgModule({
   imports: [
@@ -79,17 +83,20 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
     CadmusRefsDocReferencesModule,
     CadmusRefsHistoricalDateModule,
     CadmusRefsExternalIdsModule,
+    CadmusRefsAssertionModule,
+    CadmusRefsAssertedChronotopeModule,
   ],
   declarations: [
     BibAuthorsEditorComponent,
     BibliographyEntryComponent,
-    BibliographyPartComponent,
     BibliographyPartComponent,
     CategoriesPartComponent,
     ChronologyFragmentComponent,
     CommentEditorComponent,
     DocReferencesPartComponent,
     HistoricalDatePartComponent,
+    HistoricalEventEditorComponent,
+    HistoricalEventsPartComponent,
     IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
@@ -97,10 +104,8 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
     NotePartComponent,
     TextTileComponent,
     TiledTextPartComponent,
-    TokenTextPartComponent,
     TiledDataComponent,
-    IndexKeywordComponent,
-    CommentEditorComponent,
+    TokenTextPartComponent,
   ],
   exports: [
     BibliographyPartComponent,
@@ -109,6 +114,8 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
     CommentEditorComponent,
     DocReferencesPartComponent,
     HistoricalDatePartComponent,
+    HistoricalEventEditorComponent,
+    HistoricalEventsPartComponent,
     IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,

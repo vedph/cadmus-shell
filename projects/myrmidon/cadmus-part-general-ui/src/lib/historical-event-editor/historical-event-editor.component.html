@@ -1,0 +1,219 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-tab-group>
+    <mat-tab label="general">
+      <div>
+        <!-- eid -->
+        <mat-form-field>
+          <input matInput [formControl]="eid" placeholder="EID" />
+          <mat-error
+            *ngIf="$any(eid).errors?.required && (eid.dirty || eid.touched)"
+            >EID required</mat-error
+          >
+          <mat-error
+            *ngIf="$any(eid).errors?.maxLength && (eid.dirty || eid.touched)"
+            >EID too long</mat-error
+          >
+        </mat-form-field>
+        &nbsp;
+        <!-- type (bound) -->
+        <mat-form-field *ngIf="eventTypeEntries?.length">
+          <mat-select [formControl]="type" placeholder="type">
+            <mat-option *ngFor="let e of eventTypeEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="$any(type).errors?.required && (type.dirty || type.touched)"
+            >type required</mat-error
+          >
+        </mat-form-field>
+        <!-- type (free) -->
+        <mat-form-field *ngIf="!eventTypeEntries?.length">
+          <input matInput [formControl]="type" placeholder="type" />
+          <mat-error
+            *ngIf="$any(type).errors?.required && (type.dirty || type.touched)"
+            >type required</mat-error
+          >
+          <mat-error
+            *ngIf="$any(type).errors?.maxLength && (type.dirty || type.touched)"
+            >type too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div>
+        <!-- description -->
+        <mat-form-field class="long-text">
+          <textarea
+            matInput
+            [formControl]="description"
+            placeholder="description"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              $any(description).errors?.maxLength &&
+              (description.dirty || description.touched)
+            "
+            >description too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div>
+        <!-- note -->
+        <mat-form-field class="long-text">
+          <textarea matInput [formControl]="note" placeholder="note"></textarea>
+          <mat-error
+            *ngIf="$any(note).errors?.maxLength && (note.dirty || note.touched)"
+            >note too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- chronotope -->
+      <h3>Chronotope</h3>
+      <cadmus-refs-asserted-chronotope
+        [tagEntries]="ctTagEntries"
+        [assTagEntries]="assTagEntries"
+        [refTagEntries]="refTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        [chronotope]="initialChronotope"
+        (chronotopeChange)="onChronotopeChange($event)"
+      ></cadmus-refs-asserted-chronotope>
+      <br>
+      <!-- assertion -->
+      <h3>Assertion</h3>
+      <cadmus-refs-assertion
+        [assTagEntries]="assTagEntries"
+        [refTagEntries]="refTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        [assertion]="initialAssertion"
+        (assertionChange)="onAssertionChange($event)"
+      >
+      </cadmus-refs-assertion>
+    </mat-tab>
+
+    <mat-tab label="related">
+      <!-- list -->
+      <div>
+        <button type="button" mat-icon-button (click)="newCurrentEntity()">
+          <mat-icon>add_circle</mat-icon> add entity
+        </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>relation</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of relatedEntities">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                (click)="setCurrentEntity(e)"
+                matTooltip="Edit this entity"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                color="warn"
+                (click)="deleteRelatedEntity(e)"
+                matTooltip="Delete this entity"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td>{{ e.relation }}</td>
+            <td>{{ e.id }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- editor -->
+      <mat-expansion-panel
+        [disabled]="!currentEntity"
+        [expanded]="currentEntity"
+      >
+        <mat-expansion-panel-header>entity</mat-expansion-panel-header>
+        <form [formGroup]="reForm" (submit)="saveCurrentEntity()">
+          <!-- relation (bound) -->
+          <mat-form-field *ngIf="relationEntries?.length">
+            <mat-select [formControl]="relation" placeholder="relation">
+              <mat-option *ngFor="let e of relationEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                $any(relation).errors?.required &&
+                (relation.dirty || relation.touched)
+              "
+              >relation required</mat-error
+            >
+          </mat-form-field>
+          <!-- relation (free) -->
+          <mat-form-field *ngIf="!relationEntries?.length">
+            <input matInput [formControl]="relation" placeholder="relation" />
+            <mat-error
+              *ngIf="
+                $any(relation).errors?.required &&
+                (relation.dirty || relation.touched)
+              "
+              >relation required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                $any(relation).errors?.maxLength &&
+                (relation.dirty || relation.touched)
+              "
+              >relation too long</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+          <!-- id -->
+          <mat-form-field>
+            <input matInput [formControl]="id" placeholder="ID" />
+            <mat-error
+              *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
+              >ID required</mat-error
+            >
+            <mat-error
+              *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
+              >ID too long</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+          <button mat-icon-button type="submit" color="primary">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

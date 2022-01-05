@@ -26,6 +26,7 @@ import {
   KEYWORDS_PART_TYPEID,
   TOKEN_TEXT_PART_TYPEID,
   HISTORICAL_DATE_PART_TYPEID,
+  HISTORICAL_EVENTS_PART_TYPEID,
   TILED_TEXT_PART_TYPEID,
   INDEX_KEYWORDS_PART_TYPEID,
   BIBLIOGRAPHY_PART_TYPEID,
@@ -40,21 +41,22 @@ import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
 import { NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 
-import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
-import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
-import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
-import { CategoriesPartFeatureComponent } from './categories-part-feature/categories-part-feature.component';
-import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
-import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
-import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
-import { IndexKeywordsPartFeatureComponent } from './index-keywords-part-feature/index-keywords-part-feature.component';
-import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
-import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-text-part-feature.component';
-import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
 import { BibliographyPartFeatureComponent } from './bibliography-part-feature/bibliography-part-feature.component';
+import { CategoriesPartFeatureComponent } from './categories-part-feature/categories-part-feature.component';
+import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
+import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
 import { CommentPartFeatureComponent } from './comment-part-feature/comment-part-feature.component';
 import { DocReferencesPartFeatureComponent } from './doc-references-part-feature/doc-references-part-feature.component';
+import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
+import { HistoricalEventsPartFeatureComponent } from './historical-events-part-feature/historical-events-part-feature.component';
+import { IndexKeywordsPartFeatureComponent } from './index-keywords-part-feature/index-keywords-part-feature.component';
+import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { MetadataPartFeatureComponent } from './metadata-part-feature/metadata-part-feature.component';
+import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
+import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-text-part-feature.component';
+import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
+import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
+import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -86,6 +88,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     path: `${HISTORICAL_DATE_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: HistoricalDatePartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: `${HISTORICAL_EVENTS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: HistoricalEventsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -185,6 +193,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     HistoricalDatePartFeatureComponent,
+    HistoricalEventsPartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     MetadataPartFeatureComponent,
@@ -202,6 +211,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     HistoricalDatePartFeatureComponent,
+    HistoricalEventsPartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     MetadataPartFeatureComponent,

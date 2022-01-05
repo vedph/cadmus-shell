@@ -20,8 +20,12 @@ export * from './lib/comment-editor/comment-editor.component';
 export * from './lib/doc-references-part';
 export * from './lib/doc-references-part/doc-references-part.component';
 
+export * from './lib/historical-events-part';
+export * from './lib/historical-event-editor/historical-event-editor.component';
+
 export * from './lib/historical-date-part';
 export * from './lib/historical-date-part/historical-date-part.component';
+export * from './lib/historical-events-part/historical-events-part.component';
 
 export * from './lib/index-keyword/index-keyword.component';
 export * from './lib/index-keywords-part';
