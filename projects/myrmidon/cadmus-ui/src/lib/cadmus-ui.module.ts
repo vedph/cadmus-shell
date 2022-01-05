@@ -30,8 +30,6 @@ import { LayerHintsComponent } from './components/layer-hints/layer-hints.compon
 import { LookupPinComponent } from './components/lookup-pin/lookup-pin.component';
 import { MultiEntrySelectorComponent } from './components/multi-entry-selector/multi-entry-selector.component';
 import { PartBadgeComponent } from './components/part-badge/part-badge.component';
-import { PhysicalDimensionComponent } from './components/physical-dimension/physical-dimension.component';
-import { PhysicalSizeComponent } from './components/physical-size/physical-size.component';
 import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tree.component';
 
 @NgModule({
@@ -66,8 +64,6 @@ import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tr
     LookupPinComponent,
     MultiEntrySelectorComponent,
     PartBadgeComponent,
-    PhysicalDimensionComponent,
-    PhysicalSizeComponent,
     ThesaurusTreeComponent,
   ],
   exports: [
@@ -80,8 +76,6 @@ import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tr
     LookupPinComponent,
     MultiEntrySelectorComponent,
     PartBadgeComponent,
-    PhysicalDimensionComponent,
-    PhysicalSizeComponent,
     ThesaurusTreeComponent,
   ],
 })

@@ -14,7 +14,7 @@ Quick Docker image build:
 
 ## History
 
-- 2022-01-04: added `MetadataPart` to `cadmus-part-general-ui` and `cadmus-part-general-pg`.
+- 2022-01-04: added `MetadataPart` to `cadmus-part-general-ui` and `cadmus-part-general-pg`. Removed physical size from `cadmus-ui` (now moved to bricks), increasing `cadmus-ui` version to 2.0.0.
 - 2021-12-20: upgraded Angular and fixed ID passed via `getItemLayerInfo` in state library.
 - 2021-12-18: recreated an Angular 13.0.4 workspace and moved old shell libraries into it while refactoring:
   - auth-related libraries replaced with `@myrmidon/auth-jwt-login` and `@myrmidon/auth-jwt-admin`.

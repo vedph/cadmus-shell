@@ -17,6 +17,7 @@ import { HistoricalEvent, RelatedEntity } from '../historical-events-part';
 })
 export class HistoricalEventEditorComponent implements OnInit {
   private _model: HistoricalEvent | undefined;
+  private _currentEntityIndex: number;
 
   @Input()
   public get model(): HistoricalEvent | undefined {
@@ -85,6 +86,7 @@ export class HistoricalEventEditorComponent implements OnInit {
     this.modelChange = new EventEmitter<HistoricalEvent>();
     this.editorClose = new EventEmitter<any>();
     this.relatedEntities = [];
+    this._currentEntityIndex = -1;
     // form
     this.eid = formBuilder.control(null, [
       Validators.required,
@@ -166,11 +168,17 @@ export class HistoricalEventEditorComponent implements OnInit {
     });
   }
 
-  public setCurrentEntity(entity: RelatedEntity): void {
+  public setCurrentEntity(entity: RelatedEntity | undefined): void {
     this.currentEntity = entity;
-    this.relation.setValue(entity.relation);
-    this.id.setValue(entity.id);
-    this.reForm.markAsPristine();
+    if (!entity) {
+      this._currentEntityIndex = -1;
+      this.reForm.reset();
+    } else {
+      this._currentEntityIndex = this.relatedEntities.indexOf(entity);
+      this.relation.setValue(entity.relation);
+      this.id.setValue(entity.id);
+      this.reForm.markAsPristine();
+    }
   }
 
   public saveCurrentEntity(): void {
@@ -181,17 +189,25 @@ export class HistoricalEventEditorComponent implements OnInit {
       id: this.id.value.trim(),
       relation: this.relation.value.trim(),
     };
-    const i = this.relatedEntities.findIndex((e) => e.id === entity.id);
-    if (i === -1) {
-      this.relatedEntities.splice(i, 1, entity);
+    if (
+      this.relatedEntities.find(
+        (e) => e.id === entity.id && e.relation === e.relation
+      )
+    ) {
+      this.setCurrentEntity(undefined);
+      return;
+    }
+    if (this._currentEntityIndex > -1) {
+      this.relatedEntities.splice(this._currentEntityIndex, 1, entity);
     } else {
       this.relatedEntities.push(entity);
     }
+    this.setCurrentEntity(undefined);
   }
 
   public deleteRelatedEntity(entity: RelatedEntity): void {
     if (this.currentEntity?.id === entity.id) {
-      this.currentEntity = undefined;
+      this.setCurrentEntity(undefined);
     }
     const i = this.relatedEntities.findIndex((e) => e.id === entity.id);
     if (i > -1) {

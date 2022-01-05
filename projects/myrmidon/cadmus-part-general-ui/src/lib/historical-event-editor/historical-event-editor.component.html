@@ -77,7 +77,7 @@
         [chronotope]="initialChronotope"
         (chronotopeChange)="onChronotopeChange($event)"
       ></cadmus-refs-asserted-chronotope>
-      <br>
+      <br />
       <!-- assertion -->
       <h3>Assertion</h3>
       <cadmus-refs-assertion
@@ -93,7 +93,12 @@
     <mat-tab label="related">
       <!-- list -->
       <div>
-        <button type="button" mat-icon-button (click)="newCurrentEntity()">
+        <button
+          type="button"
+          mat-icon-button
+          color="primary"
+          (click)="newCurrentEntity()"
+        >
           <mat-icon>add_circle</mat-icon> add entity
         </button>
       </div>
@@ -140,62 +145,73 @@
       >
         <mat-expansion-panel-header>entity</mat-expansion-panel-header>
         <form [formGroup]="reForm" (submit)="saveCurrentEntity()">
-          <!-- relation (bound) -->
-          <mat-form-field *ngIf="relationEntries?.length">
-            <mat-select [formControl]="relation" placeholder="relation">
-              <mat-option *ngFor="let e of relationEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                $any(relation).errors?.required &&
-                (relation.dirty || relation.touched)
-              "
-              >relation required</mat-error
+          <fieldset>
+            <!-- relation (bound) -->
+            <mat-form-field *ngIf="relationEntries?.length">
+              <mat-select [formControl]="relation" placeholder="relation">
+                <mat-option *ngFor="let e of relationEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  $any(relation).errors?.required &&
+                  (relation.dirty || relation.touched)
+                "
+                >relation required</mat-error
+              >
+            </mat-form-field>
+            <!-- relation (free) -->
+            <mat-form-field *ngIf="!relationEntries?.length">
+              <input matInput [formControl]="relation" placeholder="relation" />
+              <mat-error
+                *ngIf="
+                  $any(relation).errors?.required &&
+                  (relation.dirty || relation.touched)
+                "
+                >relation required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  $any(relation).errors?.maxLength &&
+                  (relation.dirty || relation.touched)
+                "
+                >relation too long</mat-error
+              >
+            </mat-form-field>
+            &nbsp;
+            <!-- id -->
+            <mat-form-field>
+              <input matInput [formControl]="id" placeholder="ID" autoFocus />
+              <mat-error
+                *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
+                >ID too long</mat-error
+              >
+            </mat-form-field>
+            &nbsp;
+            <button
+              mat-icon-button
+              type="button"
+              color="warn"
+              (click)="setCurrentEntity(undefined)"
             >
-          </mat-form-field>
-          <!-- relation (free) -->
-          <mat-form-field *ngIf="!relationEntries?.length">
-            <input matInput [formControl]="relation" placeholder="relation" />
-            <mat-error
-              *ngIf="
-                $any(relation).errors?.required &&
-                (relation.dirty || relation.touched)
-              "
-              >relation required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                $any(relation).errors?.maxLength &&
-                (relation.dirty || relation.touched)
-              "
-              >relation too long</mat-error
-            >
-          </mat-form-field>
-          &nbsp;
-          <!-- id -->
-          <mat-form-field>
-            <input matInput [formControl]="id" placeholder="ID" />
-            <mat-error
-              *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
-              >ID required</mat-error
-            >
-            <mat-error
-              *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
-              >ID too long</mat-error
-            >
-          </mat-form-field>
-          &nbsp;
-          <button mat-icon-button type="submit" color="primary">
-            <mat-icon>check_circle</mat-icon>
-          </button>
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button type="submit" color="primary">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+          </fieldset>
         </form>
       </mat-expansion-panel>
     </mat-tab>
   </mat-tab-group>
 
   <!-- buttons -->
+  <hr />
   <div>
     <button
       type="button"
@@ -215,5 +231,6 @@
     >
       <mat-icon>check_circle</mat-icon>
     </button>
+    event
   </div>
 </form>

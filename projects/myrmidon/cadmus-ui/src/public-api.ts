@@ -11,8 +11,6 @@ export * from './lib/components/layer-hints/layer-hints.component';
 export * from './lib/components/lookup-pin/lookup-pin.component';
 export * from './lib/components/multi-entry-selector/multi-entry-selector.component';
 export * from './lib/components/part-badge/part-badge.component';
-export * from './lib/components/physical-dimension/physical-dimension.component';
-export * from './lib/components/physical-size/physical-size.component';
 export * from './lib/components/thesaurus-tree/thesaurus-tree.component';
 
 export * from './lib/components/inplace-editor-component-base';
