@@ -30,6 +30,7 @@ import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical
 import { CadmusRefsExternalIdsModule } from '@myrmidon/cadmus-refs-external-ids';
 import { CadmusRefsAssertedChronotopeModule } from '@myrmidon/cadmus-refs-asserted-chronotope';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
+import { CadmusRefsProperNameModule } from '@myrmidon/cadmus-refs-proper-name';
 
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-editor.component';
@@ -50,6 +51,7 @@ import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledDataComponent } from './tiled-data/tiled-data.component';
 import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
 import { HistoricalEventsPartComponent } from './historical-events-part/historical-events-part.component';
+import { NamesPartComponent } from './names-part/names-part.component';
 
 @NgModule({
   imports: [
@@ -85,6 +87,7 @@ import { HistoricalEventsPartComponent } from './historical-events-part/historic
     CadmusRefsExternalIdsModule,
     CadmusRefsAssertionModule,
     CadmusRefsAssertedChronotopeModule,
+    CadmusRefsProperNameModule
   ],
   declarations: [
     BibAuthorsEditorComponent,
@@ -101,6 +104,7 @@ import { HistoricalEventsPartComponent } from './historical-events-part/historic
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
     MetadataPartComponent,
+    NamesPartComponent,
     NotePartComponent,
     TextTileComponent,
     TiledTextPartComponent,
@@ -120,6 +124,7 @@ import { HistoricalEventsPartComponent } from './historical-events-part/historic
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
     MetadataPartComponent,
+    NamesPartComponent,
     NotePartComponent,
     TiledDataComponent,
     TextTileComponent,
