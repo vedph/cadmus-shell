@@ -72,14 +72,14 @@
                 <mat-icon>remove_circle</mat-icon>
               </button>
             </td>
-            <th>{{ name | cadmusProperName }}</th>
-            <th>{{ name.assertion?.rank || 0 }}</th>
+            <td>{{ name | cadmusProperName }}</td>
+            <td>{{ name.assertion?.rank || 0 }}</td>
           </tr>
         </tbody>
       </table>
 
       <!-- name editor -->
-      <mat-expansion-panel [expanded]="editedName">
+      <mat-expansion-panel *ngIf="editedName" [expanded]="editedName">
         <mat-expansion-panel-header>{{
           editedName | cadmusProperName
         }}</mat-expansion-panel-header>

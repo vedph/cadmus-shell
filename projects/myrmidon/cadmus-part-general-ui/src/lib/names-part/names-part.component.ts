@@ -25,9 +25,9 @@ export class NamesPartComponent
   extends ModelEditorComponentBase<NamesPart>
   implements OnInit
 {
-  private _editedIndex: number;
+  private _updatingForm?: boolean;
 
-  public tabIndex: number;
+  public editedIndex: number;
   public editedName: AssertedProperName | undefined;
 
   /**
@@ -42,7 +42,6 @@ export class NamesPartComponent
    * The optional thesaurus name piece's type entries (name-piece-types).
    */
   public typeEntries: ThesaurusEntry[] | undefined;
-
   // thesauri for assertions:
   // assertion-tags
   public assTagEntries?: ThesaurusEntry[];
@@ -59,15 +58,14 @@ export class NamesPartComponent
     private _dialogService: DialogService
   ) {
     super(authService);
-    this._editedIndex = -1;
-    this.tabIndex = 0;
+    this.editedIndex = -1;
     // form
     this.names = formBuilder.control(
       [],
       NgToolsValidators.strictMinLengthValidator(1)
     );
     this.form = formBuilder.group({
-      entries: this.names,
+      names: this.names,
     });
   }
 
@@ -76,12 +74,14 @@ export class NamesPartComponent
   }
 
   private updateForm(model: NamesPart): void {
+    this._updatingForm = true;
     if (!model) {
       this.form!.reset();
-      return;
+    } else {
+      this.names.setValue(model.names || []);
+      this.form!.markAsPristine();
     }
-    this.names.setValue(model.names || []);
-    this.form!.markAsPristine();
+    this._updatingForm = false;
   }
 
   protected onModelSet(model: NamesPart): void {
@@ -151,38 +151,38 @@ export class NamesPartComponent
       language: this.langEntries?.length ? this.langEntries[0].id : '',
       pieces: [],
     };
-    this.names.setValue([...this.names.value, name]);
+    this.names.setValue([...(this.names.value || []), name]);
     this.editName(this.names.value.length - 1);
   }
 
   public editName(index: number): void {
     if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
+      this.editedIndex = -1;
       this.editedName = undefined;
     } else {
-      this._editedIndex = index;
+      this.editedIndex = index;
       this.editedName = this.names.value[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
     }
   }
 
   public onNameChange(name: AssertedProperName | undefined): void {
+    if (this._updatingForm) {
+      return;
+    }
+    // delete if name was emptied
     if (!name) {
-      const names = [...this.names.value];
-      names.splice(this._editedIndex, 1);
+      const names = [...(this.names.value || [])];
+      names.splice(this.editedIndex, 1);
       this.names.setValue(names);
       this.editName(-1);
     } else {
+      // else update replacing the old with the new name
       this.names.setValue(
         this.names.value.map((n: AssertedProperName, i: number) =>
-          i === this._editedIndex ? name : n
+          i === this.editedIndex ? name : n
         )
       );
     }
-    this.editName(-1);
   }
 
   public onNameClose(): void {

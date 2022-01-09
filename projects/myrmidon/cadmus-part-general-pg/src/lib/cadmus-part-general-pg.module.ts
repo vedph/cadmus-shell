@@ -19,18 +19,19 @@ import { CadmusCoreModule, PendingChangesGuard } from '@myrmidon/cadmus-core';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import {
   CadmusPartGeneralUiModule,
-  NOTE_PART_TYPEID,
+  BIBLIOGRAPHY_PART_TYPEID,
   COMMENT_FRAGMENT_TYPEID,
   COMMENT_PART_TYPEID,
   DOC_REFERENCES_PART_TYPEID,
   KEYWORDS_PART_TYPEID,
-  TOKEN_TEXT_PART_TYPEID,
+  METADATA_PART_TYPEID,
+  NAMES_PART_TYPEID,
+  NOTE_PART_TYPEID,
   HISTORICAL_DATE_PART_TYPEID,
   HISTORICAL_EVENTS_PART_TYPEID,
-  TILED_TEXT_PART_TYPEID,
   INDEX_KEYWORDS_PART_TYPEID,
-  BIBLIOGRAPHY_PART_TYPEID,
-  METADATA_PART_TYPEID,
+  TILED_TEXT_PART_TYPEID,
+  TOKEN_TEXT_PART_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import {
@@ -52,6 +53,7 @@ import { HistoricalEventsPartFeatureComponent } from './historical-events-part-f
 import { IndexKeywordsPartFeatureComponent } from './index-keywords-part-feature/index-keywords-part-feature.component';
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { MetadataPartFeatureComponent } from './metadata-part-feature/metadata-part-feature.component';
+import { NamesPartFeatureComponent } from './names-part-feature/names-part-feature.component';
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
 import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-text-part-feature.component';
 import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
@@ -112,6 +114,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     path: `${METADATA_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: MetadataPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: `${NAMES_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: NamesPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -197,6 +205,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     MetadataPartFeatureComponent,
+    NamesPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,
@@ -215,6 +224,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     MetadataPartFeatureComponent,
+    NamesPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,
