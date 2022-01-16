@@ -35,7 +35,7 @@
     "@datorama/akita-ngdevtools": "^7.0.0",
     "@myrmidon/auth-jwt-admin": "0.0.2",
     "@myrmidon/auth-jwt-login": "0.0.2",
-    "@myrmidon/cadmus-refs-asserted-chronotope": "0.0.2",
+    "@myrmidon/cadmus-refs-asserted-chronotope": "0.0.4",
     "@myrmidon/cadmus-refs-assertion": "0.0.4",
     "@myrmidon/cadmus-refs-doc-references": "^0.1.2",
     "@myrmidon/cadmus-refs-external-ids": "0.1.3",

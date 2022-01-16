@@ -13,6 +13,9 @@ export * from './lib/categories-part/categories-part.component';
 export * from './lib/chronology-fragment';
 export * from './lib/chronology-fragment/chronology-fragment.component';
 
+export * from './lib/chronotopes-part';
+export * from './lib/chronotopes-part/chronotopes-part.component';
+
 export * from './lib/comment-part';
 export * from './lib/comment-fragment';
 export * from './lib/comment-editor/comment-editor.component';

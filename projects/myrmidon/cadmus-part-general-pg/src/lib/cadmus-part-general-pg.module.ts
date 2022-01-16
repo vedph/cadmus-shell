@@ -32,6 +32,7 @@ import {
   INDEX_KEYWORDS_PART_TYPEID,
   TILED_TEXT_PART_TYPEID,
   TOKEN_TEXT_PART_TYPEID,
+  CHRONOTOPES_PART_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import {
@@ -59,6 +60,7 @@ import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-t
 import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
 import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
 import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
+import { ChronotopesPartFeatureComponent } from './chronotopes-part-feature/chronotopes-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -78,6 +80,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     path: `${COMMENT_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: CommentPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: `${CHRONOTOPES_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: ChronotopesPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -197,6 +205,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     BibliographyPartFeatureComponent,
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
+    ChronotopesPartFeatureComponent,
     CommentFragmentFeatureComponent,
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,
@@ -216,6 +225,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     BibliographyPartFeatureComponent,
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
+    ChronotopesPartFeatureComponent,
     CommentFragmentFeatureComponent,
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,

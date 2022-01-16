@@ -38,6 +38,7 @@ import { BibliographyEntryComponent } from './bibliography-entry/bibliography-en
 import { BibliographyPartComponent } from './bibliography-part/bibliography-part.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
+import { ChronotopesPartComponent } from './chronotopes-part/chronotopes-part.component';
 import { CommentEditorComponent } from './comment-editor/comment-editor.component';
 import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
@@ -95,6 +96,7 @@ import { NamesPartComponent } from './names-part/names-part.component';
     BibliographyPartComponent,
     CategoriesPartComponent,
     ChronologyFragmentComponent,
+    ChronotopesPartComponent,
     CommentEditorComponent,
     DocReferencesPartComponent,
     HistoricalDatePartComponent,
@@ -116,6 +118,7 @@ import { NamesPartComponent } from './names-part/names-part.component';
     CategoriesPartComponent,
     ChronologyFragmentComponent,
     CommentEditorComponent,
+    ChronotopesPartComponent,
     DocReferencesPartComponent,
     HistoricalDatePartComponent,
     HistoricalEventEditorComponent,

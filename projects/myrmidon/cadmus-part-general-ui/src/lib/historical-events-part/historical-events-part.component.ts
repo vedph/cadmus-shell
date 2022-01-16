@@ -191,7 +191,7 @@ export class HistoricalEventsPartComponent
 
   public deleteEvent(index: number): void {
     this._dialogService
-      .confirm('Confirmation', 'Delete entry?')
+      .confirm('Confirmation', 'Delete event?')
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {

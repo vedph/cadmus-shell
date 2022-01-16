@@ -9,11 +9,12 @@ All the version numbers of this refactoring, having a number of breaking changes
 Quick Docker image build:
 
 1. `npm run build-all`
-2. `ng build --prod`
-3. `docker build . -t vedph2020/cadmus-shell:2.0.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+2. `ng build`
+3. `docker build . -t vedph2020/cadmus-shell:2.0.1 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
+- 2022-01-16: added `ChronotopesPart` to `cadmus-part-general-ui` and `cadmus-part-general-pg`. Image: 2.0.1.
 - 2022-01-04: added `MetadataPart` to `cadmus-part-general-ui` and `cadmus-part-general-pg`. Removed physical size from `cadmus-ui` (now moved to bricks), increasing `cadmus-ui` version to 2.0.0.
 - 2021-12-20: upgraded Angular and fixed ID passed via `getItemLayerInfo` in state library.
 - 2021-12-18: recreated an Angular 13.0.4 workspace and moved old shell libraries into it while refactoring:
