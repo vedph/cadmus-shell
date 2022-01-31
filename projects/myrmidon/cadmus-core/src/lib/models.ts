@@ -285,37 +285,6 @@ export interface PartGroup {
 }
 
 /**
- * A document reference, usually including an author and a work.
- */
-export interface DocReference {
-  tag?: string;
-  author: string;
-  work: string;
-  location?: string;
-  note?: string;
-}
-
-/**
- * A physical dimension value.
- */
-export interface PhysicalDimension {
-  tag?: string;
-  value: number;
-  unit: string;
-}
-
-/**
- * A physical 1D, 2D or 3D size.
- */
-export interface PhysicalSize {
-  tag?: string;
-  w?: PhysicalDimension;
-  h?: PhysicalDimension;
-  d?: PhysicalDimension;
-  note?: string;
-}
-
-/**
  * Essential information about a user.
  */
 export interface UserInfo {
