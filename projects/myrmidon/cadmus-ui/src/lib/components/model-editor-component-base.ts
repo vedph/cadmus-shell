@@ -163,7 +163,7 @@ export abstract class ModelEditorComponentBase<T> {
    */
   protected initEditor(): void {
     this.onThesauriSet();
-    this.onModelSet(this.model);
+    this.onModelSet(this._model);
 
     if (this.form) {
       extractPristineChanges(this.form).subscribe((p) => {
@@ -179,7 +179,7 @@ export abstract class ModelEditorComponentBase<T> {
    * @param model The model.
    */
   protected updateModel(model: T): void {
-    this.model = model;
+    this._model = model;
     this.modelChange.emit(model);
   }
 
@@ -213,8 +213,8 @@ export abstract class ModelEditorComponentBase<T> {
 
   /**
    * Save the edited data if valid. This invokes getModelFromForm to get
-   * the model from the form's controls, serializes it into JSON,
-   * updates the json property, and marks the root form as pristine.
+   * the model from the form's controls, updates the underlying model,
+   * marks the root form as pristine, and emits dirtyChange(false).
    */
   public save(): void {
     if (this.form?.invalid) {
