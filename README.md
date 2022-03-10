@@ -10,9 +10,16 @@ Quick Docker image build:
 
 1. `npm run build-all`
 2. `ng build`
-3. `docker build . -t vedph2020/cadmus-shell:2.0.1 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:2.0.2 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
+
+### 2.0.1
+
+- 2022-03-10: upgraded Angular to 13.2.6.
+- added in `tsconfig.json` `"allowSyntheticDefaultImports": true` in order to work around [this issue](https://github.com/urish/ngx-moment/issues/275) in `ngx-moment`.
+
+### 2.0.0
 
 - 2022-03-01: upgraded Angular to 13.2.4.
 - 2022-02-13: `ModelEditorComponentBase`: internally access `model` via private member rather than property setter/getter. Using the setter would unnecessarily trigger `onModelSet`.
