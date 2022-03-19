@@ -14,6 +14,8 @@ Quick Docker image build:
 
 ## History
 
+- 2022-03-19: removed moment and fixes to metadata part editor. Libraries affected: cadmus-item-editor, cadmus-item-list, cadmus-item-search, cadmus-part-general-ui, cadmus-ui.
+
 ### 2.0.1
 
 - 2022-03-10: upgraded Angular to 13.2.6.
