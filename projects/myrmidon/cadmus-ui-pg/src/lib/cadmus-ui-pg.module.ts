@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { MomentModule } from 'ngx-moment';
-
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
@@ -16,7 +14,6 @@ import { CurrentLayerPartBarComponent } from './components/current-layer-part-ba
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MomentModule,
     // cadmus
     CadmusApiModule,
     CadmusCoreModule,

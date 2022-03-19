@@ -1,10 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormGroup,
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
@@ -16,6 +11,7 @@ import {
   Metadatum,
 } from '../metadata-part';
 import { deepCopy, NgToolsValidators } from '@myrmidon/ng-tools';
+import { Subscription } from 'rxjs';
 
 /**
  * Metadata part editor component.
@@ -28,8 +24,9 @@ import { deepCopy, NgToolsValidators } from '@myrmidon/ng-tools';
 })
 export class MetadataPartComponent
   extends ModelEditorComponentBase<MetadataPart>
-  implements OnInit
+  implements OnInit, OnDestroy
 {
+  private _subs: Subscription[];
   public metadata: FormArray;
 
   /**
@@ -39,6 +36,7 @@ export class MetadataPartComponent
 
   constructor(authService: AuthJwtService, private _formBuilder: FormBuilder) {
     super(authService);
+    this._subs = [];
     // form
     this.metadata = _formBuilder.array(
       [],
@@ -53,15 +51,34 @@ export class MetadataPartComponent
     this.initEditor();
   }
 
+  private unsubscribe(): void {
+    for (let i = 0; i < this._subs.length; i++) {
+      this._subs[i].unsubscribe();
+    }
+    this._subs.length = 0;
+  }
+
+  public ngOnDestroy(): void {
+    this.unsubscribe();
+  }
+
   private updateForm(model: MetadataPart): void {
     if (!model) {
       this.form!.reset();
       return;
     }
     this.metadata.clear();
+    this.unsubscribe();
     if (model.metadata) {
       for (let m of model.metadata) {
-        this.metadata.controls.push(this.getMetadatumGroup(m));
+        const g = this.getMetadatumGroup(m);
+        this._subs.push(
+          g.valueChanges.subscribe((_) => {
+            this.metadata.updateValueAndValidity();
+            this.metadata.markAsDirty();
+          })
+        );
+        this.metadata.controls.push(g);
       }
     }
     this.form!.markAsPristine();
@@ -114,12 +131,21 @@ export class MetadataPartComponent
   }
 
   public addMetadatum(item?: Metadatum): void {
-    this.metadata.push(this.getMetadatumGroup(item));
+    const g = this.getMetadatumGroup(item);
+    this._subs.push(g.valueChanges.subscribe(_ => {
+      this.metadata.updateValueAndValidity();
+      this.metadata.markAsDirty();
+    }));
+    this.metadata.push(g);
+    this.metadata.updateValueAndValidity();
     this.metadata.markAsDirty();
   }
 
   public removeMetadatum(index: number): void {
+    this._subs[index].unsubscribe();
+    this._subs.splice(index, 1);
     this.metadata.removeAt(index);
+    this.metadata.updateValueAndValidity();
     this.metadata.markAsDirty();
   }
 
@@ -127,9 +153,14 @@ export class MetadataPartComponent
     if (index < 1) {
       return;
     }
+    const s = this._subs[index];
+    this._subs.splice(index, 1);
+    this._subs.splice(index - 1, 0, s);
+
     const item = this.metadata.controls[index];
     this.metadata.removeAt(index);
     this.metadata.insert(index - 1, item);
+    this.metadata.updateValueAndValidity();
     this.metadata.markAsDirty();
   }
 
@@ -137,9 +168,14 @@ export class MetadataPartComponent
     if (index + 1 >= this.metadata.length) {
       return;
     }
+    const s = this._subs[index];
+    this._subs.splice(index, 1);
+    this._subs.splice(index + 1, 0, s);
+
     const item = this.metadata.controls[index];
     this.metadata.removeAt(index);
     this.metadata.insert(index + 1, item);
+    this.metadata.updateValueAndValidity();
     this.metadata.markAsDirty();
   }
 

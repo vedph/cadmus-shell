@@ -30,7 +30,7 @@
         </td>
         <td>{{ getRoleIdName($any(parts)[i].roleId) }}</td>
         <td>{{ $any(parts)[i].thesaurusScope }}</td>
-        <td>{{ $any(parts)[i].timeModified | amLocal | amTimeAgo }}</td>
+        <td>{{ $any(parts)[i].timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
         <td>{{ $any(parts)[i].userId }}</td>
       </tr>
     </tbody>

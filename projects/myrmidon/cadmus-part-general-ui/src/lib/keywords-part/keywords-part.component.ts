@@ -137,6 +137,7 @@ export class KeywordsPartComponent
         const ck = Object.assign([], this.keywords.value);
         ck.splice(i, 0, keyword);
         this.keywords.setValue(ck);
+        this.keywords.updateValueAndValidity();
         this.keywords.markAsDirty();
         break;
       }
@@ -146,6 +147,7 @@ export class KeywordsPartComponent
       const ck = Object.assign([], this.keywords.value);
       ck.push(keyword);
       this.keywords.setValue(ck);
+      this.keywords.updateValueAndValidity();
       this.keywords.markAsDirty();
     }
   }
@@ -154,6 +156,7 @@ export class KeywordsPartComponent
     const ck = Object.assign([], this.keywords.value);
     ck.splice(this.keywords.value.indexOf(keyword), 1);
     this.keywords.setValue(ck);
+    this.keywords.updateValueAndValidity();
     this.keywords.markAsDirty();
   }
 }

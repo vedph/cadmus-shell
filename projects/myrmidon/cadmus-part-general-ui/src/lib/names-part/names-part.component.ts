@@ -152,6 +152,8 @@ export class NamesPartComponent
       pieces: [],
     };
     this.names.setValue([...(this.names.value || []), name]);
+    this.names.updateValueAndValidity();
+    this.names.markAsDirty();
     this.editName(this.names.value.length - 1);
   }
 
@@ -174,6 +176,8 @@ export class NamesPartComponent
       const names = [...(this.names.value || [])];
       names.splice(this.editedIndex, 1);
       this.names.setValue(names);
+      this.names.updateValueAndValidity();
+      this.names.markAsDirty();
       this.editName(-1);
     } else {
       // else update replacing the old with the new name
@@ -182,6 +186,8 @@ export class NamesPartComponent
           i === this.editedIndex ? name : n
         )
       );
+      this.names.updateValueAndValidity();
+      this.names.markAsDirty();
     }
   }
 
@@ -198,6 +204,8 @@ export class NamesPartComponent
           const names = [...this.names.value];
           names.splice(index, 1);
           this.names.setValue(names);
+          this.names.updateValueAndValidity();
+          this.names.markAsDirty();
         }
       });
   }
@@ -211,6 +219,8 @@ export class NamesPartComponent
     names.splice(index, 1);
     names.splice(index - 1, 0, name);
     this.names.setValue(names);
+    this.names.updateValueAndValidity();
+    this.names.markAsDirty();
   }
 
   public moveNameDown(index: number): void {
@@ -222,5 +232,7 @@ export class NamesPartComponent
     names.splice(index, 1);
     names.splice(index + 1, 0, name);
     this.names.setValue(names);
+    this.names.updateValueAndValidity();
+    this.names.markAsDirty();
   }
 }

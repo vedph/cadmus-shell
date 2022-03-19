@@ -16,8 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { MomentModule } from 'ngx-moment';
-
 import { NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
@@ -38,8 +36,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     FormsModule,
     ReactiveFormsModule,
     RouterModuleForChild,
-    // moment
-    MomentModule,
     // material
     MatButtonModule,
     MatCardModule,

@@ -12,56 +12,48 @@
     </mat-card-header>
     <mat-card-content>
       <!-- language -->
-      <form [formGroup]="newForm" (ngSubmit)="addKeyword()">
-        <div>
-          <mat-form-field>
-            <mat-select placeholder="language" [formControl]="newLanguage">
-              <mat-option *ngFor="let t of langEntries" [value]="t.id">
-                {{ t.value }}
-              </mat-option>
-            </mat-select>
-            <mat-error>select a language</mat-error>
-          </mat-form-field>
-        </div>
+      <form [formGroup]="newForm" (ngSubmit)="addKeyword()" class="form-row">
+        <mat-form-field>
+          <mat-select placeholder="language" [formControl]="newLanguage">
+            <mat-option *ngFor="let t of langEntries" [value]="t.id">
+              {{ t.value }}
+            </mat-option>
+          </mat-select>
+          <mat-error>select a language</mat-error>
+        </mat-form-field>
         <!-- value -->
-        <div>
-          <mat-form-field>
-            <input
-              matInput
-              autofocus
-              type="text"
-              id="value"
-              placeholder="value"
-              [formControl]="newValue"
-            />
-            <mat-error
-              *ngIf="
-                newValue.hasError('required') &&
-                (newValue.touched || newValue.dirty)
-              "
-              >enter a value</mat-error
-            >
-            <mat-error
-              *ngIf="
-                newValue.hasError('maxLength') &&
-                (newValue.touched || newValue.dirty)
-              "
-              >value too long</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div>
-          <button
-            mat-stroked-button
-            type="submit"
-            color="primary"
-            [disabled]="newForm.invalid"
-            matTooltip="Add this keyword"
+        <mat-form-field>
+          <input
+            matInput
+            autofocus
+            type="text"
+            id="value"
+            placeholder="value"
+            [formControl]="newValue"
+          />
+          <mat-error
+            *ngIf="
+              newValue.hasError('required') &&
+              (newValue.touched || newValue.dirty)
+            "
+            >enter a value</mat-error
           >
-            <mat-icon>add_circle</mat-icon>
-            add
-          </button>
-        </div>
+          <mat-error
+            *ngIf="
+              newValue.hasError('maxLength') &&
+              (newValue.touched || newValue.dirty)
+            "
+            >value too long</mat-error
+          >
+        </mat-form-field>
+        <button
+          mat-icon-button
+          type="submit"
+          color="primary"
+          [disabled]="newForm.invalid"
+        >
+          <mat-icon>add_circle</mat-icon>
+        </button>
       </form>
       <hr />
       <table *ngIf="keywords.valid">

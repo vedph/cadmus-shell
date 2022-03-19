@@ -5,6 +5,9 @@ th {
   font-weight: normal;
   color: silver;
 }
+#layers td {
+  padding: 0 6px;
+}
 div.new-part {
   margin-left: 32px;
 }

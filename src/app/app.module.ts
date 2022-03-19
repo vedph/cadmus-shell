@@ -38,14 +38,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-// akita
+// vendor
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
-// ngx-monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
-// ngx-markdown
 import { MarkdownModule } from 'ngx-markdown';
-// moment
-import { MomentModule } from 'ngx-moment';
 
 // myrmidon
 import { EnvServiceProvider, NgToolsModule } from '@myrmidon/ng-tools';
@@ -95,7 +91,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
-import { CadmusThesaurusUiModule } from 'projects/myrmidon/cadmus-thesaurus-ui/src/public-api';
 
 @NgModule({
   declarations: [
@@ -147,14 +142,10 @@ import { CadmusThesaurusUiModule } from 'projects/myrmidon/cadmus-thesaurus-ui/s
     MatToolbarModule,
     MatTreeModule,
     FlexLayoutModule,
-    // akita
+    // vendor
     AkitaNgDevtools.forRoot(),
-    // monaco
     MonacoEditorModule.forRoot(),
-    // markdown
     MarkdownModule.forRoot(),
-    // moment
-    MomentModule,
     // myrmidon
     NgToolsModule,
     NgMatToolsModule,

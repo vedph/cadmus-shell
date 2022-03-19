@@ -21,12 +21,10 @@
       />
     </p>
     <p *ngIf="item$ | async as item">
-      Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
-      {{ item.userId }} on
-      {{ item.timeModified | date: "yyyy-MM-dd HH:mm:ss" }}.<br />
-      Created {{ item.timeCreated | amLocal | amTimeAgo }} by
-      {{ item.creatorId }} on
-      {{ item.timeCreated | date: "yyyy-MM-dd HH:mm:ss" }}.
+      Last saved {{ item.timeModified | date: "yyyy-MM-dd HH:mm:ss" }} by
+      {{ item.userId }}.<br />
+      Created {{ item.timeCreated | date: "yyyy-MM-dd HH:mm:ss" }} by
+      {{ item.creatorId }}.
     </p>
     <p *ngIf="error$ | async as error">
       <mat-error>
@@ -313,7 +311,9 @@
                     [typeThesaurus]="(typeThesaurus$ | async) || undefined"
                   ></cadmus-part-badge>
                 </td>
-                <td fxHide.xs>{{ part.timeModified | amLocal | amTimeAgo }}</td>
+                <td fxHide.xs>
+                  {{ part.timeModified | date: "yyyy-MM-dd HH:mm:ss" }}
+                </td>
                 <td fxHide.xs>{{ part.userId }}</td>
               </tr>
             </tbody>
@@ -329,7 +329,7 @@
       </mat-tab>
 
       <mat-tab label="Layers" *ngIf="id">
-        <table *ngIf="layerPartInfos$ | async as parts">
+        <table id="layers" *ngIf="layerPartInfos$ | async as parts">
           <thead>
             <th></th>
             <th>type</th>
@@ -408,7 +408,7 @@
               </td>
               <td>
                 <span *ngIf="!part.isAbsent">
-                  {{ part.timeModified | amLocal | amTimeAgo }}
+                  {{ part.timeModified | date: 'yyyy-MM-dd HH:mm:ss'}}
                 </span>
               </td>
             </tr>

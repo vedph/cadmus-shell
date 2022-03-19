@@ -16,8 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { MomentModule } from 'ngx-moment';
-
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
@@ -51,8 +49,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     MatSelectModule,
     MatTooltipModule,
     FlexLayoutModule,
-    // moment
-    MomentModule,
     // cadmus
     CadmusApiModule,
     CadmusUiModule,

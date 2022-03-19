@@ -90,13 +90,8 @@
             <td>{{ item.description }}</td>
             <td fxHide.lt-md>{{ item.groupId }}</td>
             <td fxHide.lt-md>{{ item.userId }}</td>
-            <td
-              fxHide.lt-md
-              matTooltip="{{
-                item.timeModified | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'
-              }}"
-            >
-              {{ item.timeModified | amLocal | amTimeAgo }}
+            <td fxHide.lt-md>
+              {{ item.timeModified | date: "yyyy-MM-dd HH:mm" }}
             </td>
             <td fxHide.lt-md>{{ item.creatorId }}</td>
           </tr>

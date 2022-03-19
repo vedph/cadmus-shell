@@ -159,6 +159,8 @@ export class HistoricalEventsPartComponent
       type: this.eventTypeEntries?.length ? this.eventTypeEntries[0].id : '',
     };
     this.events.setValue([...this.events.value, ev]);
+    this.events.updateValueAndValidity();
+    this.events.markAsDirty();
     this.editEvent(this.events.value.length - 1);
   }
 
@@ -182,6 +184,8 @@ export class HistoricalEventsPartComponent
         i === this._editedIndex ? entry : e
       )
     );
+    this.events.updateValueAndValidity();
+    this.events.markAsDirty();
     this.editEvent(-1);
   }
 
@@ -198,6 +202,8 @@ export class HistoricalEventsPartComponent
           const entries = [...this.events.value];
           entries.splice(index, 1);
           this.events.setValue(entries);
+          this.events.updateValueAndValidity();
+          this.events.markAsDirty();
         }
       });
   }
@@ -211,6 +217,8 @@ export class HistoricalEventsPartComponent
     entries.splice(index, 1);
     entries.splice(index - 1, 0, entry);
     this.events.setValue(entries);
+    this.events.updateValueAndValidity();
+    this.events.markAsDirty();
   }
 
   public moveEventDown(index: number): void {
@@ -222,5 +230,7 @@ export class HistoricalEventsPartComponent
     entries.splice(index, 1);
     entries.splice(index + 1, 0, entry);
     this.events.setValue(entries);
+    this.events.updateValueAndValidity();
+    this.events.markAsDirty();
   }
 }
