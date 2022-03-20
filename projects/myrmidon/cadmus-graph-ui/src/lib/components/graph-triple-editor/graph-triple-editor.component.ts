@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GraphService, NodeResult, TripleResult } from '@myrmidon/cadmus-api';
-import { ThesaurusNode } from '@myrmidon/cadmus-thesaurus-ui';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { NgToolsValidators } from '@myrmidon/ng-tools';
 import { take } from 'rxjs/operators';
 
@@ -32,7 +32,7 @@ export class GraphTripleEditorComponent implements OnInit {
    * The optional set of thesaurus entries for triple's tags.
    */
   @Input()
-  public tagEntries?: ThesaurusNode[];
+  public tagEntries?: ThesaurusEntry[] | undefined;
 
   /**
    * Emitted when triple has changed.

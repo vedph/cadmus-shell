@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { ViewportScroller } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
@@ -52,7 +51,6 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(GRAPH_NODES_PAGINATOR)
     public paginator: PaginatorPlugin<GraphNodesState>,
-    private _scroller: ViewportScroller,
     private _graphService: GraphService,
     private _dialogService: DialogService,
     private _snackbar: MatSnackBar,
@@ -93,7 +91,6 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
       // for each emitted value, combine into a filter and use it
       // to request the page from server
       switchMap(([pageNumber, pageSize, filter, refresh]) => {
-        // const filter = { ...this._docsQuery.getValue().filter };
         const f = { ...filter };
         f.pageNumber = pageNumber;
         f.pageSize = pageSize;

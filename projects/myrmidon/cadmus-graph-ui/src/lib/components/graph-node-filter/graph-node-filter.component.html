@@ -35,7 +35,7 @@
   <div>
     <mat-form-field>
       <mat-select [formControl]="sourceType" placeholder="source type">
-        <mat-option [value]="-1">(any)</mat-option>
+        <mat-option [value]="null">(any)</mat-option>
         <mat-option [value]="0">user</mat-option>
         <mat-option [value]="1">item</mat-option>
         <mat-option [value]="2">facet</mat-option>

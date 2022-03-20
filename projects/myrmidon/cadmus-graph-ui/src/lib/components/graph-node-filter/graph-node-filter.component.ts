@@ -48,7 +48,7 @@ export class GraphNodeFilterComponent implements OnInit {
     this.isClass = formBuilder.control(0);
     this.uid = formBuilder.control(null);
     this.tag = formBuilder.control(null);
-    this.sourceType = formBuilder.control(-1);
+    this.sourceType = formBuilder.control(null);
     this.sid = formBuilder.control(null);
     this.sidPrefix = formBuilder.control(false);
     this.linkedNodeRole = formBuilder.control(0);
@@ -80,9 +80,8 @@ export class GraphNodeFilterComponent implements OnInit {
     }
     this.uid.setValue(filter.uid);
     this.tag.setValue(filter.tag);
-    // source type: -1=unset, 0-N=value
     if (filter.sourceType === undefined || filter.sourceType === null) {
-      this.sourceType.setValue(-1);
+      this.sourceType.setValue(null);
     } else {
       this.sourceType.setValue(filter.sourceType);
     }
@@ -103,7 +102,7 @@ export class GraphNodeFilterComponent implements OnInit {
       uid: this.uid.value?.trim(),
       tag: this.tag.value?.trim(),
       sourceType:
-        this.sourceType.value === -1 ? undefined : this.sourceType.value - 1,
+        this.sourceType.value === null ? undefined : this.sourceType.value,
       sid: this.sid.value?.trim(),
       isSidPrefix: this.sidPrefix.value,
       linkedNodeId: this._query.getLinkedNode()?.id,

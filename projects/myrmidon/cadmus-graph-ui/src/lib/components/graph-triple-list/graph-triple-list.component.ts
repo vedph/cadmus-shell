@@ -1,13 +1,17 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { ViewportScroller } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
 
-import { GraphService, TripleFilter, TripleResult } from '@myrmidon/cadmus-api';
+import {
+  GraphService,
+  ThesaurusService,
+  TripleFilter,
+  TripleResult,
+} from '@myrmidon/cadmus-api';
 import { DataPage, ErrorInfo } from '@myrmidon/ng-tools';
 import { DialogService } from '@myrmidon/ng-mat-tools';
 
@@ -38,15 +42,15 @@ export class GraphTripleListComponent implements OnInit {
    * The optional set of thesaurus entries for triple's tags.
    */
   @Input()
-  public tagEntries?: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     @Inject(GRAPH_TRIPLES_PAGINATOR)
     public paginator: PaginatorPlugin<GraphTriplesState>,
-    private _scroller: ViewportScroller,
     private _graphService: GraphService,
     private _dialogService: DialogService,
     private _snackbar: MatSnackBar,
+    private _thesService: ThesaurusService,
     graphNodesQuery: GraphTriplesQuery,
     formBuilder: FormBuilder
   ) {
@@ -96,7 +100,14 @@ export class GraphTripleListComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._thesService
+      .getThesaurus('graph-triple-tags@en', true)
+      .pipe(take(1))
+      .subscribe((thesaurus) => {
+        this.tagEntries = thesaurus?.entries || [];
+      });
+  }
 
   ngOnDestroy(): void {
     this.paginator.destroy();

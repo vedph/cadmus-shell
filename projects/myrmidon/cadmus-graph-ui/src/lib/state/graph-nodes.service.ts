@@ -48,17 +48,17 @@ export class GraphNodesService {
     this._graphService
       .getNode(id)
       .pipe(take(1))
-      .subscribe(
-        (node) => {
+      .subscribe({
+        next: (node) => {
           this.setLinkedNode(node);
         },
-        (error) => {
+        error: (error) => {
           if (error) {
             console.error(JSON.stringify(error));
           }
           console.warn('Node ID not found: ' + id);
-        }
-      );
+        },
+      });
   }
 
   /**
@@ -97,14 +97,17 @@ export class GraphNodesService {
     });
     forkJoin(requests)
       .pipe(take(1))
-      .subscribe((results: NodeResult[]) => {
-        this._store.update({
-          classNodes: results,
-        });
-      }, error => {
-        if (error) {
-          console.error(JSON.stringify(error));
-        }
+      .subscribe({
+        next: (results: NodeResult[]) => {
+          this._store.update({
+            classNodes: results,
+          });
+        },
+        error: (error) => {
+          if (error) {
+            console.error(JSON.stringify(error));
+          }
+        },
       });
   }
 
