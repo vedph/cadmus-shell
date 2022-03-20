@@ -1,30 +1,60 @@
 <form [formGroup]="form" (submit)="save()">
   <div style="display: flex; flex-wrap: wrap; gap: 16px">
-    <!-- subject -->
+    <!-- S -->
     <fieldset style="flex: 1 1 auto">
       <legend>subject</legend>
+      <!-- picker -->
       <cadmus-graph-node-lookup
         (nodeChange)="onSubjectChange($event)"
       ></cadmus-graph-node-lookup>
+      <!-- subjectNode -->
+      <mat-form-field style="width: 100%">
+        <input matInput [formControl]="subjectNode" placeholder="subject" />
+        <mat-error
+          *ngIf="
+            $any(subjectNode).errors?.required &&
+            (subjectNode.dirty || subjectNode.touched)
+          "
+          >subject required</mat-error
+        >
+      </mat-form-field>
     </fieldset>
-    <!-- predicate -->
+    <!-- P -->
     <fieldset style="flex: 1 1 auto">
       <legend>predicate</legend>
+      <!-- picker -->
       <cadmus-graph-node-lookup
         tag="property"
         (nodeChange)="onPredicateChange($event)"
       ></cadmus-graph-node-lookup>
+      <!-- predicateNode -->
+      <mat-form-field style="width: 100%">
+        <input matInput [formControl]="predicateNode" placeholder="predicate" />
+        <mat-error
+          *ngIf="
+            $any(predicateNode).errors?.required &&
+            (predicateNode.dirty || predicateNode.touched)
+          "
+          >predicate required</mat-error
+        >
+      </mat-form-field>
     </fieldset>
-    <!-- object -->
+    <!-- O -->
     <fieldset style="flex: 1 1 auto">
       <legend>object</legend>
-      <mat-checkbox [formControl]="literal">literal</mat-checkbox>
+      <!-- picker -->
       <cadmus-graph-node-lookup
-        *ngIf="!literal?.value"
         (nodeChange)="onObjectChange($event)"
       ></cadmus-graph-node-lookup>
-      <mat-form-field *ngIf="literal?.value" style="width: 100%">
-        <textarea matInput [formControl]="objectLit"></textarea>
+      <!-- literal -->
+      <mat-checkbox [formControl]="literal">literal</mat-checkbox>
+      <!-- objectNode -->
+      <mat-form-field style="width: 100%">
+        <textarea
+          matInput
+          [formControl]="objectNode"
+          placeholder="object"
+        ></textarea>
       </mat-form-field>
     </fieldset>
   </div>

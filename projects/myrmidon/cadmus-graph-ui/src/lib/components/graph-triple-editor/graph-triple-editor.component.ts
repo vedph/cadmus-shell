@@ -8,7 +8,6 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GraphService, NodeResult, TripleResult } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { NgToolsValidators } from '@myrmidon/ng-tools';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -18,6 +17,9 @@ import { take } from 'rxjs/operators';
 })
 export class GraphTripleEditorComponent implements OnInit {
   private _triple: TripleResult | undefined;
+  private _nodeS?: NodeResult;
+  private _nodeP?: NodeResult;
+  private _nodeO?: NodeResult;
 
   @Input()
   public get triple(): TripleResult | undefined {
@@ -50,9 +52,8 @@ export class GraphTripleEditorComponent implements OnInit {
 
   public subjectNode: FormControl;
   public predicateNode: FormControl;
-  public literal: FormControl;
   public objectNode: FormControl;
-  public objectLit: FormControl;
+  public literal: FormControl;
   public tag: FormControl;
   public form: FormGroup;
 
@@ -67,30 +68,17 @@ export class GraphTripleEditorComponent implements OnInit {
     // form
     this.subjectNode = formBuilder.control(null, Validators.required);
     this.predicateNode = formBuilder.control(null, Validators.required);
-    this.literal = formBuilder.control(false);
-    this.objectNode = formBuilder.control(
-      null,
-      NgToolsValidators.conditionalValidator(
-        // when literal is not true, object is required
-        () => !this.form.get('literal')?.value,
-        Validators.required
-      )
-    );
-    this.objectLit = formBuilder.control(null, [
+    this.objectNode = formBuilder.control(null, [
+      Validators.required,
       Validators.maxLength(15000),
-      // when literal is true, object literal is required
-      NgToolsValidators.conditionalValidator(
-        () => this.form.get('literal')?.value,
-        Validators.required
-      ),
     ]);
+    this.literal = formBuilder.control(true);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.form = formBuilder.group({
       subjectNode: this.subjectNode,
       predicateNode: this.predicateNode,
-      literal: this.literal,
       objectNode: this.objectNode,
-      objectLit: this.objectLit,
+      literal: this.literal,
       tag: this.tag,
     });
   }
@@ -98,21 +86,25 @@ export class GraphTripleEditorComponent implements OnInit {
   ngOnInit(): void {}
 
   public onSubjectChange(node?: NodeResult | null): void {
-    this.subjectNode.setValue(node ?? undefined);
+    this.subjectNode.setValue(node?.uri ?? undefined);
     this.subjectNode.updateValueAndValidity();
     this.subjectNode.markAsDirty();
   }
 
   public onPredicateChange(node?: NodeResult | null): void {
-    this.predicateNode.setValue(node ?? undefined);
+    this.predicateNode.setValue(node?.uri ?? undefined);
     this.predicateNode.updateValueAndValidity();
     this.predicateNode.markAsDirty();
   }
 
   public onObjectChange(node?: NodeResult | null): void {
-    this.objectNode.setValue(node ?? undefined);
+    this.objectNode.setValue(node?.uri ?? undefined);
     this.objectNode.updateValueAndValidity();
     this.objectNode.markAsDirty();
+
+    this.literal.setValue(false);
+    this.literal.updateValueAndValidity();
+    this.literal.markAsDirty();
   }
 
   private getNode(id: number): Promise<NodeResult | undefined> {
@@ -143,25 +135,35 @@ export class GraphTripleEditorComponent implements OnInit {
     }
     if (triple.subjectId) {
       this.getNode(triple.subjectId).then((node) => {
-        this.subjectNode.setValue(node);
+        this._nodeS = node;
+        this.subjectNode.setValue(node?.uri || triple.subjectUri);
+        this.subjectNode.updateValueAndValidity();
+        this.subjectNode.markAsDirty();
       });
     } else {
       this.subjectNode.reset();
     }
     if (triple.predicateId) {
       this.getNode(triple.predicateId).then((node) => {
-        this.predicateNode.setValue(node);
+        this._nodeP = node;
+        this.predicateNode.setValue(node?.uri || triple.predicateUri);
+        this.predicateNode.updateValueAndValidity();
+        this.predicateNode.markAsDirty();
       });
     } else {
       this.predicateNode.reset();
     }
     if (triple.objectId) {
+      this.literal.setValue(false);
       this.getNode(triple.objectId).then((node) => {
-        this.objectNode.setValue(node);
+        this._nodeO = node;
+        this.objectNode.setValue(node?.uri || triple.objectUri);
+        this.objectNode.updateValueAndValidity();
+        this.objectNode.markAsDirty();
       });
     } else {
-      this.objectNode.reset();
-      this.objectLit.setValue(triple.objectLiteral);
+      this.literal.setValue(true);
+      this.objectNode.setValue(triple.objectLiteral);
     }
     this.isNew = triple.id ? false : true;
     this.form.markAsPristine();
@@ -170,13 +172,13 @@ export class GraphTripleEditorComponent implements OnInit {
   private getTriple(): TripleResult {
     return {
       id: this.triple?.id || 0,
-      subjectId: this.subjectNode.value?.id || 0,
-      predicateId: this.predicateNode.value?.id || 0,
-      objectId: this.objectNode.value?.id || 0,
-      objectLiteral: this.objectLit.value?.trim(),
-      subjectUri: this.subjectNode.value?.uri,
-      predicateUri: this.predicateNode.value?.uri,
-      objectUri: this.objectNode.value?.uri,
+      subjectId: this._nodeS?.id || 0,
+      predicateId: this._nodeP?.id || 0,
+      objectId: this._nodeO?.id || 0,
+      objectLiteral: this.literal.value ? this.objectNode.value : undefined,
+      subjectUri: this._nodeS?.uri || '',
+      predicateUri: this._nodeP?.uri || '',
+      objectUri: this.literal.value ? undefined : this._nodeO?.uri,
     };
   }
 
