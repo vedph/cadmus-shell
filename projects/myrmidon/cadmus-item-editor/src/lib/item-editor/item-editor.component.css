@@ -29,10 +29,25 @@ td.count-z {
   color: #f34f41;
 }
 input.id {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   color: gray;
   min-width: 22em;
 }
 .flag {
   margin-left: 10px;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.form-row * {
+  flex: 0 0 auto;
+}
+fieldset {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 8px 0;
 }

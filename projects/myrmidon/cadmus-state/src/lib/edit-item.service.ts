@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 
 import { ItemService } from '@myrmidon/cadmus-api';
 import { Item, FacetDefinition, Part } from '@myrmidon/cadmus-core';
@@ -49,8 +49,8 @@ export class EditItemService {
       forkJoin({
         item: this._itemService.getItem(itemId, true),
         layers: layers$,
-      }).subscribe(
-        (result) => {
+      }).pipe(take(1)).subscribe({
+        next: (result) => {
           this._store.setLoading(false);
           this._store.setError(null);
 
@@ -70,18 +70,18 @@ export class EditItemService {
             facet: appState.facets.find((f) => f.id === result.item.facetId),
           });
         },
-        (error) => {
+        error: (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading item ' + itemId);
-        }
-      );
+        },
+      });
     } else {
       // if new, just set an empty item
       forkJoin({
         layers: layers$,
-      }).subscribe(
-        (result) => {
+      }).pipe(take(1)).subscribe({
+        next: (result) => {
           this._store.setLoading(false);
           this._store.setError(null);
 
@@ -105,12 +105,12 @@ export class EditItemService {
             facet: this.pickDefaultFacet(appState.facets),
           });
         },
-        (error) => {
+        error: (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading item ' + itemId);
-        }
-      );
+        },
+      });
     }
   }
 
@@ -129,20 +129,23 @@ export class EditItemService {
     this._store.setSaving();
 
     return new Promise((resolve, reject) => {
-      this._itemService.addItem(item).subscribe(
-        (saved) => {
-          this._store.setSaving(false);
-          // reload the store
-          this.load(saved.id);
-          resolve(saved);
-        },
-        (error) => {
-          console.error(error);
-          this._store.setSaving(false);
-          this._store.setError('Error saving item');
-          reject(error);
-        }
-      );
+      this._itemService
+        .addItem(item)
+        .pipe(take(1))
+        .subscribe({
+          next: (saved) => {
+            this._store.setSaving(false);
+            // reload the store
+            this.load(saved.id);
+            resolve(saved);
+          },
+          error: (error) => {
+            console.error(error);
+            this._store.setSaving(false);
+            this._store.setError('Error saving item');
+            reject(error);
+          },
+        });
     });
   }
 
@@ -155,24 +158,31 @@ export class EditItemService {
 
     return new Promise((resolve, reject) => {
       // delete from server
-      this._itemService.deletePart(id).subscribe(
-        (_) => {
-          this._store.setDeletingPart(false);
-          // reload the store
-          this.load(this._store.getValue().item?.id);
-          resolve(id);
-        },
-        (error) => {
-          console.log(error);
-          this._store.setDeletingPart(false);
-          this._store.setError('Error deleting part ' + id);
-          reject(error);
-        }
-      );
+      this._itemService
+        .deletePart(id)
+        .pipe(take(1))
+        .subscribe({
+          next: (_) => {
+            this._store.setDeletingPart(false);
+            // reload the store
+            this.load(this._store.getValue().item?.id);
+            resolve(id);
+          },
+          error: (error) => {
+            console.log(error);
+            this._store.setDeletingPart(false);
+            this._store.setError('Error deleting part ' + id);
+            reject(error);
+          },
+        });
     });
   }
 
-  public addNewLayerPart(itemId: string, typeId: string, roleId?: string): void {
+  public addNewLayerPart(
+    itemId: string,
+    typeId: string,
+    roleId?: string
+  ): void {
     const part: Part = {
       itemId,
       typeId,
@@ -184,33 +194,41 @@ export class EditItemService {
       timeModified: new Date(),
     };
     this._store.setSaving();
-    this._itemService.addPart(part).subscribe(
-      (_) => {
-        this._store.setSaving(false);
-        // reload the store
-        this.load(this._store.getValue().item?.id);
-      },
-      (error) => {
-        console.log(error);
-        this._store.setSaving(false);
-        this._store.setError('Error adding new layer part for item ' + itemId);
-      }
-    );
+    this._itemService
+      .addPart(part)
+      .pipe(take(1))
+      .subscribe({
+        next: (_) => {
+          this._store.setSaving(false);
+          // reload the store
+          this.load(this._store.getValue().item?.id);
+        },
+        error: (error) => {
+          console.log(error);
+          this._store.setSaving(false);
+          this._store.setError(
+            'Error adding new layer part for item ' + itemId
+          );
+        },
+      });
   }
 
   public setPartThesaurusScope(ids: string[], scope: string): void {
     this._store.setSaving();
-    this._itemService.setPartThesaurusScope(ids, scope).subscribe(
-      (_) => {
-        this._store.setSaving(false);
-        // reload the store
-        this.load(this._store.getValue().item?.id);
-      },
-      (error) => {
-        console.log(error);
-        this._store.setSaving(false);
-        this._store.setError("Error setting item's parts scope");
-      }
-    );
+    this._itemService
+      .setPartThesaurusScope(ids, scope)
+      .pipe(take(1))
+      .subscribe({
+        next: (_) => {
+          this._store.setSaving(false);
+          // reload the store
+          this.load(this._store.getValue().item?.id);
+        },
+        error: (error) => {
+          console.log(error);
+          this._store.setSaving(false);
+          this._store.setError("Error setting item's parts scope");
+        },
+      });
   }
 }

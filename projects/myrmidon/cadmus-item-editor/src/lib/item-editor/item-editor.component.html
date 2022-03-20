@@ -42,9 +42,9 @@
       <!-- metadata -->
       <mat-tab label="Metadata">
         <form [formGroup]="metadata" (ngSubmit)="save()">
-          <!-- title -->
-          <div>
-            <mat-form-field>
+          <div class="form-row">
+            <!-- title -->
+            <mat-form-field style="flex: 1 0 auto">
               <input
                 matInput
                 type="text"
@@ -66,11 +66,9 @@
                 title too long</mat-error
               >
             </mat-form-field>
-          </div>
 
-          <!-- sortKey -->
-          <div>
-            <mat-form-field>
+            <!-- sortKey -->
+            <mat-form-field style="flex: 1 0 auto">
               <input
                 matInput
                 type="text"
@@ -123,8 +121,8 @@
           </div>
 
           <!-- facet -->
-          <div>
-            <mat-form-field style="width: 400px">
+          <div class="form-row">
+            <mat-form-field>
               <mat-select
                 placeholder="facet"
                 formControlName="facet"
@@ -136,10 +134,8 @@
               </mat-select>
               <mat-error>please select a facet</mat-error>
             </mat-form-field>
-          </div>
 
-          <!-- group -->
-          <div>
+            <!-- group -->
             <mat-form-field>
               <input matInput formControlName="group" placeholder="group ID" />
               <mat-error
@@ -152,19 +148,22 @@
           </div>
 
           <!-- flags -->
-          <div formArrayName="flagChecks" *ngIf="flagDefinitions">
-            <mat-checkbox
-              class="flag"
-              *ngFor="let c of flagChecks.controls; let i = index"
-              [formControlName]="i"
-            >
-              <span [style.color]="'#' + flagDefinitions[i].colorKey"
-                >&#x2b24;</span
+          <fieldset>
+            <legend>flags</legend>
+            <div formArrayName="flagChecks" *ngIf="flagDefinitions">
+              <mat-checkbox
+                class="flag"
+                *ngFor="let c of flagChecks.controls; let i = index"
+                [formControlName]="i"
               >
-              &nbsp;
-              {{ flagDefinitions[i].label }}
-            </mat-checkbox>
-          </div>
+                <span [style.color]="'#' + flagDefinitions[i].colorKey"
+                  >&#x2b24;</span
+                >
+                &nbsp;
+                {{ flagDefinitions[i].label }}
+              </mat-checkbox>
+            </div>
+          </fieldset>
           <br />
 
           <div>
