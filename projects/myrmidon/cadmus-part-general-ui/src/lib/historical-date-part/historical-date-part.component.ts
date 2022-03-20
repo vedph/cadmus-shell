@@ -102,11 +102,13 @@ export class HistoricalDatePartComponent
   public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
     this.hasDate.setValue(date ? true : false);
+    this.hasDate.updateValueAndValidity();
     this.hasDate.markAsDirty();
   }
 
   public onReferencesChange(references: DocReference[]): void {
     this.references.setValue(references);
-    this.form!.markAsDirty();
+    this.references.updateValueAndValidity();
+    this.references.markAsDirty();
   }
 }

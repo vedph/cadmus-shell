@@ -35,7 +35,6 @@ export class MspOperationComponent implements OnInit {
   public set operation(value: MspOperation | undefined) {
     this._operation = value;
     this.updateFormControls(value, true);
-    this.form.markAsPristine();
   }
 
   /**
@@ -188,6 +187,7 @@ export class MspOperationComponent implements OnInit {
     if (updateText) {
       this.text.setValue(operation.toString(), noEvent);
     }
+    this.form.markAsPristine();
   }
 
   /**
@@ -212,6 +212,8 @@ export class MspOperationComponent implements OnInit {
       return;
     }
     this.text.setValue(this.getOperation().toString(), { emitEvent: false });
+    this.text.updateValueAndValidity();
+    this.text.markAsDirty();
   }
 
   private adjustVisualForOperator(): void {

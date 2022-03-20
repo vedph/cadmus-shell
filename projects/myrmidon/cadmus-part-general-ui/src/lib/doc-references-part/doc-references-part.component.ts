@@ -97,6 +97,7 @@ export class DocReferencesPartComponent
 
   public onReferencesChange(references: DocReference[]): void {
     this.references.setValue(references);
-    this.form!.markAsDirty();
+    this.references.updateValueAndValidity();
+    this.references.markAsDirty();
   }
 }

@@ -29,7 +29,6 @@ import { GraphNodeListComponent } from './components/graph-node-list/graph-node-
 import { GraphNodeEditorComponent } from './components/graph-node-editor/graph-node-editor.component';
 import { GraphTripleFilterComponent } from './components/graph-triple-filter/graph-triple-filter.component';
 import { GraphTripleListComponent } from './components/graph-triple-list/graph-triple-list.component';
-import { TruncatePipe } from './pipes/truncate.pipe';
 import { GraphTripleEditorComponent } from './components/graph-triple-editor/graph-triple-editor.component';
 
 @NgModule({
@@ -40,8 +39,7 @@ import { GraphTripleEditorComponent } from './components/graph-triple-editor/gra
     GraphNodeEditorComponent,
     GraphTripleFilterComponent,
     GraphTripleListComponent,
-    GraphTripleEditorComponent,
-    TruncatePipe,
+    GraphTripleEditorComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +74,6 @@ import { GraphTripleEditorComponent } from './components/graph-triple-editor/gra
     GraphTripleFilterComponent,
     GraphTripleListComponent,
     GraphTripleEditorComponent,
-    TruncatePipe,
   ],
 })
 export class CadmusGraphUiModule {}

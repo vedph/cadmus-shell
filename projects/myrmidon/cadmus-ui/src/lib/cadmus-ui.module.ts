@@ -28,7 +28,6 @@ import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.compon
 import { DecoratedTokenTextComponent } from './components/decorated-token-text/decorated-token-text.component';
 import { LayerHintsComponent } from './components/layer-hints/layer-hints.component';
 import { LookupPinComponent } from './components/lookup-pin/lookup-pin.component';
-import { MultiEntrySelectorComponent } from './components/multi-entry-selector/multi-entry-selector.component';
 import { PartBadgeComponent } from './components/part-badge/part-badge.component';
 import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tree.component';
 
@@ -62,7 +61,6 @@ import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tr
     FlagsBadgeComponent,
     LayerHintsComponent,
     LookupPinComponent,
-    MultiEntrySelectorComponent,
     PartBadgeComponent,
     ThesaurusTreeComponent,
   ],
@@ -74,7 +72,6 @@ import { ThesaurusTreeComponent } from './components/thesaurus-tree/thesaurus-tr
     FlagsBadgeComponent,
     LayerHintsComponent,
     LookupPinComponent,
-    MultiEntrySelectorComponent,
     PartBadgeComponent,
     ThesaurusTreeComponent,
   ],

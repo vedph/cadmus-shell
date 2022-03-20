@@ -130,7 +130,6 @@ export class QuotationEntryComponent implements OnInit {
       }
     }
     this.authorWorks$.next(works);
-    // this.work.setValue(oldWorkId);
   }
 
   private updateForm(entry?: QuotationEntry): void {

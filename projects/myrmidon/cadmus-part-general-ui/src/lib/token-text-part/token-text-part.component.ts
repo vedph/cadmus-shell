@@ -174,7 +174,8 @@ export class TokenTextPartComponent
               break;
           }
           this.text.setValue(text);
-          this.form!.markAsDirty();
+          this.text.updateValueAndValidity();
+          this.text.markAsDirty();
         }
       });
   }

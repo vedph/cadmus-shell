@@ -98,6 +98,8 @@ export class WitnessesFragmentComponent
     const witnesses = [...(this.witnesses.value || [])];
     witnesses.splice(index, 1);
     this.witnesses.setValue(witnesses);
+    this.witnesses.updateValueAndValidity();
+    this.witnesses.markAsDirty();
   }
 
   public moveWitnessUp(index: number): void {
@@ -106,6 +108,8 @@ export class WitnessesFragmentComponent
     witnesses.splice(index, 1);
     witnesses.splice(index - 1, 0, w);
     this.witnesses.setValue(witnesses);
+    this.witnesses.updateValueAndValidity();
+    this.witnesses.markAsDirty();
   }
 
   public moveWitnessDown(index: number): void {
@@ -114,6 +118,8 @@ export class WitnessesFragmentComponent
     witnesses.splice(index, 1);
     witnesses.splice(index + 1, 0, w);
     this.witnesses.setValue(witnesses);
+    this.witnesses.updateValueAndValidity();
+    this.witnesses.markAsDirty();
   }
 
   public openCurrentWitness(witness?: Witness): void {
@@ -158,6 +164,8 @@ export class WitnessesFragmentComponent
       witnesses.splice(i, 1, newWitness);
     }
     this.witnesses.setValue(witnesses);
+    this.witnesses.updateValueAndValidity();
+    this.witnesses.markAsDirty();
 
     this.closeCurrentWitness();
   }
@@ -168,6 +176,8 @@ export class WitnessesFragmentComponent
       return;
     }
     this.witnesses.setValue(model.witnesses || []);
+    this.witnesses.updateValueAndValidity();
+    this.witnesses.markAsDirty();
     this.witness.reset();
     this.form!.markAsPristine();
   }

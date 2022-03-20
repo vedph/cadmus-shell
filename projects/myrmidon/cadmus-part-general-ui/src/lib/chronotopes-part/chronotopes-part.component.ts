@@ -128,6 +128,8 @@ export class ChronotopesPartComponent
 
   public addChronotope(): void {
     this.chronotopes.setValue([...this.chronotopes.value, {}]);
+    this.chronotopes.updateValueAndValidity();
+    this.chronotopes.markAsDirty();
     this.editChronotope(this.chronotopes.value.length - 1);
   }
 
@@ -155,6 +157,8 @@ export class ChronotopesPartComponent
         i === this._editedIndex ? this.editedChronotope : e
       )
     );
+    this.chronotopes.updateValueAndValidity();
+    this.chronotopes.markAsDirty();
     this.editChronotope(-1);
   }
 
@@ -171,6 +175,8 @@ export class ChronotopesPartComponent
           const entries = [...this.chronotopes.value];
           entries.splice(index, 1);
           this.chronotopes.setValue(entries);
+          this.chronotopes.updateValueAndValidity();
+          this.chronotopes.markAsDirty();
         }
       });
   }
@@ -184,6 +190,8 @@ export class ChronotopesPartComponent
     entries.splice(index, 1);
     entries.splice(index - 1, 0, entry);
     this.chronotopes.setValue(entries);
+    this.chronotopes.updateValueAndValidity();
+    this.chronotopes.markAsDirty();
   }
 
   public moveChronotopeDown(index: number): void {
@@ -195,5 +203,7 @@ export class ChronotopesPartComponent
     entries.splice(index, 1);
     entries.splice(index + 1, 0, entry);
     this.chronotopes.setValue(entries);
+    this.chronotopes.updateValueAndValidity();
+    this.chronotopes.markAsDirty();
   }
 }

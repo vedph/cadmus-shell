@@ -108,6 +108,8 @@ export class QuotationsFragmentComponent
     };
     this.entries.push(entry);
     this.entryCount.setValue(this.entries.length);
+    this.entryCount.updateValueAndValidity();
+    this.entryCount.markAsDirty();
     this._newEditedEntry = true;
     this.editEntry(entry);
   }
@@ -137,6 +139,8 @@ export class QuotationsFragmentComponent
       const index = this.entries.indexOf(this.editedEntry);
       this.entries.splice(index, 1);
       this.entryCount.setValue(this.entries.length);
+      this.entryCount.updateValueAndValidity();
+      this.entryCount.markAsDirty();
     }
     this.currentTabIndex = 0;
     this.editedEntry = undefined;
@@ -151,6 +155,8 @@ export class QuotationsFragmentComponent
         }
         this.entries.splice(index, 1);
         this.entryCount.setValue(this.entries.length);
+        this.entryCount.updateValueAndValidity();
+        this.entryCount.markAsDirty();
         this.form!.markAsDirty();
       });
   }

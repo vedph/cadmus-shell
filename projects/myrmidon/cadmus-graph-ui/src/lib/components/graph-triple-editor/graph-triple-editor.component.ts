@@ -99,14 +99,20 @@ export class GraphTripleEditorComponent implements OnInit {
 
   public onSubjectChange(node?: NodeResult | null): void {
     this.subjectNode.setValue(node ?? undefined);
+    this.subjectNode.updateValueAndValidity();
+    this.subjectNode.markAsDirty();
   }
 
   public onPredicateChange(node?: NodeResult | null): void {
     this.predicateNode.setValue(node ?? undefined);
+    this.predicateNode.updateValueAndValidity();
+    this.predicateNode.markAsDirty();
   }
 
   public onObjectChange(node?: NodeResult | null): void {
     this.objectNode.setValue(node ?? undefined);
+    this.objectNode.updateValueAndValidity();
+    this.objectNode.markAsDirty();
   }
 
   private getNode(id: number): Promise<NodeResult | undefined> {
@@ -114,18 +120,18 @@ export class GraphTripleEditorComponent implements OnInit {
       this._graphService
         .getNode(id)
         .pipe(take(1))
-        .subscribe(
-          (node) => {
+        .subscribe({
+          next: (node) => {
             resolve(node);
           },
-          (error) => {
+          error: (error) => {
             if (error) {
               console.error(JSON.stringify(error));
             }
             this._snackbar.open('Error loading node ' + id, 'OK');
             reject();
-          }
-        );
+          },
+        });
     });
   }
 

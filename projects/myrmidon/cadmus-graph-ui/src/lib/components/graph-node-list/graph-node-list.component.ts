@@ -20,7 +20,6 @@ import { GRAPH_NODES_PAGINATOR } from '../../state/graph-nodes.paginator';
 import { GraphNodesQuery } from '../../state/graph-nodes.query';
 import { GraphNodesState } from '../../state/graph-nodes.store';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ThesaurusNode } from '@myrmidon/cadmus-thesaurus-ui';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 /**
@@ -159,21 +158,21 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
     this._graphService
       .addNode(node)
       .pipe(take(1))
-      .subscribe(
-        (n) => {
+      .subscribe({
+        next: (n) => {
           this._refresh$.next(this._refresh$.value + 1);
           this.editedNode = undefined;
           this._snackbar.open('Node saved', 'OK', {
             duration: 1500,
           });
         },
-        (error) => {
+        error: (error) => {
           if (error) {
             console.error(JSON.stringify(error));
           }
           this._snackbar.open('Error saving node', 'OK');
-        }
-      );
+        },
+      });
   }
 
   public onEditorClose(): void {
@@ -189,17 +188,17 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
           this._graphService
             .deleteNode(node.id)
             .pipe(take(1))
-            .subscribe(
-              (_) => {
+            .subscribe({
+              next: (_) => {
                 this._refresh$.next(this._refresh$.value + 1);
               },
-              (error) => {
+              error: (error) => {
                 if (error) {
                   console.error(JSON.stringify(error));
                 }
                 this._snackbar.open('Error deleting node', 'OK');
-              }
-            );
+              },
+            });
         }
       });
   }

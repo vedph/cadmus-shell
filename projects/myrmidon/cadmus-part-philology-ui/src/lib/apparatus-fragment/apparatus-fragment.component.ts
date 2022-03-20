@@ -163,6 +163,8 @@ export class ApparatusFragmentComponent
     }
     this.entries.push(entry);
     this.entryCount.setValue(this.entries.length);
+    this.entryCount.updateValueAndValidity();
+    this.entryCount.markAsDirty();
     this._newEditedEntry = true;
     this.summary = this._summaryService.build(this.getModelFromForm());
     this.editEntry(entry);
@@ -194,6 +196,8 @@ export class ApparatusFragmentComponent
       const index = this.entries.indexOf(this.editedEntry);
       this.entries.splice(index, 1);
       this.entryCount.setValue(this.entries.length);
+      this.entryCount.updateValueAndValidity();
+      this.entryCount.markAsDirty();
     }
     this.currentTabIndex = 0;
     this.editedEntry = undefined;
@@ -208,6 +212,8 @@ export class ApparatusFragmentComponent
         }
         this.entries.splice(index, 1);
         this.entryCount.setValue(this.entries.length);
+        this.entryCount.updateValueAndValidity();
+        this.entryCount.markAsDirty();
         this.summary = this._summaryService.build(this.getModelFromForm());
         this.form?.markAsDirty();
       });

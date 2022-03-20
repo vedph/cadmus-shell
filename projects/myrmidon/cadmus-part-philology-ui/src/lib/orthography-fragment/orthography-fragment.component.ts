@@ -104,7 +104,6 @@ export class OrthographyFragmentComponent
   }
 
   public addOperation(operation?: string): void {
-    this.operations.markAsDirty();
     this.operations.push(
       this._formBuilder.group({
         text: this._formBuilder.control(operation, [
@@ -113,6 +112,8 @@ export class OrthographyFragmentComponent
         ]),
       })
     );
+    this.operations.updateValueAndValidity();
+    this.operations.markAsDirty();
   }
 
   public deleteOperation(index: number): void {
@@ -121,8 +122,9 @@ export class OrthographyFragmentComponent
       .pipe(take(1))
       .subscribe((ok: boolean) => {
         if (ok) {
-          this.operations.markAsDirty();
           this.operations.removeAt(index);
+          this.operations.updateValueAndValidity();
+          this.operations.markAsDirty();
         }
       });
   }
@@ -133,8 +135,9 @@ export class OrthographyFragmentComponent
       .pipe(take(1))
       .subscribe((ok: boolean) => {
         if (ok) {
-          this.operations.markAsDirty();
           this.operations.clear();
+          this.operations.updateValueAndValidity();
+          this.operations.markAsDirty();
           this.currentOperationClosed();
         }
       });
@@ -145,9 +148,10 @@ export class OrthographyFragmentComponent
       return;
     }
     const item = this.operations.controls[index];
-    this.operations.markAsDirty();
     this.operations.removeAt(index);
     this.operations.insert(index - 1, item);
+    this.operations.updateValueAndValidity();
+    this.operations.markAsDirty();
   }
 
   public moveOperationDown(index: number): void {
@@ -155,9 +159,10 @@ export class OrthographyFragmentComponent
       return;
     }
     const item = this.operations.controls[index];
-    this.operations.markAsDirty();
     this.operations.removeAt(index);
     this.operations.insert(index + 1, item);
+    this.operations.updateValueAndValidity();
+    this.operations.markAsDirty();
   }
 
   public editOperation(index: number): void {
@@ -173,6 +178,8 @@ export class OrthographyFragmentComponent
     }
     const form = this.operations.at(this._currentOperationIndex) as FormGroup;
     form.controls['text'].setValue(operation.toString());
+    form.controls['text'].updateValueAndValidity();
+    form.controls['text'].markAsDirty();
     this._currentOperationIndex = -1;
     this.currentOperation = undefined;
   }

@@ -85,7 +85,7 @@
             <td>{{ d.id }}</td>
             <td>{{ d.subjectUri}}</td>
             <td>{{ d.predicateUri }}</td>
-            <td>{{ d.objectUri ?? d.objectLiteral | truncate }}</td>
+            <td>{{ d.objectUri ?? d.objectLiteral | ellipsis }}</td>
             <td fxHide.lt-md>{{ d.sid }}</td>
             <td fxHide.lt-md>{{ d.tag }}</td>
           </tr>

@@ -84,6 +84,8 @@ export class ChronologyFragmentComponent
 
   public onDateChange(date: HistoricalDateModel): void {
     this.date.setValue(date);
+    this.date.updateValueAndValidity();
+    this.date.markAsDirty();
   }
 
   protected onModelSet(model: ChronologyFragment): void {

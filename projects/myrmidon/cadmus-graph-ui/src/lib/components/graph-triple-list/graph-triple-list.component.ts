@@ -139,7 +139,7 @@ export class GraphTripleListComponent implements OnInit {
       predicateId: 0,
       objectId: 0,
       subjectUri: '',
-      predicateUri: ''
+      predicateUri: '',
     };
   }
 
@@ -151,21 +151,21 @@ export class GraphTripleListComponent implements OnInit {
     this._graphService
       .addTriple(triple)
       .pipe(take(1))
-      .subscribe(
-        (n) => {
+      .subscribe({
+        next: (n) => {
           this._refresh$.next(this._refresh$.value + 1);
           this.editedTriple = undefined;
           this._snackbar.open('Triple saved', 'OK', {
             duration: 1500,
           });
         },
-        (error) => {
+        error: (error) => {
           if (error) {
             console.error(JSON.stringify(error));
           }
           this._snackbar.open('Error saving triple', 'OK');
-        }
-      );
+        },
+      });
   }
 
   public onEditorClose(): void {
@@ -181,17 +181,17 @@ export class GraphTripleListComponent implements OnInit {
           this._graphService
             .deleteTriple(triple.id)
             .pipe(take(1))
-            .subscribe(
-              (_) => {
+            .subscribe({
+              next: (_) => {
                 this._refresh$.next(this._refresh$.value + 1);
               },
-              (error) => {
+              error: (error) => {
                 if (error) {
                   console.error(JSON.stringify(error));
                 }
                 this._snackbar.open('Error deleting triple', 'OK');
-              }
-            );
+              },
+            });
         }
       });
   }

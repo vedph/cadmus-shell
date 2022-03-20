@@ -9,7 +9,6 @@ import {
   ModelEditorComponentBase,
   renderLabelFromLastColon,
 } from '@myrmidon/cadmus-ui';
-import { UserLevelService } from '@myrmidon/cadmus-api';
 
 import { CategoriesPart, CATEGORIES_PART_TYPEID } from '../categories-part';
 
@@ -123,6 +122,7 @@ export class CategoriesPartComponent
 
     // assign to the categories control
     this.categories.setValue(entries);
+    this.categories.updateValueAndValidity();
     this.categories.markAsDirty();
   }
 
@@ -130,6 +130,7 @@ export class CategoriesPartComponent
     const entries = Object.assign([], this.categories.value);
     entries.splice(index, 1);
     this.categories.setValue(entries);
+    this.categories.updateValueAndValidity();
     this.categories.markAsDirty();
   }
 

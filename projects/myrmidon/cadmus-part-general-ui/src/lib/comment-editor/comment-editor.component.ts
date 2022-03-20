@@ -14,7 +14,6 @@ import {
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { deepCopy } from '@myrmidon/ng-tools';
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
-import { UserLevelService } from '@myrmidon/cadmus-api';
 import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 import { ExternalId } from '@myrmidon/cadmus-refs-external-ids';
 
@@ -254,11 +253,15 @@ export class CommentEditorComponent
 
   public onReferencesChange(references: DocReference[]): void {
     this.references.setValue(references || []);
+    this.references.updateValueAndValidity();
+    this.references.markAsDirty();
     this.form!.markAsDirty();
   }
 
   public onIdsChange(ids: ExternalId[]): void {
     this.ids.setValue(ids || []);
+    this.ids.updateValueAndValidity();
+    this.ids.markAsDirty();
     this.form!.markAsDirty();
   }
 
@@ -281,6 +284,7 @@ export class CommentEditorComponent
 
     // assign to the categories control
     this.categories.setValue(entries);
+    this.categories.updateValueAndValidity();
     this.categories.markAsDirty();
   }
 
@@ -288,6 +292,7 @@ export class CommentEditorComponent
     const entries = Object.assign([], this.categories.value);
     entries.splice(index, 1);
     this.categories.setValue(entries);
+    this.categories.updateValueAndValidity();
     this.categories.markAsDirty();
   }
 

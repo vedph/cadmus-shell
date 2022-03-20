@@ -161,6 +161,8 @@ export class IndexKeywordsPartComponent
       this.keywords = ck;
     }
     this.keywordCount.setValue(this.keywords.length);
+    this.keywordCount.updateValueAndValidity();
+    this.keywordCount.markAsDirty();
     return true;
   }
 
@@ -179,6 +181,8 @@ export class IndexKeywordsPartComponent
     this.form!.markAsDirty();
     this.keywords = ck;
     this.keywordCount.setValue(this.keywords.length);
+    this.keywordCount.updateValueAndValidity();
+    this.keywordCount.markAsDirty();
   }
 
   public editKeyword(keyword: IndexKeyword): void {

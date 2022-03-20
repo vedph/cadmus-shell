@@ -14,7 +14,6 @@ import {
   TextTile,
 } from '../tiled-text-part';
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
-import { UserLevelService } from '@myrmidon/cadmus-api';
 
 interface Data {
   [key: string]: any;
