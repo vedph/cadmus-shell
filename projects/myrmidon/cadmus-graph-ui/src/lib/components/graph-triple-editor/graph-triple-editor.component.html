@@ -7,17 +7,6 @@
       <cadmus-graph-node-lookup
         (nodeChange)="onSubjectChange($event)"
       ></cadmus-graph-node-lookup>
-      <!-- subjectNode -->
-      <mat-form-field style="width: 100%">
-        <input matInput [formControl]="subjectNode" placeholder="subject" />
-        <mat-error
-          *ngIf="
-            $any(subjectNode).errors?.required &&
-            (subjectNode.dirty || subjectNode.touched)
-          "
-          >subject required</mat-error
-        >
-      </mat-form-field>
     </fieldset>
     <!-- P -->
     <fieldset style="flex: 1 1 auto">
@@ -27,29 +16,19 @@
         tag="property"
         (nodeChange)="onPredicateChange($event)"
       ></cadmus-graph-node-lookup>
-      <!-- predicateNode -->
-      <mat-form-field style="width: 100%">
-        <input matInput [formControl]="predicateNode" placeholder="predicate" />
-        <mat-error
-          *ngIf="
-            $any(predicateNode).errors?.required &&
-            (predicateNode.dirty || predicateNode.touched)
-          "
-          >predicate required</mat-error
-        >
-      </mat-form-field>
     </fieldset>
     <!-- O -->
     <fieldset style="flex: 1 1 auto">
       <legend>object</legend>
+      <!-- literal -->
+      <mat-checkbox [formControl]="isLiteral">literal</mat-checkbox>
       <!-- picker -->
       <cadmus-graph-node-lookup
+        *ngIf="!isLiteral?.value"
         (nodeChange)="onObjectChange($event)"
       ></cadmus-graph-node-lookup>
-      <!-- literal -->
-      <mat-checkbox [formControl]="literal">literal</mat-checkbox>
       <!-- objectNode -->
-      <mat-form-field style="width: 100%">
+      <mat-form-field style="width: 100%" *ngIf="isLiteral?.value">
         <textarea
           matInput
           [formControl]="objectNode"

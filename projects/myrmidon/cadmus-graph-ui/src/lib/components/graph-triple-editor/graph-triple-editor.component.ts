@@ -8,6 +8,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GraphService, NodeResult, TripleResult } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { NgToolsValidators } from '@myrmidon/ng-tools';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -17,9 +18,6 @@ import { take } from 'rxjs/operators';
 })
 export class GraphTripleEditorComponent implements OnInit {
   private _triple: TripleResult | undefined;
-  private _nodeS?: NodeResult;
-  private _nodeP?: NodeResult;
-  private _nodeO?: NodeResult;
 
   @Input()
   public get triple(): TripleResult | undefined {
@@ -53,6 +51,7 @@ export class GraphTripleEditorComponent implements OnInit {
   public subjectNode: FormControl;
   public predicateNode: FormControl;
   public objectNode: FormControl;
+  public isLiteral: FormControl;
   public literal: FormControl;
   public tag: FormControl;
   public form: FormGroup;
@@ -69,15 +68,24 @@ export class GraphTripleEditorComponent implements OnInit {
     this.subjectNode = formBuilder.control(null, Validators.required);
     this.predicateNode = formBuilder.control(null, Validators.required);
     this.objectNode = formBuilder.control(null, [
-      Validators.required,
+      NgToolsValidators.conditionalValidator(() => {
+        return !this.isLiteral?.value;
+      }, Validators.required),
       Validators.maxLength(15000),
     ]);
-    this.literal = formBuilder.control(true);
+    this.isLiteral = formBuilder.control(true);
+    this.literal = formBuilder.control(
+      null,
+      NgToolsValidators.conditionalValidator(() => {
+        return this.isLiteral?.value;
+      }, Validators.required)
+    );
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.form = formBuilder.group({
       subjectNode: this.subjectNode,
       predicateNode: this.predicateNode,
       objectNode: this.objectNode,
+      isLiteral: this.isLiteral,
       literal: this.literal,
       tag: this.tag,
     });
@@ -102,9 +110,11 @@ export class GraphTripleEditorComponent implements OnInit {
     this.objectNode.updateValueAndValidity();
     this.objectNode.markAsDirty();
 
-    this.literal.setValue(false);
-    this.literal.updateValueAndValidity();
-    this.literal.markAsDirty();
+    if (node) {
+      this.isLiteral.setValue(false);
+      this.isLiteral.updateValueAndValidity();
+      this.isLiteral.markAsDirty();
+    }
   }
 
   private getNode(id: number): Promise<NodeResult | undefined> {
@@ -130,13 +140,13 @@ export class GraphTripleEditorComponent implements OnInit {
   private updateForm(triple?: TripleResult): void {
     if (!triple) {
       this.form.reset();
+      this.isLiteral.setValue(true);
       this.isNew = true;
       return;
     }
     if (triple.subjectId) {
       this.getNode(triple.subjectId).then((node) => {
-        this._nodeS = node;
-        this.subjectNode.setValue(node?.uri || triple.subjectUri);
+        this.subjectNode.setValue(node);
         this.subjectNode.updateValueAndValidity();
         this.subjectNode.markAsDirty();
       });
@@ -145,8 +155,7 @@ export class GraphTripleEditorComponent implements OnInit {
     }
     if (triple.predicateId) {
       this.getNode(triple.predicateId).then((node) => {
-        this._nodeP = node;
-        this.predicateNode.setValue(node?.uri || triple.predicateUri);
+        this.predicateNode.setValue(node);
         this.predicateNode.updateValueAndValidity();
         this.predicateNode.markAsDirty();
       });
@@ -154,16 +163,15 @@ export class GraphTripleEditorComponent implements OnInit {
       this.predicateNode.reset();
     }
     if (triple.objectId) {
-      this.literal.setValue(false);
+      this.isLiteral.setValue(false);
       this.getNode(triple.objectId).then((node) => {
-        this._nodeO = node;
-        this.objectNode.setValue(node?.uri || triple.objectUri);
+        this.objectNode.setValue(node);
         this.objectNode.updateValueAndValidity();
         this.objectNode.markAsDirty();
       });
     } else {
-      this.literal.setValue(true);
-      this.objectNode.setValue(triple.objectLiteral);
+      this.isLiteral.setValue(true);
+      this.literal.setValue(triple.objectLiteral);
     }
     this.isNew = triple.id ? false : true;
     this.form.markAsPristine();
@@ -172,13 +180,17 @@ export class GraphTripleEditorComponent implements OnInit {
   private getTriple(): TripleResult {
     return {
       id: this.triple?.id || 0,
-      subjectId: this._nodeS?.id || 0,
-      predicateId: this._nodeP?.id || 0,
-      objectId: this._nodeO?.id || 0,
-      objectLiteral: this.literal.value ? this.objectNode.value : undefined,
-      subjectUri: this._nodeS?.uri || '',
-      predicateUri: this._nodeP?.uri || '',
-      objectUri: this.literal.value ? undefined : this._nodeO?.uri,
+      subjectId: this.subjectNode.value?.id || 0,
+      predicateId: this.predicateNode.value?.id || 0,
+      objectId: this.isLiteral.value
+        ? undefined
+        : this.objectNode.value?.id || 0,
+      objectLiteral: this.isLiteral.value ? this.literal.value : undefined,
+      subjectUri: this.subjectNode.value?.uri || '',
+      predicateUri: this.predicateNode.value?.uri || '',
+      objectUri: this.isLiteral.value
+        ? undefined
+        : this.objectNode.value?.uri || '',
     };
   }
 
