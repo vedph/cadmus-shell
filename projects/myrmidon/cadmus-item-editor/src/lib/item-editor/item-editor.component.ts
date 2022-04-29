@@ -264,7 +264,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
 
     for (let i = 0; i < this.flagDefinitions.length; i++) {
       const flagValue = this.flagDefinitions[i].id;
-      if (this.flagChecks.at(i).value) {
+      if (this.flagChecks.at(i)?.value) {
         // tslint:disable-next-line: no-bitwise
         flagsValue |= flagValue;
       }

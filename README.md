@@ -10,10 +10,16 @@ Quick Docker image build:
 
 1. `npm run build-all`
 2. `ng build`
-3. `docker build . -t vedph2020/cadmus-shell:2.0.2 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:2.0.3 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
+### 2.0.3
+
+- 2022-04-29:
+  - upgraded Angular to 13.3.5.
+  - fixed item editor flags on logout/login.
+  - fixed item search layout.
 - 2022-03-19: removed moment and fixes to metadata part editor. Libraries affected: cadmus-item-editor, cadmus-item-list, cadmus-item-search, cadmus-part-general-ui, cadmus-ui.
 
 ### 2.0.1
