@@ -211,11 +211,11 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     },
     // LCID
     // https://stackoverflow.com/questions/53622230/angular-v4-datepipe-with-utc-datetime-as-local-time
-    {
-      provide: LOCALE_ID,
-      deps: [WindowRefService],
-      useFactory: languageFactory,
-    },
+    // {
+    //   provide: LOCALE_ID,
+    //   deps: [WindowRefService],
+    //   useFactory: languageFactory,
+    // },
   ],
   bootstrap: [AppComponent],
 })
