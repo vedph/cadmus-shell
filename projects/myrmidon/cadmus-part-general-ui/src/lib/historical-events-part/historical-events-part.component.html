@@ -79,8 +79,8 @@
                 </td>
                 <td>{{ entry.type }}</td>
                 <td>{{ entry.eid }}</td>
-                <td>{{ entry.place?.value }}</td>
-                <td>{{ entry.date?.value | historicalDate }}</td>
+                <td>{{ entry.chronotope?.place?.value }}</td>
+                <td>{{ entry.chronotope?.date | historicalDate }}</td>
                 <td>{{ entry.relatedEntities?.length || 0 }}</td>
               </tr>
             </tbody>
