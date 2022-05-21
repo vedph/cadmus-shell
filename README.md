@@ -14,6 +14,10 @@ Quick Docker image build:
 
 ## History
 
+- 2022-05-21:
+  - upgraded Angular.
+  - fixed historical events chronotope visualization in events list (`cadmus-part-general-ui`).
+
 ### 2.0.3
 
 - 2022-04-29:
