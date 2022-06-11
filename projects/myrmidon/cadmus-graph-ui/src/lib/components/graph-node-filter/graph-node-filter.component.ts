@@ -25,14 +25,14 @@ export class GraphNodeFilterComponent implements OnInit {
   @Input()
   public disabled?: boolean;
 
-  public label: FormControl;
-  public isClass: FormControl;
-  public uid: FormControl;
-  public tag: FormControl;
-  public sourceType: FormControl;
-  public sid: FormControl;
-  public sidPrefix: FormControl;
-  public linkedNodeRole: FormControl;
+  public label: FormControl<string | null>;
+  public isClass: FormControl<number>;
+  public uid: FormControl<string | null>;
+  public tag: FormControl<string | null>;
+  public sourceType: FormControl<number | null>;
+  public sid: FormControl<string | null>;
+  public sidPrefix: FormControl<boolean>;
+  public linkedNodeRole: FormControl<'S' | 'O' | null>;
   public form: FormGroup;
 
   constructor(
@@ -45,13 +45,13 @@ export class GraphNodeFilterComponent implements OnInit {
     this.classNodes$ = _query.selectClassNodes();
     // form
     this.label = formBuilder.control(null);
-    this.isClass = formBuilder.control(0);
+    this.isClass = formBuilder.control(0, { nonNullable: true });
     this.uid = formBuilder.control(null);
     this.tag = formBuilder.control(null);
     this.sourceType = formBuilder.control(null);
     this.sid = formBuilder.control(null);
-    this.sidPrefix = formBuilder.control(false);
-    this.linkedNodeRole = formBuilder.control(0);
+    this.sidPrefix = formBuilder.control(false, { nonNullable: true });
+    this.linkedNodeRole = formBuilder.control(null);
     this.form = formBuilder.group({
       label: this.label,
       isClass: this.isClass,
@@ -71,21 +71,21 @@ export class GraphNodeFilterComponent implements OnInit {
   }
 
   private updateForm(filter: NodeFilter): void {
-    this.label.setValue(filter.label);
+    this.label.setValue(filter.label || null);
     // is-class: 0=unset, 1=class, 2=not-class
     if (filter.isClass !== undefined && filter.isClass !== null) {
       this.isClass.setValue(filter.isClass ? 1 : 2);
     } else {
       this.isClass.setValue(0);
     }
-    this.uid.setValue(filter.uid);
-    this.tag.setValue(filter.tag);
+    this.uid.setValue(filter.uid || null);
+    this.tag.setValue(filter.tag || null);
     if (filter.sourceType === undefined || filter.sourceType === null) {
       this.sourceType.setValue(null);
     } else {
       this.sourceType.setValue(filter.sourceType);
     }
-    this.sid.setValue(filter.sid);
+    this.sid.setValue(filter.sid || null);
     this.sidPrefix.setValue(filter.isSidPrefix ? true : false);
     this._nodesService.setLinkedNodeId(filter.linkedNodeId);
     this.linkedNodeRole.setValue(filter.linkedNodeRole || 'S');

@@ -3,6 +3,7 @@ import {
   ValidatorFn,
   ValidationErrors,
   FormGroup,
+  UntypedFormGroup,
 } from '@angular/forms';
 
 // https://www.tektutorialshub.com/angular/custom-validator-with-parameters-in-angular/
@@ -25,7 +26,7 @@ export class CustomValidators {
       // https://trungk18.com/experience/angular-form-array-validate-at-least-one-checkbox-was-selected/
       let checked = 0;
 
-      const group = control as FormGroup;
+      const group = control as FormGroup || control as UntypedFormGroup;
       Object.keys(group.controls).forEach((key) => {
         const ctl = group.controls[key];
         if (ctl.value === true) {

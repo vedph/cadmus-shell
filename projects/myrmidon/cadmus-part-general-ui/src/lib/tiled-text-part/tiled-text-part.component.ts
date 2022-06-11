@@ -32,7 +32,7 @@ export class TiledTextPartComponent
   private _editedDataRow?: TextTileRow;
 
   public selectedTile?: TextTile;
-  public citation: FormControl;
+  public citation: FormControl<string | null>;
   public rows: TextTileRow[];
   public editedData?: Data;
   public editedDataTitle?: string;
@@ -63,7 +63,7 @@ export class TiledTextPartComponent
       this.rows = [];
       return;
     }
-    this.citation.setValue(model.citation);
+    this.citation.setValue(model.citation || null);
     this.rows = model.rows || [];
     this.form?.markAsPristine();
   }
@@ -107,7 +107,7 @@ export class TiledTextPartComponent
     // ensure that form's coordinates are ok
     this.adjustCoords();
     // set part's citation and rows
-    part.citation = this.citation.value ? this.citation.value.trim() : null;
+    part.citation = this.citation.value ? this.citation.value.trim() : undefined;
     part.rows = this.rows;
     return part;
   }

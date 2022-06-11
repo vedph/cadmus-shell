@@ -17,7 +17,7 @@ export interface BibEntry {
   container?: string;
   contributors?: BibAuthor[];
   edition?: number;
-  number?: number;
+  number?: string;
   publisher?: string;
   yearPub?: number;
   placePub?: string;

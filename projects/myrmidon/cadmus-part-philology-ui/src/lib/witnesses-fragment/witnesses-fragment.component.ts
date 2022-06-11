@@ -57,10 +57,10 @@ export class WitnessesFragmentComponent
 
   public witnesses: FormControl;
   // single witness form
-  public id: FormControl;
-  public citation: FormControl;
-  public text: FormControl;
-  public note: FormControl;
+  public id: FormControl<string | null>;
+  public citation: FormControl<string | null>;
+  public text: FormControl<string | null>;
+  public note: FormControl<string | null>;
   public witness: FormGroup;
 
   constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
@@ -131,7 +131,7 @@ export class WitnessesFragmentComponent
       this.id.setValue(witness.id);
       this.citation.setValue(witness.citation);
       this.text.setValue(witness.text);
-      this.note.setValue(witness.note);
+      this.note.setValue(witness.note || null);
       this.witness.markAsPristine();
     }
     this.currentWitnessOpen = true;
@@ -149,9 +149,9 @@ export class WitnessesFragmentComponent
       return;
     }
     const newWitness: Witness = {
-      id: this.id.value?.trim(),
-      citation: this.citation.value?.trim(),
-      text: this.text.value?.trim(),
+      id: this.id.value?.trim() || '',
+      citation: this.citation.value?.trim() || '',
+      text: this.text.value?.trim() || '',
       note: this.note.value?.trim(),
     };
     const witnesses: Witness[] = [...(this.witnesses.value || [])];

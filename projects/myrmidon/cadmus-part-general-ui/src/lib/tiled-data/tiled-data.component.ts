@@ -61,11 +61,11 @@ export class TiledDataComponent implements OnInit {
   @Output()
   public cancel: EventEmitter<any>;
 
-  public keyFilter: FormControl;
+  public keyFilter: FormControl<string | null>;
   public filterForm: FormGroup;
 
-  public newKey: FormControl;
-  public newValue: FormControl;
+  public newKey: FormControl<string | null>;
+  public newValue: FormControl<string | null>;
   public newForm: FormGroup;
 
   public form: FormGroup;
@@ -196,7 +196,7 @@ export class TiledDataComponent implements OnInit {
     if (this.newForm.invalid) {
       return;
     }
-    this._data[this.newKey.value] = this.newValue.value;
+    this._data[this.newKey.value!] = this.newValue.value;
     this.newForm.reset();
     this.updateForm();
   }

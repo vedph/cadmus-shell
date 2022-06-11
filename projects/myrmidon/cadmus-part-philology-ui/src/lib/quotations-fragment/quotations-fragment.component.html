@@ -16,7 +16,7 @@
       <mat-tab-group [(selectedIndex)]="currentTabIndex">
         <!-- quotations editor -->
         <mat-tab label="Quotations">
-          <table *ngIf="entries?.length">
+          <table *ngIf="entries.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -29,7 +29,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let entry of entries;
+                  let entry of entries.value;
                   let i = index;
                   let first = first;
                   let last = last

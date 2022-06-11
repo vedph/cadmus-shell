@@ -45,7 +45,7 @@
       <!-- history -->
       <div *ngIf="lastQueries?.length">
         <mat-form-field class="full-width">
-          <mat-select formControlName="history" placeholder="history">
+          <mat-select [formControl]="history" placeholder="history">
             <mat-option *ngFor="let q of lastQueries" [value]="q">
               {{ q }}
             </mat-option>

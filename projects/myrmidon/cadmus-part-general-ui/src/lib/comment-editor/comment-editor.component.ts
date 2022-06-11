@@ -35,11 +35,11 @@ export class CommentEditorComponent
   extends ModelEditorComponentBase<CommentPart | CommentFragment>
   implements OnInit
 {
-  public tag: FormControl;
-  public text: FormControl;
-  public references: FormControl;
-  public ids: FormControl;
-  public categories: FormControl;
+  public tag: FormControl<string | null>;
+  public text: FormControl<string | null>;
+  public references: FormControl<DocReference[]>;
+  public ids: FormControl<ExternalId[]>;
+  public categories: FormControl<ThesaurusEntry[]>;
   public keywords: FormArray;
 
   public initialRefs: DocReference[];
@@ -63,10 +63,7 @@ export class CommentEditorComponent
     automaticLayout: true,
   };
 
-  constructor(
-    authService: AuthJwtService,
-    private _formBuilder: FormBuilder
-  ) {
+  constructor(authService: AuthJwtService, private _formBuilder: FormBuilder) {
     super(authService);
     this.initialRefs = [];
     this.initialIds = [];
@@ -76,9 +73,9 @@ export class CommentEditorComponent
       Validators.required,
       Validators.maxLength(50000),
     ]);
-    this.references = _formBuilder.control([]);
-    this.ids = _formBuilder.control([]);
-    this.categories = _formBuilder.control([]);
+    this.references = _formBuilder.control([], { nonNullable: true });
+    this.ids = _formBuilder.control([], { nonNullable: true });
+    this.categories = _formBuilder.control([], { nonNullable: true });
     this.keywords = _formBuilder.array([]);
     this.form = _formBuilder.group({
       tag: this.tag,
@@ -99,7 +96,7 @@ export class CommentEditorComponent
       this.form!.reset();
       return;
     }
-    this.tag.setValue(model.tag);
+    this.tag.setValue(model.tag || null);
     this.text.setValue(model.text);
     this.initialRefs = model.references || [];
     this.initialIds = model.externalIds || [];
@@ -207,7 +204,7 @@ export class CommentEditorComponent
 
   private updateComment(comment: Comment): void {
     comment.tag = this.tag.value?.trim();
-    comment.text = this.text.value?.trim();
+    comment.text = this.text.value?.trim() || '';
     comment.references = this.references.value?.length
       ? this.references.value
       : undefined;

@@ -25,8 +25,8 @@ export class HistoricalDatePartComponent
   extends ModelEditorComponentBase<HistoricalDatePart>
   implements OnInit
 {
-  public hasDate: FormControl;
-  public references: FormControl;
+  public hasDate: FormControl<boolean>;
+  public references: FormControl<DocReference[]>;
 
   public date: HistoricalDateModel;
   public initialRefs: DocReference[];
@@ -38,8 +38,11 @@ export class HistoricalDatePartComponent
     super(authService);
     // form
     this.initialRefs = [];
-    this.hasDate = formBuilder.control(false, Validators.requiredTrue);
-    this.references = formBuilder.control([]);
+    this.hasDate = formBuilder.control(false, {
+      validators: Validators.requiredTrue,
+      nonNullable: true,
+    });
+    this.references = formBuilder.control([], { nonNullable: true });
     this.form = formBuilder.group({
       hasDate: this.hasDate,
       references: this.references,

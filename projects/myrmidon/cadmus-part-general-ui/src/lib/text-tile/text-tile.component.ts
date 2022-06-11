@@ -72,11 +72,12 @@ export class TextTileComponent implements OnInit {
   @Output()
   public checkedChange: EventEmitter<{ checked: boolean; tile: TextTile }>;
 
+  public editedText: FormControl<string | null>;
+  public checker: FormControl<boolean>;
   public form: FormGroup;
-  public editedText: FormControl;
+
   public text?: string;
   public editing?: boolean;
-  public checker: FormControl;
 
   constructor(formBuilder: FormBuilder) {
     // form
@@ -89,7 +90,7 @@ export class TextTileComponent implements OnInit {
       editedText: this.editedText,
     });
 
-    this.checker = formBuilder.control(false);
+    this.checker = formBuilder.control(false, { nonNullable: true });
 
     // events
     this.tileChange = new EventEmitter<TextTile>();
@@ -122,7 +123,7 @@ export class TextTileComponent implements OnInit {
       this.text = this._tile.data
         ? this._tile.data[TEXT_TILE_TEXT_DATA_NAME]
         : undefined;
-      this.editedText.setValue(this.text);
+      this.editedText.setValue(this.text || null);
       this.form.markAsPristine();
     }
   }
@@ -165,7 +166,7 @@ export class TextTileComponent implements OnInit {
     if (this.form.invalid || this.readonly || !this._tile) {
       return;
     }
-    this.text = this.editedText.value.trim();
+    this.text = this.editedText.value?.trim() || undefined;
     if (!this._tile.data) {
       this._tile.data = {};
     }

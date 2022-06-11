@@ -15,8 +15,8 @@ export class LayerDemoComponent {
   public userLocation?: TokenLocation;
   // form
   public rendition: FormGroup;
-  public text: FormControl;
-  public location: FormControl;
+  public text: FormControl<string | null>;
+  public location: FormControl<string | null>;
 
   public textSize: number;
 
@@ -107,6 +107,9 @@ export class LayerDemoComponent {
   }
 
   public render(): void {
+    if (!this.text.value) {
+      return;
+    }
     this.result = this._textLayerService.render(
       this.text.value,
       this.locations
@@ -114,15 +117,20 @@ export class LayerDemoComponent {
   }
 
   public getLocationForNew(): void {
-    this.userLocation = this._textLayerService.getSelectedLocationForNew(
-      this._textLayerService.getSelectedRange()!,
-      this.text.value
-    ) || undefined;
+    if (!this.text.value) {
+      return;
+    }
+    this.userLocation =
+      this._textLayerService.getSelectedLocationForNew(
+        this._textLayerService.getSelectedRange()!,
+        this.text.value
+      ) || undefined;
   }
 
   public getLocationForEdit(): void {
-    this.userLocation = this._textLayerService.getSelectedLocationForEdit(
-      this._textLayerService.getSelectedRange()!
-    ) || undefined;
+    this.userLocation =
+      this._textLayerService.getSelectedLocationForEdit(
+        this._textLayerService.getSelectedRange()!
+      ) || undefined;
   }
 }

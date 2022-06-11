@@ -21,9 +21,8 @@ export class NotePartComponent
   extends ModelEditorComponentBase<NotePart>
   implements OnInit
 {
-  public tag: FormControl;
-  public tags: FormControl;
-  public text: FormControl;
+  public tag: FormControl<string | null>;
+  public text: FormControl<string | null>;
 
   public tagEntries?: ThesaurusEntry[];
 
@@ -39,11 +38,9 @@ export class NotePartComponent
     super(authService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
-    this.tags = formBuilder.control([]);
     this.text = formBuilder.control(null, Validators.required);
     this.form = formBuilder.group({
       tag: this.tag,
-      tags: this.tags,
       text: this.text,
     });
   }
@@ -57,8 +54,7 @@ export class NotePartComponent
       this.form!.reset();
       return;
     }
-    this.tag.setValue(model.tag);
-    this.tags.setValue(model.tag);
+    this.tag.setValue(model.tag || null);
     this.text.setValue(model.text);
     this.form!.markAsPristine();
   }
@@ -92,8 +88,8 @@ export class NotePartComponent
         text: '',
       };
     }
-    part.tag = this.tagEntries ? this.tags.value : this.tag.value;
-    part.text = this.text.value?.trim();
+    part.tag = this.tag.value || undefined;
+    part.text = this.text.value?.trim() || '';
     return part;
   }
 }

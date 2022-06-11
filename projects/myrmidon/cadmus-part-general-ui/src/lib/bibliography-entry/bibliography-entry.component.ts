@@ -55,29 +55,29 @@ export class BibliographyEntryComponent implements OnInit {
   public entryChange: EventEmitter<BibEntry>;
 
   // form - general
-  public key: FormControl;
-  public type: FormControl;
-  public tag: FormControl;
-  public language: FormControl;
+  public key: FormControl<string | null>;
+  public type: FormControl<string | null>;
+  public tag: FormControl<string | null>;
+  public language: FormControl<string | null>;
   public authors: FormArray;
-  public title: FormControl;
-  public note: FormControl;
+  public title: FormControl<string | null>;
+  public note: FormControl<string | null>;
   // form - container
   public contributors: FormArray;
-  public container: FormControl;
-  public edition: FormControl;
-  public number: FormControl;
-  public publisher: FormControl;
-  public placePub: FormControl;
-  public yearPub: FormControl;
-  public location: FormControl;
-  public accessDate: FormControl;
-  public firstPage: FormControl;
-  public lastPage: FormControl;
+  public container: FormControl<string | null>;
+  public edition: FormControl<number | null>;
+  public number: FormControl<string | null>;
+  public publisher: FormControl<string | null>;
+  public placePub: FormControl<string | null>;
+  public yearPub: FormControl<number | null>;
+  public location: FormControl<string | null>;
+  public accessDate: FormControl<Date | null>;
+  public firstPage: FormControl<number | null>;
+  public lastPage: FormControl<number | null>;
   // form - keywords
   public keywords: Keyword[];
-  public keyLanguage: FormControl;
-  public keyValue: FormControl;
+  public keyLanguage: FormControl<string | null>;
+  public keyValue: FormControl<string | null>;
   public keyForm: FormGroup;
 
   public form: FormGroup;
@@ -106,7 +106,7 @@ export class BibliographyEntryComponent implements OnInit {
     // form - container
     this.contributors = _formBuilder.array([]);
     this.container = _formBuilder.control(null, Validators.maxLength(300));
-    this.edition = _formBuilder.control(0, [
+    this.edition = _formBuilder.control(null, [
       Validators.min(0),
       Validators.max(100),
     ]);
@@ -119,11 +119,11 @@ export class BibliographyEntryComponent implements OnInit {
     ]);
     this.location = _formBuilder.control(null, Validators.maxLength(500));
     this.accessDate = _formBuilder.control(new Date());
-    this.firstPage = _formBuilder.control(0, [
+    this.firstPage = _formBuilder.control(null, [
       Validators.min(0),
       Validators.max(10000),
     ]);
-    this.lastPage = _formBuilder.control(0, [
+    this.lastPage = _formBuilder.control(null, [
       Validators.min(0),
       Validators.max(10000),
     ]);
@@ -169,7 +169,8 @@ export class BibliographyEntryComponent implements OnInit {
     // and last is not set
     this.firstPage.valueChanges.pipe(distinctUntilChanged()).subscribe((_) => {
       if (
-        this.firstPage.value > 0 &&
+        this.firstPage.value &&
+        this.lastPage.value &&
         this.lastPage.value < this.firstPage.value
       ) {
         this.lastPage.setValue(this.firstPage.value);
@@ -211,24 +212,24 @@ export class BibliographyEntryComponent implements OnInit {
       return;
     }
 
-    this.key.setValue(entry.key);
+    this.key.setValue(entry.key || null);
     this.type.setValue(entry.typeId);
-    this.tag.setValue(entry.tag);
+    this.tag.setValue(entry.tag || null);
     this.language.setValue(entry.language);
     this.setAuthors(entry.authors || [], this.authors);
     this.title.setValue(entry.title);
-    this.note.setValue(entry.note);
+    this.note.setValue(entry.note || null);
     this.setAuthors(entry.contributors || [], this.contributors);
-    this.container.setValue(entry.container);
-    this.edition.setValue(entry.edition);
-    this.number.setValue(entry.number);
-    this.publisher.setValue(entry.publisher);
-    this.placePub.setValue(entry.placePub);
-    this.yearPub.setValue(entry.yearPub);
-    this.location.setValue(entry.location);
-    this.accessDate.setValue(entry.accessDate);
-    this.firstPage.setValue(entry.firstPage);
-    this.lastPage.setValue(entry.lastPage);
+    this.container.setValue(entry.container || null);
+    this.edition.setValue(entry.edition || null);
+    this.number.setValue(entry.number || null);
+    this.publisher.setValue(entry.publisher || null);
+    this.placePub.setValue(entry.placePub || null);
+    this.yearPub.setValue(entry.yearPub || null);
+    this.location.setValue(entry.location || null);
+    this.accessDate.setValue(entry.accessDate || null);
+    this.firstPage.setValue(entry.firstPage || null);
+    this.lastPage.setValue(entry.lastPage || null);
     this.keywords = entry?.keywords || [];
 
     this.form.markAsPristine();
@@ -251,23 +252,23 @@ export class BibliographyEntryComponent implements OnInit {
   private getEntry(): BibEntry {
     return {
       key: this.key.value?.trim(),
-      typeId: this.type.value?.trim(),
+      typeId: this.type.value?.trim() || '',
       tag: this.tag.value?.trim(),
-      language: this.language.value,
+      language: this.language.value || '',
       authors: this.getAuthors(this.authors),
-      title: this.title.value?.trim(),
+      title: this.title.value?.trim() || '',
       note: this.note.value?.trim(),
       contributors: this.getAuthors(this.contributors),
       container: this.container.value?.trim(),
-      edition: this.edition.value,
+      edition: this.edition.value || undefined,
       number: this.number.value?.trim(),
       publisher: this.publisher.value?.trim(),
       placePub: this.placePub.value?.trim(),
-      yearPub: this.yearPub.value,
+      yearPub: this.yearPub.value || undefined,
       location: this.location.value?.trim(),
-      accessDate: this.accessDate.value,
-      firstPage: this.firstPage.value,
-      lastPage: this.lastPage.value,
+      accessDate: this.accessDate.value || undefined,
+      firstPage: this.firstPage.value || undefined,
+      lastPage: this.lastPage.value || undefined,
       keywords: this.keywords.length ? this.keywords : undefined,
     };
   }
@@ -284,8 +285,8 @@ export class BibliographyEntryComponent implements OnInit {
       )
     ) {
       this.keywords.push({
-        language: this.keyLanguage.value,
-        value: this.keyValue.value,
+        language: this.keyLanguage.value!,
+        value: this.keyValue.value!,
       });
       this.keyValue.reset();
       this.form.markAsDirty();

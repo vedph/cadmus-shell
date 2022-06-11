@@ -83,18 +83,18 @@ export class ThesaurusEditorComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   public filter$: BehaviorSubject<ThesaurusNodeFilter>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
 
   // thesaurus form
-  public id: FormControl;
-  public alias: FormControl;
-  public targetId: FormControl;
-  public entryCount: FormControl;
+  public id: FormControl<string | null>;
+  public alias: FormControl<boolean>;
+  public targetId: FormControl<string | null>;
+  public entryCount: FormControl<number>;
   public form: FormGroup;
 
   // filter
-  public parentId: FormControl;
-  public idOrValue: FormControl;
+  public parentId: FormControl<string | null>;
+  public idOrValue: FormControl<string | null>;
   public filterForm: FormGroup;
 
   public parentIds$: Observable<ThesaurusEntry[]>;
@@ -112,7 +112,7 @@ export class ThesaurusEditorComponent implements OnInit {
       pageSize: 20,
     });
     this._refresh$ = new BehaviorSubject(0);
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this.thesaurusChange = new EventEmitter<Thesaurus>();
     this.editorClose = new EventEmitter<any>();
     // the list of all the parent nodes IDs in the edited thesaurus
@@ -123,9 +123,12 @@ export class ThesaurusEditorComponent implements OnInit {
       Validators.maxLength(50),
       Validators.pattern(new RegExp(THES_ID_PATTERN)),
     ]);
-    this.alias = formBuilder.control(false);
+    this.alias = formBuilder.control(false, { nonNullable: true });
     this.targetId = formBuilder.control(null);
-    this.entryCount = formBuilder.control(0, Validators.min(1));
+    this.entryCount = formBuilder.control(0, {
+      validators: Validators.min(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       id: this.id,
       alias: this.alias,
@@ -278,8 +281,8 @@ export class ThesaurusEditorComponent implements OnInit {
     this.filter$.next({
       pageNumber: 1,
       pageSize: 20,
-      idOrValue: this.idOrValue.value,
-      parentId: this.parentId.value,
+      idOrValue: this.idOrValue.value || undefined,
+      parentId: this.parentId.value || undefined,
     });
   }
 
@@ -380,7 +383,7 @@ export class ThesaurusEditorComponent implements OnInit {
       return;
     }
     this.id.setValue(thesaurus.id);
-    this.targetId.setValue(thesaurus.targetId);
+    this.targetId.setValue(thesaurus.targetId || null);
     this.entryCount.setValue(thesaurus.entries?.length || 0);
     this.alias.setValue(thesaurus.targetId ? true : false);
     this.form.markAsPristine();
@@ -399,13 +402,13 @@ export class ThesaurusEditorComponent implements OnInit {
 
   private getThesaurus(): Thesaurus {
     const thesaurus: Thesaurus = {
-      id: this.id.value,
+      id: this.id.value!,
       language: 'en',
       entries: [],
     };
 
     if (this.alias.value) {
-      thesaurus.targetId = this.targetId.value;
+      thesaurus.targetId = this.targetId.value!;
     } else {
       thesaurus.entries = this._nodesService.getNodes().map((n) => {
         return {

@@ -43,9 +43,9 @@ export class ItemQueryComponent implements OnInit, AfterViewInit {
   private _lastQueries?: string[];
 
   public form: FormGroup;
-  public query: FormControl;
-  public history: FormControl;
-  public partDef: FormControl;
+  public query: FormControl<string | null>;
+  public history: FormControl<string | null>;
+  public partDef: FormControl<string | null>;
 
   @ViewChild('queryctl', { static: false })
   public queryElement?: ElementRef<HTMLElement>;
@@ -114,21 +114,12 @@ export class ItemQueryComponent implements OnInit, AfterViewInit {
     });
     // sort them by sortKey
     partDefs.sort((a, b) => {
-      // const ga = a.groupKey || '';
-      // const gb = a.groupKey || '';
-      // if (ga > gb) {
-      //   return 1;
-      // }
-      // if (ga < gb) {
-      //   return -1;
-      // }
       return a.sortKey.localeCompare(b.sortKey);
     });
     this.partDefs = partDefs;
   }
 
   ngOnInit(): void {
-    this.history.setValue(this._lastQueries || []);
     // part definitions
     this._appQuery.selectFacets().subscribe((facets) => {
       this.updatePartDefs(facets);
@@ -138,16 +129,16 @@ export class ItemQueryComponent implements OnInit, AfterViewInit {
       .pipe(debounceTime(200), distinctUntilChanged())
       .subscribe((id) => {
         this.loadingPinDefs = true;
-        this._itemService.getDataPinDefinitions(id).subscribe(
-          (defs) => {
+        this._itemService.getDataPinDefinitions(id!).subscribe({
+          next: (defs) => {
             this.loadingPinDefs = false;
             this.pinDefs = defs;
           },
-          (err) => {
+          error: (err) => {
             console.error(err);
             this.loadingPinDefs = false;
-          }
-        );
+          },
+        });
       });
   }
 
@@ -163,7 +154,10 @@ export class ItemQueryComponent implements OnInit, AfterViewInit {
     this.focusQuery();
   }
 
-  public setQuery(query: string): void {
+  public setQuery(query: string | null): void {
+    if (!query) {
+      return;
+    }
     this.query.setValue(query);
     this.focusQuery();
   }
@@ -172,7 +166,7 @@ export class ItemQueryComponent implements OnInit, AfterViewInit {
     if (this.form.invalid) {
       return;
     }
-    this.querySubmit.emit(this.query.value);
+    this.querySubmit.emit(this.query.value!);
   }
 
   public pinTypeIdToString(id: number): string {

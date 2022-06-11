@@ -5,7 +5,7 @@ import { Part } from '@myrmidon/cadmus-core';
  */
 export interface NotePart extends Part {
   text: string;
-  tag: string;
+  tag?: string;
 }
 
 /**

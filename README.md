@@ -8,12 +8,15 @@ All the version numbers of this refactoring, having a number of breaking changes
 
 Quick Docker image build:
 
-1. `npm run build-all`
-2. `ng build`
-3. `docker build . -t vedph2020/cadmus-shell:2.0.3 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+1. `npm run build-lib`
+2. update version in `env.js` and then `ng build`
+3. `docker build . -t vedph2020/cadmus-shell:3.0.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
+### 3.0.0
+
+- 2022-06-11: upgraded to Angular 14; refactored all the forms (except those related to lookups) to typed.
 - 2022-05-31: updated API version in Docker scripts.
 
 - 2022-05-21:

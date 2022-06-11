@@ -42,7 +42,7 @@
           <hr />
           <mat-expansion-panel>
             <mat-expansion-panel-header>preview</mat-expansion-panel-header>
-            <markdown [data]="text?.value"></markdown>
+            <markdown [data]="text?.value || undefined"></markdown>
           </mat-expansion-panel>
         </mat-tab>
 

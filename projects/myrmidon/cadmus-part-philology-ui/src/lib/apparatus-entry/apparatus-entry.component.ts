@@ -73,14 +73,14 @@ export class ApparatusEntryComponent implements OnInit {
   @Output()
   public save: EventEmitter<ApparatusEntry>;
 
-  public type: FormControl;
-  public value: FormControl;
-  public normValue: FormControl;
-  public accepted: FormControl;
-  public subrange: FormControl;
-  public tag: FormControl;
-  public groupId: FormControl;
-  public note: FormControl;
+  public type: FormControl<number>;
+  public value: FormControl<string | null>;
+  public normValue: FormControl<string | null>;
+  public accepted: FormControl<boolean>;
+  public subrange: FormControl<string | null>;
+  public tag: FormControl<string | null>;
+  public groupId: FormControl<string | null>;
+  public note: FormControl<string | null>;
   public witnesses: FormArray;
   public authors: FormArray;
   public form: FormGroup;
@@ -93,11 +93,14 @@ export class ApparatusEntryComponent implements OnInit {
     this.editorClose = new EventEmitter<any>();
     this.save = new EventEmitter<ApparatusEntry>();
     // form
-    this.type = _formBuilder.control(0, Validators.required);
+    this.type = _formBuilder.control(0, {
+      validators: Validators.required,
+      nonNullable: true,
+    });
     // TODO: add conditional validation according to type
     this.value = _formBuilder.control(null, Validators.maxLength(300));
     this.normValue = _formBuilder.control(null, Validators.maxLength(300));
-    this.accepted = _formBuilder.control(false);
+    this.accepted = _formBuilder.control(false, { nonNullable: true });
     this.subrange = _formBuilder.control(
       null,
       Validators.pattern('^[0-9]+(?:-[0-9]+)?$')
@@ -129,13 +132,13 @@ export class ApparatusEntryComponent implements OnInit {
       return;
     }
     this.type.setValue(this._entry.type);
-    this.value.setValue(this._entry.value);
-    this.normValue.setValue(this._entry.normValue);
+    this.value.setValue(this._entry.value || null);
+    this.normValue.setValue(this._entry.normValue || null);
     this.accepted.setValue(this._entry.isAccepted === true);
-    this.subrange.setValue(this._entry.subrange);
-    this.tag.setValue(this._entry.tag);
-    this.groupId.setValue(this._entry.groupId);
-    this.note.setValue(this._entry.note);
+    this.subrange.setValue(this._entry.subrange || null);
+    this.tag.setValue(this._entry.tag || null);
+    this.groupId.setValue(this._entry.groupId || null);
+    this.note.setValue(this._entry.note || null);
 
     this.witnesses.clear();
     if (this._entry.witnesses) {

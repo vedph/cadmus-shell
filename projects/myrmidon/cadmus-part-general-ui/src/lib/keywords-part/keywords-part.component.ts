@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { deepCopy } from '@myrmidon/ng-tools';
 
 import { KeywordsPart, Keyword, KEYWORDS_PART_TYPEID } from '../keywords-part';
@@ -26,10 +26,10 @@ export class KeywordsPartComponent
   extends ModelEditorComponentBase<KeywordsPart>
   implements OnInit
 {
-  public keywords: FormControl;
+  public keywords: FormControl<Keyword[]>;
   // new keyword form
-  public newLanguage: FormControl;
-  public newValue: FormControl;
+  public newLanguage: FormControl<string | null>;
+  public newValue: FormControl<string | null>;
   public newForm: FormGroup;
   // thesaurus
   public langEntries?: ThesaurusEntry[];
@@ -37,7 +37,10 @@ export class KeywordsPartComponent
   constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.keywords = formBuilder.control([], Validators.required);
+    this.keywords = formBuilder.control([], {
+      validators: CadmusValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       keywords: this.keywords,
     });
@@ -90,9 +93,9 @@ export class KeywordsPartComponent
       return;
     }
 
-    const ck = Object.assign([], model.keywords);
-    ck.sort(this.compareKeywords);
-    this.keywords.setValue(ck);
+    const keywords = [...model.keywords];
+    keywords.sort(this.compareKeywords);
+    this.keywords.setValue(keywords);
     this.form!.markAsPristine();
   }
 
@@ -124,8 +127,8 @@ export class KeywordsPartComponent
       return;
     }
     const keyword: Keyword = {
-      language: this.newLanguage.value,
-      value: this.newValue.value,
+      language: this.newLanguage.value!,
+      value: this.newValue.value!,
     };
     let i = 0;
     while (i < this.keywords.value?.length || 0) {
@@ -134,9 +137,9 @@ export class KeywordsPartComponent
         return;
       }
       if (n <= 0) {
-        const ck = Object.assign([], this.keywords.value);
-        ck.splice(i, 0, keyword);
-        this.keywords.setValue(ck);
+        const keywords = [...this.keywords.value];
+        keywords.splice(i, 0, keyword);
+        this.keywords.setValue(keywords);
         this.keywords.updateValueAndValidity();
         this.keywords.markAsDirty();
         break;
@@ -144,18 +147,18 @@ export class KeywordsPartComponent
       i++;
     }
     if (i === this.keywords.value.length) {
-      const ck = Object.assign([], this.keywords.value);
-      ck.push(keyword);
-      this.keywords.setValue(ck);
+      const keywords = [...this.keywords.value];
+      keywords.push(keyword);
+      this.keywords.setValue(keywords);
       this.keywords.updateValueAndValidity();
       this.keywords.markAsDirty();
     }
   }
 
   public deleteKeyword(keyword: Keyword): void {
-    const ck = Object.assign([], this.keywords.value);
-    ck.splice(this.keywords.value.indexOf(keyword), 1);
-    this.keywords.setValue(ck);
+    const keywords = [...this.keywords.value];
+    keywords.splice(this.keywords.value.indexOf(keyword), 1);
+    this.keywords.setValue(keywords);
     this.keywords.updateValueAndValidity();
     this.keywords.markAsDirty();
   }

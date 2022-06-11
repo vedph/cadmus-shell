@@ -39,7 +39,7 @@ export class BibliographyPartComponent
   public langEntries: ThesaurusEntry[] | undefined;
   public roleEntries: ThesaurusEntry[] | undefined;
 
-  public entryCount: FormControl;
+  public entryCount: FormControl<number>;
 
   constructor(
     authService: AuthJwtService,
@@ -49,7 +49,10 @@ export class BibliographyPartComponent
     super(authService);
     this.currentTabIndex = 0;
     // form
-    this.entryCount = formBuilder.control(0, Validators.min(1));
+    this.entryCount = formBuilder.control(0, {
+      validators: Validators.min(1),
+      nonNullable: true,
+    });
 
     this.form = formBuilder.group({
       entryCount: this.entryCount,

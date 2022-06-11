@@ -65,11 +65,12 @@ export class HistoricalEventEditorComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   // event
-  public eid: FormControl;
-  public type: FormControl;
-  public description: FormControl;
-  public note: FormControl;
+  public eid: FormControl<string | null>;
+  public type: FormControl<string | null>;
+  public description: FormControl<string | null>;
+  public note: FormControl<string | null>;
   public form: FormGroup;
+
   public relatedEntities: RelatedEntity[];
   public initialChronotope?: AssertedChronotope;
   public chronotope?: AssertedChronotope;
@@ -78,8 +79,8 @@ export class HistoricalEventEditorComponent implements OnInit {
 
   // related entity
   public currentEntity?: RelatedEntity;
-  public relation: FormControl;
-  public id: FormControl;
+  public relation: FormControl<string | null>;
+  public id: FormControl<string | null>;
   public reForm: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
@@ -97,7 +98,7 @@ export class HistoricalEventEditorComponent implements OnInit {
       Validators.maxLength(500),
     ]);
     this.description = formBuilder.control(null, Validators.maxLength(1000));
-    this.note = formBuilder.control(Validators.maxLength(1000));
+    this.note = formBuilder.control(null, Validators.maxLength(1000));
     this.form = formBuilder.group({
       eid: this.eid,
       type: this.type,
@@ -133,8 +134,8 @@ export class HistoricalEventEditorComponent implements OnInit {
 
     this.eid.setValue(model.eid);
     this.type.setValue(model.type);
-    this.description.setValue(model.description);
-    this.note.setValue(model.note);
+    this.description.setValue(model.description || null);
+    this.note.setValue(model.note || null);
     this.initialChronotope = model.chronotope;
     this.initialAssertion = model.assertion;
     this.relatedEntities = model.relatedEntities || [];
@@ -143,8 +144,8 @@ export class HistoricalEventEditorComponent implements OnInit {
 
   private getModel(): HistoricalEvent | null {
     return {
-      eid: this.eid.value?.trim(),
-      type: this.type.value?.trim(),
+      eid: this.eid.value?.trim() || '',
+      type: this.type.value?.trim() || '',
       description: this.description.value?.trim() || undefined,
       note: this.note.value?.trim() || undefined,
       chronotope: this.chronotope,
@@ -186,8 +187,8 @@ export class HistoricalEventEditorComponent implements OnInit {
       return;
     }
     const entity: RelatedEntity = {
-      id: this.id.value.trim(),
-      relation: this.relation.value.trim(),
+      id: this.id.value!.trim(),
+      relation: this.relation.value!.trim(),
     };
     if (
       this.relatedEntities.find(

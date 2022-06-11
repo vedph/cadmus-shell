@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -83,13 +83,13 @@ export class LookupPinComponent implements OnInit {
   @Output()
   public entryChange: EventEmitter<DataPinInfo | null>;
 
-  public form: FormGroup;
-  public lookup: FormControl;
+  public form: UntypedFormGroup;
+  public lookup: UntypedFormControl;
   public entries$: Observable<DataPinInfo[]> | undefined;
   public entry: DataPinInfo | undefined;
 
   constructor(
-    formBuilder: FormBuilder,
+    formBuilder: UntypedFormBuilder,
     private _itemService: ItemService,
     @Inject('indexLookupDefinitions')
     private _lookupDefs: IndexLookupDefinitions

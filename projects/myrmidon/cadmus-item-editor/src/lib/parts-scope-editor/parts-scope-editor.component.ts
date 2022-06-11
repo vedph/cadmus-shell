@@ -47,7 +47,7 @@ export class PartsScopeEditorComponent implements OnInit {
   public setScopeRequest: EventEmitter<PartScopeSetRequest>;
 
   public checks: FormArray;
-  public scope: FormControl;
+  public scope: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(
@@ -132,7 +132,7 @@ export class PartsScopeEditorComponent implements OnInit {
       }
       this.setScopeRequest.emit({
         ids,
-        scope: this.scope.value,
+        scope: this.scope.value!,
       });
     });
   }

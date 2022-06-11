@@ -58,7 +58,7 @@ export class HistoricalEventsPartComponent
    */
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
-  public events: FormControl;
+  public events: FormControl<HistoricalEvent[]>;
 
   constructor(
     authService: AuthJwtService,
@@ -69,10 +69,10 @@ export class HistoricalEventsPartComponent
     this._editedIndex = -1;
     this.tabIndex = 0;
     // form
-    this.events = formBuilder.control(
-      [],
-      NgToolsValidators.strictMinLengthValidator(1)
-    );
+    this.events = formBuilder.control([], {
+      validators: NgToolsValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       events: this.events,
     });

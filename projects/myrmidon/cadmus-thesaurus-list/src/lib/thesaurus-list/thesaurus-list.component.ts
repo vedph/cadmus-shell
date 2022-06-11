@@ -26,7 +26,7 @@ export class ThesaurusListComponent implements OnInit {
   private _refresh$: BehaviorSubject<number>;
   public pagination$: Observable<PaginationResponse<Thesaurus>>;
   public filter$: BehaviorSubject<ThesaurusFilter>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
   public user?: User;
   public userLevel: number;
 
@@ -41,7 +41,7 @@ export class ThesaurusListComponent implements OnInit {
     private _userLevelService: UserLevelService,
     formBuilder: FormBuilder
   ) {
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this._refresh$ = new BehaviorSubject(0);
     this.userLevel = 0;
 

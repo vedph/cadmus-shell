@@ -50,14 +50,14 @@ export class MspOperationComponent implements OnInit {
   // form
   public form: FormGroup;
   public visual: FormGroup;
-  public text: FormControl;
-  public operator: FormControl;
-  public rangeA: FormControl;
-  public valueA: FormControl;
-  public rangeB: FormControl;
-  public valueB: FormControl;
-  public tag: FormControl;
-  public note: FormControl;
+  public text: FormControl<string | null>;
+  public operator: FormControl<MspOperator>;
+  public rangeA: FormControl<string | null>;
+  public valueA: FormControl<string | null>;
+  public rangeB: FormControl<string | null>;
+  public valueB: FormControl<string | null>;
+  public tag: FormControl<string | null>;
+  public note: FormControl<string | null>;
 
   constructor(formBuilder: FormBuilder) {
     // events
@@ -71,10 +71,10 @@ export class MspOperationComponent implements OnInit {
       MspValidators.msp,
     ]);
 
-    this.operator = formBuilder.control(
-      MspOperator.delete,
-      Validators.required
-    );
+    this.operator = formBuilder.control(MspOperator.delete, {
+      validators: Validators.required,
+      nonNullable: true,
+    });
 
     this.rangeA = formBuilder.control(null, [
       Validators.required,
@@ -270,12 +270,12 @@ export class MspOperationComponent implements OnInit {
   private getOperation(): MspOperation {
     const op = new MspOperation();
     op.operator = this.operator.value;
-    op.rangeA = TextRange.parse(this.rangeA.value)!;
-    op.valueA = this.valueA.value;
-    op.rangeB = TextRange.parse(this.rangeB.value)!;
-    op.valueB = this.valueB.value;
-    op.tag = this.tag.value;
-    op.note = this.note.value;
+    op.rangeA = TextRange.parse(this.rangeA.value || '')!;
+    op.valueA = this.valueA.value || undefined;
+    op.rangeB = TextRange.parse(this.rangeB.value || '')!;
+    op.valueB = this.valueB.value || undefined;
+    op.tag = this.tag.value || undefined;
+    op.note = this.note.value || undefined;
 
     return op;
   }

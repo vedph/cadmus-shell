@@ -30,7 +30,7 @@
         <cadmus-thesaurus-lookup
           *ngIf="alias?.value"
           style="display: inline-block"
-          [initialValue]="targetId?.value"
+          [initialValue]="targetId?.value || undefined"
           [lookupFn]="lookupFn"
           label="target ID"
           (entryChange)="onTargetIdChange($event)"

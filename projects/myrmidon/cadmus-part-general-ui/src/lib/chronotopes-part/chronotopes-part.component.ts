@@ -40,7 +40,7 @@ export class ChronotopesPartComponent
   // chronotope-reference-tags
   public refTagEntries: ThesaurusEntry[] | undefined;
 
-  public chronotopes: FormControl;
+  public chronotopes: FormControl<AssertedChronotope[]>;
 
   constructor(
     authService: AuthJwtService,
@@ -51,10 +51,10 @@ export class ChronotopesPartComponent
     this._editedIndex = -1;
     this.tabIndex = 0;
     // form
-    this.chronotopes = formBuilder.control(
-      [],
-      NgToolsValidators.strictMinLengthValidator(1)
-    );
+    this.chronotopes = formBuilder.control([], {
+      validators: NgToolsValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       entries: this.chronotopes,
     });
@@ -154,7 +154,7 @@ export class ChronotopesPartComponent
   public onChronotopeSave(): void {
     this.chronotopes.setValue(
       this.chronotopes.value.map((e: AssertedChronotope, i: number) =>
-        i === this._editedIndex ? this.editedChronotope : e
+        i === this._editedIndex ? this.editedChronotope! : e
       )
     );
     this.chronotopes.updateValueAndValidity();

@@ -34,7 +34,7 @@ export class ItemListComponent implements OnInit {
   public filter$: BehaviorSubject<ItemFilter>;
   public flagDefinitions$: Observable<FlagDefinition[]>;
   public facetDefinitions$: Observable<FacetDefinition[]>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
   public user?: User;
   public userLevel: number;
   private _refresh$: BehaviorSubject<number>;
@@ -51,7 +51,7 @@ export class ItemListComponent implements OnInit {
     formBuilder: FormBuilder
   ) {
     this.userLevel = 0;
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this._refresh$ = new BehaviorSubject(0);
 
     this.flagDefinitions$ = this._appQuery.selectFlags();

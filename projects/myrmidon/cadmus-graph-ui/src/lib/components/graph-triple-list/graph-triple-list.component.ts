@@ -34,7 +34,7 @@ export class GraphTripleListComponent implements OnInit {
   public error$: Observable<ErrorInfo>;
   public pagination$: Observable<PaginationResponse<TripleResult>>;
   public tripleCount$: Observable<number>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
 
   public editedTriple?: TripleResult;
 
@@ -54,7 +54,7 @@ export class GraphTripleListComponent implements OnInit {
     graphNodesQuery: GraphTriplesQuery,
     formBuilder: FormBuilder
   ) {
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this._refresh$ = new BehaviorSubject(0);
     this._filter$ = graphNodesQuery.selectFilter();
     this.loading$ = graphNodesQuery.selectLoading();

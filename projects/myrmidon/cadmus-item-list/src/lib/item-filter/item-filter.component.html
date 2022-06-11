@@ -68,7 +68,7 @@
       <mat-form-field>
         <mat-select placeholder="user" formControlName="user">
           <mat-option [value]="null">(any)</mat-option>
-          <mat-option *ngFor="let u of lookup.users">
+          <mat-option *ngFor="let u of lookup.users" [value]="u.id">
             {{ u.id }}
           </mat-option>
         </mat-select>

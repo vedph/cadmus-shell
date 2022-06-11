@@ -27,11 +27,11 @@ export class GraphTripleFilterComponent implements OnInit {
   public subject$: Observable<NodeResult | undefined>;
   public predicate$: Observable<NodeResult | undefined>;
   public object$: Observable<NodeResult | undefined>;
-  public literal: FormControl;
-  public objectLit: FormControl;
-  public sid: FormControl;
-  public sidPrefix: FormControl;
-  public tag: FormControl;
+  public literal: FormControl<boolean>;
+  public objectLit: FormControl<string | null>;
+  public sid: FormControl<string | null>;
+  public sidPrefix: FormControl<boolean>;
+  public tag: FormControl<string | null>;
   public form: FormGroup;
 
   @Input()
@@ -47,10 +47,10 @@ export class GraphTripleFilterComponent implements OnInit {
     this.predicate$ = _triplesQuery.selectTerm('P');
     this.object$ = _triplesQuery.selectTerm('O');
     // form
-    this.literal = formBuilder.control(false);
+    this.literal = formBuilder.control(false, { nonNullable: true });
     this.objectLit = formBuilder.control(null, Validators.maxLength(100));
     this.sid = formBuilder.control(null);
-    this.sidPrefix = formBuilder.control(false);
+    this.sidPrefix = formBuilder.control(false, { nonNullable: true });
     this.tag = formBuilder.control(null);
     this.form = formBuilder.group({
       literal: this.literal,
@@ -72,9 +72,9 @@ export class GraphTripleFilterComponent implements OnInit {
     this._triplesService.setTermId(filter.predicateId, 'P');
     this._triplesService.setTermId(filter.objectId, 'O');
     this.literal.setValue(filter.objectLiteral ? true : false);
-    this.objectLit.setValue(filter.objectLiteral);
-    this.sid.setValue(filter.sid);
-    this.tag.setValue(filter.tag);
+    this.objectLit.setValue(filter.objectLiteral || null);
+    this.sid.setValue(filter.sid || null);
+    this.tag.setValue(filter.tag || null);
     this.form.markAsPristine();
   }
 

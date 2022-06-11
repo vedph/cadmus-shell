@@ -33,7 +33,7 @@ export class ItemSearchComponent implements OnInit {
   public query$: Observable<string | undefined>;
   public flagDefinitions$: Observable<FlagDefinition[]>;
   public facetDefinitions$: Observable<FacetDefinition[]>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
   public user?: User;
   public userLevel: number;
   public error?: string;
@@ -53,7 +53,7 @@ export class ItemSearchComponent implements OnInit {
     formBuilder: FormBuilder
   ) {
     this.userLevel = 0;
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this.lastQueries = [];
 
     this.flagDefinitions$ = this._appQuery.selectFlags();

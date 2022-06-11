@@ -1,5 +1,5 @@
 import { Input, Output, EventEmitter, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { AuthJwtService, User } from '@myrmidon/auth-jwt-login';
 
 import { ThesauriSet } from '@myrmidon/cadmus-core';
@@ -100,7 +100,7 @@ export abstract class ModelEditorComponentBase<T> {
    * The root form of the editor.
    * You MUST instantiate this form in the ctor.
    */
-  public form?: FormGroup;
+  public form?: FormGroup | UntypedFormGroup;
 
   /**
    * The current user.

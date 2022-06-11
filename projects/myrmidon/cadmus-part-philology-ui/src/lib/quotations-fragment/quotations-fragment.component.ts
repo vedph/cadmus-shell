@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { deepCopy } from '@myrmidon/ng-tools';
 import { DialogService } from '@myrmidon/ng-mat-tools';
 
@@ -32,8 +32,7 @@ export class QuotationsFragmentComponent
   public tagEntries: ThesaurusEntry[] | undefined;
   public workDictionary?: Record<string, ThesaurusEntry[]>;
 
-  public entryCount: FormControl;
-  public entries: QuotationEntry[];
+  public entries: FormControl<QuotationEntry[]>;
 
   constructor(
     authService: AuthJwtService,
@@ -42,13 +41,15 @@ export class QuotationsFragmentComponent
     private _worksService: QuotationWorksService
   ) {
     super(authService);
-    this.entries = [];
     this.currentTabIndex = 0;
     // form
-    this.entryCount = formBuilder.control(0, Validators.min(1));
+    this.entries = formBuilder.control([], {
+      validators: CadmusValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
 
     this.form = formBuilder.group({
-      entryCount: this.entryCount,
+      entries: this.entries,
     });
   }
 
@@ -81,7 +82,7 @@ export class QuotationsFragmentComponent
       this.form!.reset();
       return;
     }
-    this.entryCount.setValue(model.entries?.length || 0);
+    this.entries.setValue(model.entries);
     this.form!.markAsPristine();
   }
 
@@ -92,7 +93,7 @@ export class QuotationsFragmentComponent
   protected getModelFromForm(): QuotationsFragment {
     return {
       location: this.model?.location ?? '',
-      entries: this.entries,
+      entries: this.entries.value,
     };
   }
 
@@ -106,10 +107,9 @@ export class QuotationsFragmentComponent
       work: '',
       citation: '',
     };
-    this.entries.push(entry);
-    this.entryCount.setValue(this.entries.length);
-    this.entryCount.updateValueAndValidity();
-    this.entryCount.markAsDirty();
+    this.entries.setValue([...this.entries.value, entry]);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
     this._newEditedEntry = true;
     this.editEntry(entry);
   }
@@ -124,11 +124,14 @@ export class QuotationsFragmentComponent
       return;
     }
     this._newEditedEntry = false;
-    const i = this.entries.indexOf(this.editedEntry);
-    this.entries.splice(i, 1, entry);
+    const i = this.entries.value.indexOf(this.editedEntry);
+    const entries = [...this.entries.value];
+    entries.splice(i, 1, entry);
+    this.entries.setValue(entries);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
     this.currentTabIndex = 0;
     this.editedEntry = undefined;
-    this.form!.markAsDirty();
   }
 
   public onEntryClose(entry: QuotationEntry): void {
@@ -136,11 +139,10 @@ export class QuotationsFragmentComponent
       return;
     }
     if (this._newEditedEntry) {
-      const index = this.entries.indexOf(this.editedEntry);
-      this.entries.splice(index, 1);
-      this.entryCount.setValue(this.entries.length);
-      this.entryCount.updateValueAndValidity();
-      this.entryCount.markAsDirty();
+      const index = this.entries.value.indexOf(this.editedEntry);
+      this.entries.setValue([...this.entries.value].splice(index, 1));
+      this.entries.updateValueAndValidity();
+      this.entries.markAsDirty();
     }
     this.currentTabIndex = 0;
     this.editedEntry = undefined;
@@ -153,11 +155,9 @@ export class QuotationsFragmentComponent
         if (!result) {
           return;
         }
-        this.entries.splice(index, 1);
-        this.entryCount.setValue(this.entries.length);
-        this.entryCount.updateValueAndValidity();
-        this.entryCount.markAsDirty();
-        this.form!.markAsDirty();
+        this.entries.setValue([...this.entries.value].splice(index, 1));
+        this.entries.updateValueAndValidity();
+        this.entries.markAsDirty();
       });
   }
 
@@ -165,19 +165,25 @@ export class QuotationsFragmentComponent
     if (index < 1) {
       return;
     }
-    const entry = this.entries[index];
-    this.entries.splice(index, 1);
-    this.entries.splice(index - 1, 0, entry);
-    this.form!.markAsDirty();
+    const entry = this.entries.value[index];
+    const entries = [...this.entries.value];
+    entries.splice(index, 1);
+    entries.splice(index - 1, 0, entry);
+    this.entries.setValue(entries);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
   }
 
   public moveEntryDown(index: number): void {
-    if (index + 1 >= this.entries.length) {
+    if (index + 1 >= this.entries.value.length) {
       return;
     }
-    const item = this.entries[index];
-    this.entries.splice(index, 1);
-    this.entries.splice(index + 1, 0, item);
-    this.form!.markAsDirty();
+    const entry = this.entries.value[index];
+    const entries = [...this.entries.value];
+    entries.splice(index, 1);
+    entries.splice(index + 1, 0, entry);
+    this.entries.setValue(entries);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
   }
 }

@@ -156,7 +156,7 @@
               >please enter some text</mat-error
             >
             <hr />
-            <markdown *ngIf="text?.value" [data]="text?.value"></markdown>
+            <markdown *ngIf="text?.value" [data]="text?.value || undefined"></markdown>
           </div>
           <!-- note -->
           <div>
@@ -166,7 +166,7 @@
               formControlName="note"
             ></ngx-monaco-editor>
             <hr />
-            <markdown *ngIf="note?.value" [data]="note?.value"></markdown>
+            <markdown *ngIf="note?.value" [data]="note?.value || undefined"></markdown>
           </div>
           <button
             type="button"

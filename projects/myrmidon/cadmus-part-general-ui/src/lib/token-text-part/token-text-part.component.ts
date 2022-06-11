@@ -26,10 +26,10 @@ export class TokenTextPartComponent
   extends ModelEditorComponentBase<TokenTextPart>
   implements OnInit
 {
-  public citation: FormControl;
-  public text: FormControl;
+  public citation: FormControl<string|null>;
+  public text: FormControl<string|null>;
 
-  public transform: FormControl;
+  public transform: FormControl<string|null>;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -65,7 +65,10 @@ export class TokenTextPartComponent
     return model.lines.map((l) => l.text).join('\n');
   }
 
-  private getLinesFromText(text: string): TokenTextLine[] {
+  private getLinesFromText(text?: string | null): TokenTextLine[] {
+    if (!text) {
+      return [];
+    }
     // ensure that we just have LF rather than CRLF
     text = text.replace('\r\n', '\n');
 
@@ -87,7 +90,7 @@ export class TokenTextPartComponent
       this.form!.reset();
       return;
     }
-    this.citation.setValue(model.citation);
+    this.citation.setValue(model.citation || null);
     this.text.setValue(this.getTextFromModel(model));
     this.form!.markAsPristine();
   }
@@ -111,7 +114,7 @@ export class TokenTextPartComponent
         userId: '',
       };
     }
-    part.citation = this.citation.value ? this.citation.value.trim() : null;
+    part.citation = this.citation.value ? this.citation.value.trim() : undefined;
     part.lines = this.getLinesFromText(this.text.value);
     return part;
   }

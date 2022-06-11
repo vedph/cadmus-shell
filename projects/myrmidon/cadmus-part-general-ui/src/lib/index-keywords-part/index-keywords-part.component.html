@@ -4,14 +4,16 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title [matBadge]="keywords?.length" matBadgeOverlap="false"
+      <mat-card-title
+        [matBadge]="keywords.value?.length"
+        matBadgeOverlap="false"
         >Index Keywords Part</mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group [(selectedIndex)]="tabIndex">
         <mat-tab label="List">
-          <table *ngIf="keywords?.length">
+          <table *ngIf="keywords.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -21,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let k of keywords">
+              <tr *ngFor="let k of keywords.value">
                 <td>
                   <button
                     mat-icon-button

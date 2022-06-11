@@ -62,15 +62,15 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   public typeThesaurus$: Observable<Thesaurus | undefined>;
 
   // new part form
-  public newPartType: FormControl;
+  public newPartType: FormControl<PartDefinition | null>;
   public newPart: FormGroup;
   // item metadata form
-  public title: FormControl;
-  public sortKey: FormControl;
-  public description: FormControl;
-  public facet: FormControl;
-  public group: FormControl;
-  public flags: FormControl;
+  public title: FormControl<string | null>;
+  public sortKey: FormControl<string | null>;
+  public description: FormControl<string | null>;
+  public facet: FormControl<string | null>;
+  public group: FormControl<string | null>;
+  public flags: FormControl<number>;
   public flagChecks: FormArray;
   public metadata: FormGroup;
 
@@ -114,7 +114,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     ]);
     this.facet = _formBuilder.control(null, Validators.required);
     this.group = _formBuilder.control(null, Validators.maxLength(100));
-    this.flags = _formBuilder.control(0);
+    this.flags = _formBuilder.control(0, { nonNullable: true });
     this.flagChecks = _formBuilder.array([]);
 
     this.metadata = _formBuilder.group({
@@ -310,10 +310,6 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     return this.getTypeIdName(roleId);
   }
 
-  private tryTrim(value: string): string {
-    return value ? value.trim() : value;
-  }
-
   public save(): void {
     if (!this.metadata.valid) {
       return;
@@ -322,11 +318,11 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     if (!item) {
       return;
     }
-    item.title = this.tryTrim(this.title.value);
-    item.sortKey = this.sortKey.value;
-    item.description = this.tryTrim(this.description.value);
-    item.facetId = this.tryTrim(this.facet.value);
-    item.groupId = this.tryTrim(this.group.value);
+    item.title = this.title.value?.trim();
+    item.sortKey = this.sortKey.value?.trim();
+    item.description = this.description.value?.trim();
+    item.facetId = this.facet.value?.trim() || undefined;
+    item.groupId = this.group.value?.trim() || undefined;
     item.flags = this.flags.value;
     // save and reload as edited if was new
     this._editItemService.save(item as Item).then((saved) => {
@@ -361,8 +357,8 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
       });
       return;
     }
-    const typeId = def ? def.typeId : this.newPartType.value.typeId;
-    const roleId = def ? def.roleId : this.newPartType.value.roleId;
+    const typeId = def ? def.typeId : this.newPartType.value!.typeId;
+    const roleId = def ? def.roleId : this.newPartType.value!.roleId;
 
     if (this.partExists(typeId, roleId)) {
       return;

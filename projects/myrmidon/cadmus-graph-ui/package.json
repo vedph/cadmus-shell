@@ -1,6 +1,6 @@
 {
   "name": "@myrmidon/cadmus-graph-ui",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Cadmus - semantic graph components.",
   "keywords": [
     "Cadmus"
@@ -14,9 +14,9 @@
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0",
-    "@angular/material": "^13.1.1"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/material": "^14.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

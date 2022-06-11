@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { deepCopy } from '@myrmidon/ng-tools';
 
 import {
@@ -25,23 +25,24 @@ export class IndexKeywordsPartComponent
   extends ModelEditorComponentBase<IndexKeywordsPart>
   implements OnInit
 {
-  public keywords: IndexKeyword[];
   public editedKeyword?: IndexKeyword;
   public tabIndex: number;
   // thesaurus
   public idxEntries: ThesaurusEntry[] | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
   public tagEntries: ThesaurusEntry[] | undefined;
-  // form
-  public keywordCount: FormControl;
+
+  public keywords: FormControl<IndexKeyword[]>;
 
   constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.keywords = [];
-    this.keywordCount = formBuilder.control(0, Validators.min(1));
+    this.keywords = formBuilder.control([], {
+      validators: CadmusValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
-      keywordCount: this.keywordCount,
+      keywords: this.keywords,
     });
     this.tabIndex = 0;
   }
@@ -109,9 +110,9 @@ export class IndexKeywordsPartComponent
       return;
     }
 
-    const ck = Object.assign([], model.keywords);
-    ck.sort(this.compareKeywords);
-    this.keywords = ck;
+    const keywords: IndexKeyword[] = Object.assign([], model.keywords);
+    keywords.sort(this.compareKeywords);
+    this.keywords.setValue(keywords);
     this.form!.markAsPristine();
   }
 
@@ -134,35 +135,34 @@ export class IndexKeywordsPartComponent
         keywords: [],
       };
     }
-    part.keywords = [...this.keywords];
+    part.keywords = [...this.keywords.value];
     return part;
   }
 
   private addKeyword(keyword: IndexKeyword): boolean {
     let i = 0;
-    while (i < this.keywords.length) {
-      const n = this.compareKeywords(keyword, this.keywords[i]);
+    while (i < this.keywords.value.length) {
+      const n = this.compareKeywords(keyword, this.keywords.value[i]);
       if (n === 0) {
         return false;
       }
       if (n <= 0) {
-        const ck = Object.assign([], this.keywords);
-        ck.splice(i, 0, keyword);
-        this.form!.markAsDirty();
-        this.keywords = ck;
+        const keywords: IndexKeyword[] = Object.assign([], this.keywords.value);
+        keywords.splice(i, 0, keyword);
+        this.keywords.setValue(keywords);
         break;
       }
       i++;
     }
-    if (i === this.keywords.length) {
-      const ck = Object.assign([], this.keywords);
-      ck.push(keyword);
-      this.form!.markAsDirty();
-      this.keywords = ck;
+    if (i === this.keywords.value.length) {
+      const keywords: IndexKeyword[] = Object.assign([], this.keywords.value);
+      keywords.push(keyword);
+      this.keywords.setValue(keywords);
     }
-    this.keywordCount.setValue(this.keywords.length);
-    this.keywordCount.updateValueAndValidity();
-    this.keywordCount.markAsDirty();
+
+    this.keywords.markAsDirty();
+    this.keywords.updateValueAndValidity();
+
     return true;
   }
 
@@ -176,13 +176,11 @@ export class IndexKeywordsPartComponent
   }
 
   public deleteKeyword(keyword: IndexKeyword): void {
-    const ck = Object.assign([], this.keywords);
-    ck.splice(this.keywords.indexOf(keyword), 1);
-    this.form!.markAsDirty();
-    this.keywords = ck;
-    this.keywordCount.setValue(this.keywords.length);
-    this.keywordCount.updateValueAndValidity();
-    this.keywordCount.markAsDirty();
+    const keywords: IndexKeyword[] = [...this.keywords.value];
+    keywords.splice(keywords.indexOf(keyword), 1);
+    this.keywords.setValue(keywords);
+    this.keywords.updateValueAndValidity();
+    this.keywords.markAsDirty();
   }
 
   public editKeyword(keyword: IndexKeyword): void {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ThesaurusFilter } from '@myrmidon/cadmus-core';
 import { Observable, of } from 'rxjs';
 import {
@@ -65,12 +65,12 @@ export class ThesaurusLookupComponent implements OnInit {
   @Output()
   public entryChange: EventEmitter<string | null>;
 
-  public form: FormGroup;
-  public lookup: FormControl;
+  public form: UntypedFormGroup;
+  public lookup: UntypedFormControl;
   public ids$: Observable<string[]> | undefined;
   public id: string | undefined;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.label = 'thesaurus';
     // events
     this.entryChange = new EventEmitter<string | null>();

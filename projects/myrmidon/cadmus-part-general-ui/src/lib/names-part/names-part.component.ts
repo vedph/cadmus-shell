@@ -50,7 +50,7 @@ export class NamesPartComponent
   // assertion-ref-tags
   public refTagEntries: ThesaurusEntry[] | undefined;
 
-  public names: FormControl;
+  public names: FormControl<AssertedProperName[]>;
 
   constructor(
     authService: AuthJwtService,
@@ -60,10 +60,10 @@ export class NamesPartComponent
     super(authService);
     this.editedIndex = -1;
     // form
-    this.names = formBuilder.control(
-      [],
-      NgToolsValidators.strictMinLengthValidator(1)
-    );
+    this.names = formBuilder.control([], {
+      validators: NgToolsValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       names: this.names,
     });

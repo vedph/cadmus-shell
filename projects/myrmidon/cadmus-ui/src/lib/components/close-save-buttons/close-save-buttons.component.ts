@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cadmus-close-save-buttons',
@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class CloseSaveButtonsComponent {
   @Input()
-  public form?: FormGroup;
+  public form?: FormGroup | UntypedFormGroup;
   @Input()
   public noSave?: boolean;
 

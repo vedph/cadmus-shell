@@ -28,8 +28,8 @@ export class ThesaurusNodeComponent {
   private _node: ThesaurusNode | undefined;
   public editing: boolean;
 
-  public id: FormControl;
-  public value: FormControl;
+  public id: FormControl<string | null>;
+  public value: FormControl<string | null>;
   public form: FormGroup;
 
   public indent: string;
@@ -95,8 +95,8 @@ export class ThesaurusNodeComponent {
   private getNode(): ThesaurusNode {
     return {
       ...this._node,
-      id: this.id.value.trim(),
-      value: this.value.value.trim(),
+      id: this.id.value?.trim() || '',
+      value: this.value.value?.trim() || '',
       level: this._node?.level || 0,
       ordinal: this._node?.ordinal || 0,
     };

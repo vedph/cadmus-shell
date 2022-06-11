@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -46,12 +46,12 @@ export class GraphNodeLookupComponent {
   @Output()
   public nodeChange: EventEmitter<NodeResult | null>;
 
-  public form: FormGroup;
-  public lookup: FormControl;
+  public form: UntypedFormGroup;
+  public lookup: UntypedFormControl;
   public nodes$: Observable<NodeResult[]>;
   public node?: NodeResult;
 
-  constructor(formBuilder: FormBuilder, private _apiService: GraphService) {
+  constructor(formBuilder: UntypedFormBuilder, private _apiService: GraphService) {
     // events
     this.nodeChange = new EventEmitter<NodeResult | null>();
     // form

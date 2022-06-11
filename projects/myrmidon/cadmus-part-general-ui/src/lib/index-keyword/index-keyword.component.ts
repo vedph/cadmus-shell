@@ -40,11 +40,11 @@ export class IndexKeywordComponent implements OnInit {
   @Output()
   public save: EventEmitter<IndexKeyword>;
 
-  public indexId: FormControl;
-  public language: FormControl;
-  public value: FormControl;
-  public note: FormControl;
-  public tag: FormControl;
+  public indexId: FormControl<string | null>;
+  public language: FormControl<string | null>;
+  public value: FormControl<string | null>;
+  public note: FormControl<string | null>;
+  public tag: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
@@ -81,19 +81,19 @@ export class IndexKeywordComponent implements OnInit {
       this.form.reset();
       return;
     }
-    this.indexId.setValue(this._keyword.indexId);
+    this.indexId.setValue(this._keyword.indexId || null);
     this.language.setValue(this._keyword.language);
     this.value.setValue(this._keyword.value);
-    this.note.setValue(this._keyword.note);
-    this.tag.setValue(this._keyword.tag);
+    this.note.setValue(this._keyword.note || null);
+    this.tag.setValue(this._keyword.tag || null);
     this.form.markAsPristine();
   }
 
   private getKeyword(): IndexKeyword {
     return {
       indexId: this.indexId.value?.trim(),
-      language: this.language.value?.trim(),
-      value: this.value.value?.trim(),
+      language: this.language.value?.trim() || '',
+      value: this.value.value?.trim() || '',
       note: this.note.value?.trim(),
       tag: this.tag.value?.trim(),
     };

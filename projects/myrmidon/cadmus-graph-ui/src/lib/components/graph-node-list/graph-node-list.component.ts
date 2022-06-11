@@ -3,6 +3,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
 
@@ -14,12 +15,11 @@ import {
 } from '@myrmidon/cadmus-api';
 import { DataPage, ErrorInfo } from '@myrmidon/ng-tools';
 import { DialogService } from '@myrmidon/ng-mat-tools';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { GRAPH_NODES_PAGINATOR } from '../../state/graph-nodes.paginator';
 import { GraphNodesQuery } from '../../state/graph-nodes.query';
 import { GraphNodesState } from '../../state/graph-nodes.store';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 /**
  * List of graph nodes. This includes a graph node filter, a list, and a graph
@@ -38,7 +38,7 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
   public error$: Observable<ErrorInfo>;
   public pagination$: Observable<PaginationResponse<NodeResult>>;
   public nodeCount$: Observable<number>;
-  public pageSize: FormControl;
+  public pageSize: FormControl<number>;
 
   public editedNode?: NodeResult;
 
@@ -57,7 +57,7 @@ export class GraphNodeListComponent implements OnInit, OnDestroy {
     graphNodesQuery: GraphNodesQuery,
     formBuilder: FormBuilder
   ) {
-    this.pageSize = formBuilder.control(20);
+    this.pageSize = formBuilder.control(20, { nonNullable: true });
     this._refresh$ = new BehaviorSubject(0);
     this._filter$ = graphNodesQuery.selectFilter();
     this.loading$ = graphNodesQuery.selectLoading();

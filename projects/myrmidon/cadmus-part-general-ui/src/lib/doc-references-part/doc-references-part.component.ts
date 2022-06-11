@@ -4,7 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { deepCopy } from '@myrmidon/ng-tools';
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 
 import {
@@ -25,7 +25,7 @@ export class DocReferencesPartComponent
   extends ModelEditorComponentBase<DocReferencesPart>
   implements OnInit
 {
-  public references: FormControl;
+  public references: FormControl<DocReference[]>;
   public initialRefs: DocReference[];
 
   public typeEntries: ThesaurusEntry[] | undefined;
@@ -35,7 +35,10 @@ export class DocReferencesPartComponent
     super(authService);
     this.initialRefs = [];
     // form
-    this.references = formBuilder.control([], Validators.required);
+    this.references = formBuilder.control([], {
+      validators: CadmusValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       references: this.references,
     });

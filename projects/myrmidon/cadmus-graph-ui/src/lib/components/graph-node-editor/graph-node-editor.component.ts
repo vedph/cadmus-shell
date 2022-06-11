@@ -51,10 +51,10 @@ export class GraphNodeEditorComponent implements OnInit {
 
   public isNew: boolean;
 
-  public uri: FormControl;
-  public label: FormControl;
-  public isClass: FormControl;
-  public tag: FormControl;
+  public uri: FormControl<string | null>;
+  public label: FormControl<string | null>;
+  public isClass: FormControl<boolean>;
+  public tag: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
@@ -70,7 +70,7 @@ export class GraphNodeEditorComponent implements OnInit {
       Validators.required,
       Validators.maxLength(500),
     ]);
-    this.isClass = formBuilder.control(false);
+    this.isClass = formBuilder.control(false, { nonNullable: true });
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.form = formBuilder.group({
       uri: this.uri,
@@ -91,7 +91,7 @@ export class GraphNodeEditorComponent implements OnInit {
     this.uri.setValue(node.uri);
     this.label.setValue(node.label);
     this.isClass.setValue(node.isClass ? true : false);
-    this.tag.setValue(node.tag);
+    this.tag.setValue(node.tag || null);
     this.isNew = node.id ? false : true;
     this.form.markAsPristine();
   }
@@ -100,8 +100,8 @@ export class GraphNodeEditorComponent implements OnInit {
     return {
       id: this._node?.id || 0,
       sourceType: this._node?.sourceType || NodeSourceType.User,
-      uri: this.uri.value?.trim(),
-      label: this.label.value?.trim(),
+      uri: this.uri.value?.trim() || '',
+      label: this.label.value?.trim() || '',
       isClass: this.isClass.value,
       tag: this.tag.value?.trim(),
     };

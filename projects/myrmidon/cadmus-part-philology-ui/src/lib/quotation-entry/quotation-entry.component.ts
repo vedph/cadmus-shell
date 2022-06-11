@@ -46,7 +46,7 @@ export class QuotationEntryComponent implements OnInit {
     this._workDct = value;
     this.authors$.next(this._worksService.collectAuthors(value) || []);
     setTimeout(() => {
-      this.loadAuthorWorks(this.author.value);
+      this.loadAuthorWorks(this.author.value!);
     }, 700);
   }
 
@@ -58,13 +58,13 @@ export class QuotationEntryComponent implements OnInit {
   @Output()
   public entryChange: EventEmitter<QuotationEntry>;
 
-  public author: FormControl;
-  public work: FormControl;
-  public citation: FormControl;
-  public citationUri: FormControl;
-  public variant: FormControl;
-  public tag: FormControl;
-  public note: FormControl;
+  public author: FormControl<string | null>;
+  public work: FormControl<string | null>;
+  public citation: FormControl<string | null>;
+  public citationUri: FormControl<string | null>;
+  public variant: FormControl<string | null>;
+  public tag: FormControl<string | null>;
+  public note: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(
@@ -141,19 +141,19 @@ export class QuotationEntryComponent implements OnInit {
     this.work.setValue(entry.work);
     this.author.setValue(entry.author);
     this.citation.setValue(entry.citation);
-    this.citationUri.setValue(entry.citationUri);
-    this.variant.setValue(entry.variant);
-    this.tag.setValue(entry.tag);
-    this.note.setValue(entry.note);
+    this.citationUri.setValue(entry.citationUri || null);
+    this.variant.setValue(entry.variant || null);
+    this.tag.setValue(entry.tag || null);
+    this.note.setValue(entry.note || null);
 
     this.form.markAsPristine();
   }
 
   private getEntry(): QuotationEntry {
     return {
-      author: this.author.value?.trim(),
-      work: this.work.value?.trim(),
-      citation: this.citation.value?.trim(),
+      author: this.author.value?.trim() || '',
+      work: this.work.value?.trim() || '',
+      citation: this.citation.value?.trim() || '',
       citationUri: this.citationUri.value?.trim(),
       variant: this.variant.value?.trim(),
       tag: this.tag.value?.trim(),

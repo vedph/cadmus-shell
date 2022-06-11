@@ -30,8 +30,8 @@ export class ApparatusFragmentComponent
   public editedEntry?: ApparatusEntry;
   public currentTabIndex: number;
 
-  public tag: FormControl;
-  public entryCount: FormControl;
+  public tag: FormControl<string | null>;
+  public entryCount: FormControl<number>;
 
   public tagEntries?: ThesaurusEntry[];
   public witEntries?: ThesaurusEntry[];
@@ -57,7 +57,10 @@ export class ApparatusFragmentComponent
     this.entries = [];
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.entryCount = formBuilder.control(0, Validators.min(1));
+    this.entryCount = formBuilder.control(0, {
+      validators: Validators.min(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       tag: this.tag,
       entryCount: this.entryCount,
@@ -112,7 +115,7 @@ export class ApparatusFragmentComponent
       this.form?.reset();
       return;
     }
-    this.tag.setValue(model.tag);
+    this.tag.setValue(model.tag || null);
     this.entries = model.entries || [];
     this.entryCount.setValue(model.entries?.length || 0);
     this.form?.markAsPristine();

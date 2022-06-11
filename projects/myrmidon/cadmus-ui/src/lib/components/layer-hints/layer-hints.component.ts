@@ -48,7 +48,6 @@ export class LayerHintsComponent implements OnInit {
 
   public form: FormGroup;
   public checks: FormArray;
-  public patchCheck: FormControl;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -61,10 +60,8 @@ export class LayerHintsComponent implements OnInit {
     this._hints = [];
 
     this.checks = _formBuilder.array([]);
-    this.patchCheck = _formBuilder.control(0, Validators.min(1));
     this.form = _formBuilder.group({
       checks: this.checks,
-      patchCheck: this.patchCheck,
     });
   }
 

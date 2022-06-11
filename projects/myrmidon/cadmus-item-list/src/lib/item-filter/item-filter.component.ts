@@ -20,14 +20,14 @@ export class ItemFilterComponent implements OnInit {
   @Input()
   public filter$?: BehaviorSubject<ItemFilter>;
 
-  public title: FormControl;
-  public description: FormControl;
-  public facet: FormControl;
-  public group: FormControl;
-  public flags: FormControl;
-  public minModified: FormControl;
-  public maxModified: FormControl;
-  public user: FormControl;
+  public title: FormControl<string | null>;
+  public description: FormControl<string | null>;
+  public facet: FormControl<string | null>;
+  public group: FormControl<string | null>;
+  public flags: FormControl<number[] | null>;
+  public minModified: FormControl<Date | null>;
+  public maxModified: FormControl<Date | null>;
+  public user: FormControl<string | null>;
   public form: FormGroup;
 
   public lookup$: Observable<ItemsLookupState>;
@@ -70,14 +70,40 @@ export class ItemFilterComponent implements OnInit {
     this._itemsLookupService.load();
   }
 
+  private flagsToArray(flags: number | undefined): number[] {
+    if (!flags) {
+      return [];
+    }
+    const a = [];
+    let n = 1;
+    for (let i = 0; i < 32; i++) {
+      if ((flags & n) === n) {
+        a.push(n);
+      }
+      n <<= 1;
+    }
+    return a;
+  }
+
+  private arrayToFlags(ids?: number[] | null): number | undefined {
+    if (!ids) {
+      return undefined;
+    }
+    let flags = 0;
+    for (let i = 0; i < ids.length; i++) {
+      flags |= ids[i];
+    }
+    return flags;
+  }
+
   private updateForm(filter: ItemFilter) {
-    this.title.setValue(filter.title);
-    this.description.setValue(filter.description);
-    this.facet.setValue(filter.facetId);
-    this.group.setValue(filter.groupId);
-    this.flags.setValue(filter.flags);
-    this.minModified.setValue(filter.minModified);
-    this.maxModified.setValue(filter.maxModified);
+    this.title.setValue(filter.title || null);
+    this.description.setValue(filter.description || null);
+    this.facet.setValue(filter.facetId || null);
+    this.group.setValue(filter.groupId || null);
+    this.flags.setValue(this.flagsToArray(filter.flags));
+    this.minModified.setValue(filter.minModified || null);
+    this.maxModified.setValue(filter.maxModified || null);
     this.form.markAsPristine();
   }
 
@@ -85,14 +111,14 @@ export class ItemFilterComponent implements OnInit {
     return {
       pageNumber: 0,
       pageSize: 0,
-      title: this.title.value,
-      description: this.description.value,
-      facetId: this.facet.value,
-      groupId: this.group.value,
-      flags: 0, // this.getFlagsValue(),
-      userId: this.user.value ? this.user.value.userName : null,
-      minModified: this.minModified.value ? this.minModified.value : null,
-      maxModified: this.maxModified.value ? this.maxModified.value : null,
+      title: this.title.value || undefined,
+      description: this.description.value || undefined,
+      facetId: this.facet.value || undefined,
+      groupId: this.group.value || undefined,
+      flags: this.arrayToFlags(this.flags.value),
+      userId: this.user.value ? this.user.value : undefined,
+      minModified: this.minModified.value ? this.minModified.value : undefined,
+      maxModified: this.maxModified.value ? this.maxModified.value : undefined,
     };
   }
 

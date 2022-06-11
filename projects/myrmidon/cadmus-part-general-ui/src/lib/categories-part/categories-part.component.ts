@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
 import { deepCopy } from '@myrmidon/ng-tools';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   ModelEditorComponentBase,
   renderLabelFromLastColon,
@@ -25,14 +25,17 @@ export class CategoriesPartComponent
   extends ModelEditorComponentBase<CategoriesPart>
   implements OnInit
 {
-  public categories: FormControl;
+  public categories: FormControl<ThesaurusEntry[]>;
   public entries$: BehaviorSubject<ThesaurusEntry[]>;
 
   constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
     super(authService);
     this.entries$ = new BehaviorSubject<ThesaurusEntry[]>([]);
     // form
-    this.categories = formBuilder.control([], Validators.required);
+    this.categories = formBuilder.control([], {
+      validators: CadmusValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       categories: this.categories,
     });
@@ -66,7 +69,7 @@ export class CategoriesPartComponent
     });
 
     // assign them to the control
-    this.categories.setValue(entries || []);
+    this.categories.setValue(entries);
     this.form!.markAsPristine();
   }
 

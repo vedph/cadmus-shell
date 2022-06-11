@@ -57,7 +57,7 @@ export class OrthographyFragmentComponent
   private _differ?: diff_match_patch;
   private _adapter?: DifferResultToMspAdapter;
 
-  public standard: FormControl;
+  public standard: FormControl<string|null>;
   public operations: FormArray;
   public currentOperation?: MspOperation;
 
@@ -206,7 +206,7 @@ export class OrthographyFragmentComponent
   protected getModelFromForm(): OrthographyFragment {
     return {
       location: this.model?.location ?? '',
-      standard: this.standard.value?.trim(),
+      standard: this.standard.value?.trim() || '',
       operations: this.getOperations(),
     };
   }

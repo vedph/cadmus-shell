@@ -84,7 +84,7 @@ export class ThesaurusTreeComponent implements OnInit {
   public treeControl: NestedTreeControl<TreeNode>;
   public treeDataSource: MatTreeNestedDataSource<TreeNode>;
 
-  public filter: FormControl;
+  public filter: FormControl<string | null>;
   public form: FormGroup;
   public foundNodes: TreeNode[] | undefined;
 

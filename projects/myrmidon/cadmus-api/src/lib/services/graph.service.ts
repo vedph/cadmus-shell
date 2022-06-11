@@ -38,7 +38,7 @@ export interface NodeFilter {
   sid?: string;
   isSidPrefix?: boolean;
   linkedNodeId?: number;
-  linkedNodeRole?: 'S' | 'O';
+  linkedNodeRole?: 'S' | 'O' | null;
   classIds?: number[];
 }
 

@@ -18,9 +18,9 @@ export class ThesaurusFilterComponent implements OnInit {
   @Input()
   public filter$?: BehaviorSubject<ThesaurusFilter>;
 
-  public id: FormControl;
-  public alias: FormControl;
-  public language: FormControl;
+  public id: FormControl<string | null>;
+  public alias: FormControl<boolean | null>;
+  public language: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
@@ -45,9 +45,9 @@ export class ThesaurusFilterComponent implements OnInit {
   }
 
   private updateForm(filter: ThesaurusFilter): void {
-    this.id.setValue(filter.id);
-    this.alias.setValue(filter.isAlias);
-    this.language.setValue(filter.language);
+    this.id.setValue(filter.id || null);
+    this.alias.setValue(filter.isAlias || null);
+    this.language.setValue(filter.language || null);
     this.form.markAsPristine();
   }
 
@@ -55,9 +55,9 @@ export class ThesaurusFilterComponent implements OnInit {
     return {
       pageNumber: 0,
       pageSize: 0,
-      id: this.id.value,
-      isAlias: this.alias.value,
-      language: this.language.value,
+      id: this.id.value || undefined,
+      isAlias: this.alias.value || undefined,
+      language: this.language.value || undefined,
     };
   }
 

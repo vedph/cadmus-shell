@@ -30,24 +30,21 @@ export class ChronologyFragmentComponent
   // the date being edited in its text form
   public initialDate: HistoricalDateModel | undefined;
 
-  public date: FormControl;
-  public tag: FormControl;
-  public tags: FormControl;
-  public label: FormControl;
-  public eventId: FormControl;
+  public date: FormControl<HistoricalDateModel | null>;
+  public tag: FormControl<string | null>;
+  public label: FormControl<string | null>;
+  public eventId: FormControl<string | null>;
 
   constructor(authService: AuthJwtService, formBuilder: FormBuilder) {
     super(authService);
     // form
     this.date = formBuilder.control(null, Validators.required);
     this.tag = formBuilder.control(null, Validators.maxLength(100));
-    this.tags = formBuilder.control([]);
     this.label = formBuilder.control(null, Validators.maxLength(150));
     this.eventId = formBuilder.control(null, Validators.maxLength(300));
     this.form = formBuilder.group({
       date: this.date,
       tag: this.tag,
-      tags: this.tags,
       label: this.label,
       eventId: this.eventId,
     });
@@ -74,10 +71,9 @@ export class ChronologyFragmentComponent
       this.initialDate = model.date;
       this.date.setValue(model.date);
       // label and tag
-      this.label.setValue(model.label);
-      this.tag.setValue(model.tag);
-      this.eventId.setValue(model.eventId);
-      this.tags.setValue(model.tag);
+      this.label.setValue(model.label || null);
+      this.tag.setValue(model.tag || null);
+      this.eventId.setValue(model.eventId || null);
       this.form!.markAsPristine();
     }
   }
@@ -100,11 +96,11 @@ export class ChronologyFragmentComponent
         date: new HistoricalDate(),
       };
     }
-    fr.date = this.date.value;
+    fr.date = this.date.value!;
     // label and tag
     fr.label = this.label.value?.trim();
     fr.eventId = this.eventId.value?.trim();
-    fr.tag = this.tagEntries ? this.tags.value : this.tag.value;
+    fr.tag = this.tag.value || undefined;
     return fr;
   }
 }
