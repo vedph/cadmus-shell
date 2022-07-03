@@ -197,7 +197,7 @@ export class ApparatusEntryComponent implements OnInit {
         ]),
         note: this._formBuilder.control(
           witness?.note,
-          Validators.maxLength(100)
+          Validators.maxLength(200)
         ),
       })
     );
@@ -217,7 +217,7 @@ export class ApparatusEntryComponent implements OnInit {
         ]),
         note: this._formBuilder.control(
           author?.note,
-          Validators.maxLength(100)
+          Validators.maxLength(200)
         ),
       })
     );
