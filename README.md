@@ -14,6 +14,8 @@ Quick Docker image build:
 
 ## History
 
+- 2022-07-10: upgraded Angular.
+
 ### 3.0.0
 
 - 2022-06-11: upgraded to Angular 14; refactored all the forms (except those related to lookups) to typed.
