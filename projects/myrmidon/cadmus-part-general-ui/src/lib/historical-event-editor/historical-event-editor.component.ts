@@ -69,13 +69,15 @@ export class HistoricalEventEditorComponent implements OnInit {
   public type: FormControl<string | null>;
   public description: FormControl<string | null>;
   public note: FormControl<string | null>;
+  public relatedEntities: FormControl<RelatedEntity[]>;
+  public hasChronotope: FormControl<boolean>;
+  public chronotope: FormControl<AssertedChronotope | null>;
+  public hasAssertion: FormControl<boolean>;
+  public assertion: FormControl<Assertion | null>;
   public form: FormGroup;
 
-  public relatedEntities: RelatedEntity[];
   public initialChronotope?: AssertedChronotope;
-  public chronotope?: AssertedChronotope;
   public initialAssertion?: Assertion;
-  public assertion?: Assertion;
 
   // related entity
   public currentEntity?: RelatedEntity;
@@ -86,7 +88,6 @@ export class HistoricalEventEditorComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.modelChange = new EventEmitter<HistoricalEvent>();
     this.editorClose = new EventEmitter<any>();
-    this.relatedEntities = [];
     this._currentEntityIndex = -1;
     // form
     this.eid = formBuilder.control(null, [
@@ -99,11 +100,21 @@ export class HistoricalEventEditorComponent implements OnInit {
     ]);
     this.description = formBuilder.control(null, Validators.maxLength(1000));
     this.note = formBuilder.control(null, Validators.maxLength(1000));
+    this.relatedEntities = formBuilder.control([], { nonNullable: true });
+    this.hasChronotope = formBuilder.control(false, { nonNullable: true });
+    this.chronotope = formBuilder.control(null);
+    this.hasAssertion = formBuilder.control(false, { nonNullable: true });
+    this.assertion = formBuilder.control(null);
     this.form = formBuilder.group({
       eid: this.eid,
       type: this.type,
       description: this.description,
       note: this.note,
+      relatedEntities: this.relatedEntities,
+      hasChronotope: this.hasChronotope,
+      chronotope: this.chronotope,
+      hasAssertion: this.hasAssertion,
+      assertion: this.assertion,
     });
     // related entity
     this.relation = formBuilder.control(null, [
@@ -136,9 +147,11 @@ export class HistoricalEventEditorComponent implements OnInit {
     this.type.setValue(model.type);
     this.description.setValue(model.description || null);
     this.note.setValue(model.note || null);
+    this.hasChronotope.setValue(model.chronotope ? true : false);
     this.initialChronotope = model.chronotope;
+    this.hasAssertion.setValue(model.assertion ? true : false);
     this.initialAssertion = model.assertion;
-    this.relatedEntities = model.relatedEntities || [];
+    this.relatedEntities.setValue(model.relatedEntities || []);
     this.form.markAsPristine();
   }
 
@@ -148,18 +161,28 @@ export class HistoricalEventEditorComponent implements OnInit {
       type: this.type.value?.trim() || '',
       description: this.description.value?.trim() || undefined,
       note: this.note.value?.trim() || undefined,
-      chronotope: this.chronotope,
-      assertion: this.assertion,
-      relatedEntities: this.relatedEntities,
+      chronotope: this.hasChronotope.value
+        ? this.chronotope.value || undefined
+        : undefined,
+      assertion: this.hasAssertion.value
+        ? this.assertion.value || undefined
+        : undefined,
+      relatedEntities: this.relatedEntities.value.length
+        ? this.relatedEntities.value
+        : undefined,
     };
   }
 
   public onChronotopeChange(chronotope: AssertedChronotope): void {
-    this.chronotope = chronotope;
+    this.chronotope.setValue(chronotope);
+    this.chronotope.updateValueAndValidity();
+    this.chronotope.markAsDirty();
   }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
-    this.assertion = assertion;
+    this.assertion.setValue(assertion || null);
+    this.assertion.updateValueAndValidity();
+    this.assertion.markAsDirty();
   }
 
   public newCurrentEntity(): void {
@@ -175,7 +198,7 @@ export class HistoricalEventEditorComponent implements OnInit {
       this._currentEntityIndex = -1;
       this.reForm.reset();
     } else {
-      this._currentEntityIndex = this.relatedEntities.indexOf(entity);
+      this._currentEntityIndex = this.relatedEntities.value.indexOf(entity);
       this.relation.setValue(entity.relation);
       this.id.setValue(entity.id);
       this.reForm.markAsPristine();
@@ -191,7 +214,7 @@ export class HistoricalEventEditorComponent implements OnInit {
       relation: this.relation.value!.trim(),
     };
     if (
-      this.relatedEntities.find(
+      this.relatedEntities.value.find(
         (e) => e.id === entity.id && e.relation === e.relation
       )
     ) {
@@ -199,9 +222,9 @@ export class HistoricalEventEditorComponent implements OnInit {
       return;
     }
     if (this._currentEntityIndex > -1) {
-      this.relatedEntities.splice(this._currentEntityIndex, 1, entity);
+      this.relatedEntities.value.splice(this._currentEntityIndex, 1, entity);
     } else {
-      this.relatedEntities.push(entity);
+      this.relatedEntities.value.push(entity);
     }
     this.setCurrentEntity(undefined);
   }
@@ -210,9 +233,9 @@ export class HistoricalEventEditorComponent implements OnInit {
     if (this.currentEntity?.id === entity.id) {
       this.setCurrentEntity(undefined);
     }
-    const i = this.relatedEntities.findIndex((e) => e.id === entity.id);
+    const i = this.relatedEntities.value.findIndex((e) => e.id === entity.id);
     if (i > -1) {
-      this.relatedEntities.splice(i, 1);
+      this.relatedEntities.value.splice(i, 1);
     }
   }
 
