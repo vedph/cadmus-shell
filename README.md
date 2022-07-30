@@ -14,6 +14,7 @@ Quick Docker image build:
 
 ## History
 
+- 2022-07-30: raised length limits for apparatus fragment notes.
 - 2022-07-19: historical event editor fixes.
 - 2022-07-14: updated Angular.
 - 2022-07-10: updated Angular.

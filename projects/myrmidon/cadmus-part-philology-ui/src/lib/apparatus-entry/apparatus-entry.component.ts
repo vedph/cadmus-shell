@@ -98,8 +98,8 @@ export class ApparatusEntryComponent implements OnInit {
       nonNullable: true,
     });
     // TODO: add conditional validation according to type
-    this.value = _formBuilder.control(null, Validators.maxLength(300));
-    this.normValue = _formBuilder.control(null, Validators.maxLength(300));
+    this.value = _formBuilder.control(null, Validators.maxLength(1000));
+    this.normValue = _formBuilder.control(null, Validators.maxLength(1000));
     this.accepted = _formBuilder.control(false, { nonNullable: true });
     this.subrange = _formBuilder.control(
       null,
@@ -197,7 +197,7 @@ export class ApparatusEntryComponent implements OnInit {
         ]),
         note: this._formBuilder.control(
           witness?.note,
-          Validators.maxLength(200)
+          Validators.maxLength(1000)
         ),
       })
     );
@@ -217,7 +217,7 @@ export class ApparatusEntryComponent implements OnInit {
         ]),
         note: this._formBuilder.control(
           author?.note,
-          Validators.maxLength(200)
+          Validators.maxLength(1000)
         ),
       })
     );
