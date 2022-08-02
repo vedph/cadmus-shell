@@ -14,6 +14,7 @@ Quick Docker image build:
 
 ## History
 
+- 2022-08-02: fixes to `HistoricalEventEditor` and `NamesPartComponent`. Minor fix to `ThesaurusTreeComponent` template (removed redundant `?`).
 - 2022-07-30: raised length limits for apparatus fragment notes.
 - 2022-07-19: historical event editor fixes.
 - 2022-07-14: updated Angular.

@@ -30,10 +30,10 @@
   <span
     *ngIf="foundNodes"
     [ngClass]="{
-      'found-count': foundNodes?.length,
-      'not-found-count': foundNodes?.length === 0
+      'found-count': foundNodes.length,
+      'not-found-count': foundNodes.length === 0
     }"
-    >{{ foundNodes?.length }}</span
+    >{{ foundNodes.length }}</span
   >
 </form>
 <mat-tree

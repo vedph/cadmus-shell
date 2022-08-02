@@ -171,15 +171,7 @@ export class NamesPartComponent
     if (this._updatingForm) {
       return;
     }
-    // delete if name was emptied
-    if (!name) {
-      const names = [...(this.names.value || [])];
-      names.splice(this.editedIndex, 1);
-      this.names.setValue(names);
-      this.names.updateValueAndValidity();
-      this.names.markAsDirty();
-      this.editName(-1);
-    } else {
+    if (name) {
       // else update replacing the old with the new name
       this.names.setValue(
         this.names.value.map((n: AssertedProperName, i: number) =>

@@ -222,10 +222,18 @@ export class HistoricalEventEditorComponent implements OnInit {
       return;
     }
     if (this._currentEntityIndex > -1) {
-      this.relatedEntities.value.splice(this._currentEntityIndex, 1, entity);
+      this.relatedEntities.setValue(
+        [...this.relatedEntities.value].splice(
+          this._currentEntityIndex,
+          1,
+          entity
+        )
+      );
     } else {
-      this.relatedEntities.value.push(entity);
+      this.relatedEntities.setValue([...this.relatedEntities.value, entity]);
     }
+    this.relatedEntities.updateValueAndValidity();
+    this.relatedEntities.markAsDirty();
     this.setCurrentEntity(undefined);
   }
 
@@ -236,6 +244,8 @@ export class HistoricalEventEditorComponent implements OnInit {
     const i = this.relatedEntities.value.findIndex((e) => e.id === entity.id);
     if (i > -1) {
       this.relatedEntities.value.splice(i, 1);
+      this.relatedEntities.updateValueAndValidity();
+      this.relatedEntities.markAsDirty();
     }
   }
 
