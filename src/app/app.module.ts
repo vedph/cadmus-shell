@@ -44,12 +44,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 
 // myrmidon
-import {
-  EnvServiceProvider,
-  languageFactory,
-  NgToolsModule,
-  WindowRefService,
-} from '@myrmidon/ng-tools';
+import { EnvServiceProvider, NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import {
   AuthJwtInterceptor,
@@ -60,7 +55,7 @@ import { AuthJwtAdminModule } from '@myrmidon/auth-jwt-admin';
 // cadmus bricks
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
 import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
-import { CadmusRefsExternalIdsModule } from '@myrmidon/cadmus-refs-external-ids';
+import { CadmusRefsAssertedIdsModule } from '@myrmidon/cadmus-refs-asserted-ids';
 
 // libraries in this workspace
 // notice that when you import the libraries into another workspace, you must change
@@ -159,7 +154,7 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     // cadmus bricks
     CadmusRefsDocReferencesModule,
     CadmusRefsHistoricalDateModule,
-    CadmusRefsExternalIdsModule,
+    CadmusRefsAssertedIdsModule,
     // cadmus
     CadmusApiModule,
     CadmusCoreModule,

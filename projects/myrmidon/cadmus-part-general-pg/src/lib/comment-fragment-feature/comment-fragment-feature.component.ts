@@ -58,8 +58,8 @@ export class CommentFragmentFeatureComponent
       'languages',
       'keyword-indexes',
       'keyword-tags',
-      'id-scopes',
-      'id-tags'
+      'comment-id-scopes',
+      'comment-id-tags'
     ]);
   }
 }

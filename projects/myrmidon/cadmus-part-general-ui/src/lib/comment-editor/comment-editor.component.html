@@ -42,7 +42,7 @@
           <hr />
           <mat-expansion-panel>
             <mat-expansion-panel-header>preview</mat-expansion-panel-header>
-            <markdown [data]="text?.value || undefined"></markdown>
+            <markdown [data]="text.value || undefined"></markdown>
           </mat-expansion-panel>
         </mat-tab>
 
@@ -63,13 +63,16 @@
           <br />
           <h3>external IDs</h3>
           <div>
-            <cadmus-refs-external-ids
+            <cadmus-refs-asserted-ids
               [ids]="initialIds"
               [scopeEntries]="idScopeEntries"
               [tagEntries]="idTagEntries"
+              [assTagEntries]="assTagEntries"
+              [refTagEntries]="docTagEntries"
+              [refTypeEntries]="docTypeEntries"
               (idsChange)="onIdsChange($event)"
             >
-            </cadmus-refs-external-ids>
+            </cadmus-refs-asserted-ids>
           </div>
         </mat-tab>
 

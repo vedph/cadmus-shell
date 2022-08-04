@@ -1,5 +1,13 @@
 # Cadmus Shell
 
+- [Cadmus Shell](#cadmus-shell)
+  - [History](#history)
+    - [3.1.0](#310)
+    - [3.0.0](#300)
+    - [2.0.3](#203)
+    - [2.0.1](#201)
+    - [2.0.0](#200)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
 This is a refactoring of the [original shell app](https://github.com/vedph/cadmus-bricks-shell), upgraded to fully support Angular 13+ and remove code which has been refactored into external independent libraries.
@@ -10,10 +18,13 @@ Quick Docker image build:
 
 1. `npm run build-lib`
 2. update version in `env.js` and then `ng build`
-3. `docker build . -t vedph2020/cadmus-shell:3.0.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:3.1.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
+### 3.1.0
+
+- 2022-08-04: replaced `ExternalId` with `AssertedId` in comments and removed dependency from `@myrmidon/cadmus-refs-external-ids` (in `cadmus-part-general-ui` and `cadmus-part-general-pg`).
 - 2022-08-02: fixes to `HistoricalEventEditor` and `NamesPartComponent`. Minor fix to `ThesaurusTreeComponent` template (removed redundant `?`).
 - 2022-07-30: raised length limits for apparatus fragment notes.
 - 2022-07-19: historical event editor fixes.

@@ -15,7 +15,7 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { deepCopy } from '@myrmidon/ng-tools';
 import { AuthJwtService } from '@myrmidon/auth-jwt-login';
 import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
-import { ExternalId } from '@myrmidon/cadmus-refs-external-ids';
+import { AssertedId } from '@myrmidon/cadmus-refs-asserted-ids';
 
 import { Comment, CommentPart, COMMENT_PART_TYPEID } from '../comment-part';
 import { IndexKeyword } from '../index-keywords-part';
@@ -24,7 +24,7 @@ import { CommentFragment } from '../comment-fragment';
 /**
  * Comment part/fragment editor component.
  * Thesauri: comment-tags, doc-reference-tags, doc-reference-types, categories, languages,
- * keyword-indexes, keyword-tags (all optional).
+ * keyword-indexes, keyword-tags, comment-id-scopes, comment-id-tags (all optional).
  */
 @Component({
   selector: 'cadmus-comment-editor',
@@ -38,22 +38,33 @@ export class CommentEditorComponent
   public tag: FormControl<string | null>;
   public text: FormControl<string | null>;
   public references: FormControl<DocReference[]>;
-  public ids: FormControl<ExternalId[]>;
+  public ids: FormControl<AssertedId[]>;
   public categories: FormControl<ThesaurusEntry[]>;
   public keywords: FormArray;
 
   public initialRefs: DocReference[];
-  public initialIds: ExternalId[];
+  public initialIds: AssertedId[];
 
+  // comment-tags
   public comTagEntries: ThesaurusEntry[] | undefined;
+  // doc-reference-tags
   public docTagEntries: ThesaurusEntry[] | undefined;
+  // doc-reference-types
   public docTypeEntries: ThesaurusEntry[] | undefined;
+  // categories
   public catEntries: ThesaurusEntry[] | undefined;
+  // languages
   public langEntries: ThesaurusEntry[] | undefined;
+  // keyword-indexes
   public idxEntries: ThesaurusEntry[] | undefined;
+  // keyword-tags
   public keyTagEntries: ThesaurusEntry[] | undefined;
+  // comment-id-scopes
   public idScopeEntries: ThesaurusEntry[] | undefined;
+  // comment-id-tags
   public idTagEntries: ThesaurusEntry[] | undefined;
+  // assertion-tags
+  public assTagEntries: ThesaurusEntry[] | undefined;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -187,14 +198,14 @@ export class CommentEditorComponent
       this.keyTagEntries = undefined;
     }
 
-    key = 'id-scopes';
+    key = 'comment-id-scopes';
     if (this.thesauri && this.thesauri[key]) {
       this.idScopeEntries = this.thesauri[key].entries;
     } else {
       this.idScopeEntries = undefined;
     }
 
-    key = 'id-tags';
+    key = 'comment-id-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.idTagEntries = this.thesauri[key].entries;
     } else {
@@ -255,7 +266,7 @@ export class CommentEditorComponent
     this.form!.markAsDirty();
   }
 
-  public onIdsChange(ids: ExternalId[]): void {
+  public onIdsChange(ids: AssertedId[]): void {
     this.ids.setValue(ids || []);
     this.ids.updateValueAndValidity();
     this.ids.markAsDirty();

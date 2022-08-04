@@ -25,9 +25,9 @@ import { NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { CadmusRefsAssertedIdsModule } from '@myrmidon/cadmus-refs-asserted-ids';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
 import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
-import { CadmusRefsExternalIdsModule } from '@myrmidon/cadmus-refs-external-ids';
 import { CadmusRefsAssertedChronotopeModule } from '@myrmidon/cadmus-refs-asserted-chronotope';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsProperNameModule } from '@myrmidon/cadmus-refs-proper-name';
@@ -41,6 +41,7 @@ import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fr
 import { ChronotopesPartComponent } from './chronotopes-part/chronotopes-part.component';
 import { CommentEditorComponent } from './comment-editor/comment-editor.component';
 import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
+import { ExternalIdsPartComponent } from './external-ids-part/external-ids-part.component';
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
 import { HistoricalEventEditorComponent } from './historical-event-editor/historical-event-editor.component';
 import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
@@ -83,9 +84,9 @@ import { NamesPartComponent } from './names-part/names-part.component';
     NgMatToolsModule,
     CadmusCoreModule,
     CadmusUiModule,
+    CadmusRefsAssertedIdsModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsHistoricalDateModule,
-    CadmusRefsExternalIdsModule,
     CadmusRefsAssertionModule,
     CadmusRefsAssertedChronotopeModule,
     CadmusRefsProperNameModule
@@ -99,6 +100,7 @@ import { NamesPartComponent } from './names-part/names-part.component';
     ChronotopesPartComponent,
     CommentEditorComponent,
     DocReferencesPartComponent,
+    ExternalIdsPartComponent,
     HistoricalDatePartComponent,
     HistoricalEventEditorComponent,
     HistoricalEventsPartComponent,
@@ -120,6 +122,7 @@ import { NamesPartComponent } from './names-part/names-part.component';
     CommentEditorComponent,
     ChronotopesPartComponent,
     DocReferencesPartComponent,
+    ExternalIdsPartComponent,
     HistoricalDatePartComponent,
     HistoricalEventEditorComponent,
     HistoricalEventsPartComponent,

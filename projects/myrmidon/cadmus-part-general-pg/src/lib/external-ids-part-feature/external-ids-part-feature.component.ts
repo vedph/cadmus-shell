@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import {
   EditItemQuery,
   EditItemService,
   EditPartFeatureBase,
 } from '@myrmidon/cadmus-state';
+
+import { EditExternalIdsPartService } from './edit-external-ids-part.service';
+import { EditExternalIdsPartQuery } from './edit-external-ids-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { EditCommentPartService } from './edit-comment-part.service';
-import { EditCommentPartQuery } from './edit-comment-part.query';
-
 @Component({
-  selector: 'cadmus-comment-part-feature',
-  templateUrl: './comment-part-feature.component.html',
-  styleUrls: ['./comment-part-feature.component.css'],
+  selector: 'cadmus-refs-external-ids-part-feature',
+  templateUrl: './external-ids-part-feature.component.html',
+  styleUrls: ['./external-ids-part-feature.component.css'],
 })
-export class CommentPartFeatureComponent
+export class ExternalIdsPartFeatureComponent
   extends EditPartFeatureBase
   implements OnInit
 {
@@ -23,8 +24,8 @@ export class CommentPartFeatureComponent
     router: Router,
     route: ActivatedRoute,
     snackbar: MatSnackBar,
-    editPartQuery: EditCommentPartQuery,
-    editPartService: EditCommentPartService,
+    editPartQuery: EditExternalIdsPartQuery,
+    editPartService: EditExternalIdsPartService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService
   ) {
@@ -41,15 +42,11 @@ export class CommentPartFeatureComponent
 
   public ngOnInit(): void {
     this.initEditor([
-      'comment-tags',
-      'doc-reference-tags',
+      'external-id-scopes',
+      'external-id-tags',
+      'assertion-tags',
       'doc-reference-types',
-      'categories',
-      'languages',
-      'keyword-indexes',
-      'keyword-tags',
-      'comment-id-scopes',
-      'comment-id-tags'
+      'doc-reference-tags'
     ]);
   }
 }

@@ -15,6 +15,7 @@ import {
   TOKEN_TEXT_PART_TYPEID,
   TILED_TEXT_PART_TYPEID,
   CHRONOTOPES_PART_TYPEID,
+  EXTERNAL_IDS_PART_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import {
   APPARATUS_FRAGMENT_TYPEID,
@@ -52,6 +53,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: GENERAL,
   },
   [CHRONOTOPES_PART_TYPEID]: {
+    part: GENERAL,
+  },
+  [EXTERNAL_IDS_PART_TYPEID]: {
     part: GENERAL,
   },
   [HISTORICAL_EVENTS_PART_TYPEID]: {

@@ -1,6 +1,7 @@
 import { Part } from '@myrmidon/cadmus-core';
+import { AssertedId } from '@myrmidon/cadmus-refs-asserted-ids';
 import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
-import { ExternalId } from '@myrmidon/cadmus-refs-external-ids';
+
 import { IndexKeyword } from './index-keywords-part';
 
 /**
@@ -10,7 +11,7 @@ export interface Comment {
   tag?: string;
   text: string;
   references?: DocReference[];
-  externalIds?: ExternalId[];
+  externalIds?: AssertedId[];
   categories?: string[];
   keywords?: IndexKeyword[];
 }

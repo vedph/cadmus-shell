@@ -33,6 +33,7 @@ import {
   TILED_TEXT_PART_TYPEID,
   TOKEN_TEXT_PART_TYPEID,
   CHRONOTOPES_PART_TYPEID,
+  EXTERNAL_IDS_PART_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import {
@@ -61,6 +62,7 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
 import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
 import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
 import { ChronotopesPartFeatureComponent } from './chronotopes-part-feature/chronotopes-part-feature.component';
+import { ExternalIdsPartFeatureComponent } from './external-ids-part-feature/external-ids-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -92,6 +94,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     path: `${DOC_REFERENCES_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: DocReferencesPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: `${EXTERNAL_IDS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: ExternalIdsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -209,6 +217,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CommentFragmentFeatureComponent,
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,
+    ExternalIdsPartFeatureComponent,
     HistoricalDatePartFeatureComponent,
     HistoricalEventsPartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
@@ -229,6 +238,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CommentFragmentFeatureComponent,
     CommentPartFeatureComponent,
     DocReferencesPartFeatureComponent,
+    ExternalIdsPartFeatureComponent,
     HistoricalDatePartFeatureComponent,
     HistoricalEventsPartFeatureComponent,
     IndexKeywordsPartFeatureComponent,
