@@ -14,7 +14,7 @@ import { AssertedChronotope } from '@myrmidon/cadmus-refs-asserted-chronotope';
 /**
  * Chronotopes part editor component.
  * Thesauri: chronotope-place-tags, chronotope-assertion-tags,
- * chronotope-reference-types, chronotope-reference-tags (all optional).
+ * doc-reference-types, doc-reference-tags (all optional).
  */
 @Component({
   selector: 'cadmus-chronotopes-part',
@@ -35,9 +35,9 @@ export class ChronotopesPartComponent
   public tagEntries: ThesaurusEntry[] | undefined;
   // chronotope-assertion-tags
   public assTagEntries?: ThesaurusEntry[];
-  // chronotope-reference-types
+  // doc-reference-types
   public refTypeEntries: ThesaurusEntry[] | undefined;
-  // chronotope-reference-tags
+  // doc-reference-tags
   public refTagEntries: ThesaurusEntry[] | undefined;
 
   public chronotopes: FormControl<AssertedChronotope[]>;
@@ -92,14 +92,14 @@ export class ChronotopesPartComponent
       this.assTagEntries = undefined;
     }
 
-    key = 'chronotope-reference-types';
+    key = 'doc-reference-types';
     if (this.thesauri && this.thesauri[key]) {
       this.refTypeEntries = this.thesauri[key].entries;
     } else {
       this.refTypeEntries = undefined;
     }
 
-    key = 'chronotope-reference-tags';
+    key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.refTagEntries = this.thesauri[key].entries;
     } else {

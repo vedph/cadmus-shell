@@ -44,8 +44,8 @@ export class ChronotopesPartFeatureComponent
     this.initEditor([
       'chronotope-place-tags',
       'chronotope-assertion-tags',
-      'chronotope-reference-types',
-      'chronotope-reference-tags',
+      'doc-reference-types',
+      'doc-reference-tags',
     ]);
   }
 }

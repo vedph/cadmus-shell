@@ -14,7 +14,7 @@ import { NamesPart, NAMES_PART_TYPEID } from '../names-part';
 /**
  * Names part editor component.
  * Thesauri: name-languages, name-tags, name-piece-types, assertion-tags,
- * assertion-ref-types, assertion-ref-tags (all optional).
+ * doc-reference-types, doc-reference-tags (all optional).
  */
 @Component({
   selector: 'cadmus-names-part',
@@ -45,9 +45,9 @@ export class NamesPartComponent
   // thesauri for assertions:
   // assertion-tags
   public assTagEntries?: ThesaurusEntry[];
-  // assertion-ref-types
+  // doc-reference-types
   public refTypeEntries: ThesaurusEntry[] | undefined;
-  // assertion-ref-tags
+  // doc-reference-tags
   public refTagEntries: ThesaurusEntry[] | undefined;
 
   public names: FormControl<AssertedProperName[]>;
@@ -113,13 +113,13 @@ export class NamesPartComponent
     } else {
       this.assTagEntries = undefined;
     }
-    key = 'assertion-ref-types';
+    key = 'doc-reference-types';
     if (this.thesauri && this.thesauri[key]) {
       this.refTypeEntries = this.thesauri[key].entries;
     } else {
       this.refTypeEntries = undefined;
     }
-    key = 'assertion-ref-tags';
+    key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.refTagEntries = this.thesauri[key].entries;
     } else {

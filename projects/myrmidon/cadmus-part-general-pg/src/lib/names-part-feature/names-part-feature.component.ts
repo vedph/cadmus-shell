@@ -46,8 +46,8 @@ export class NamesPartFeatureComponent
       'name-tags',
       'name-piece-types',
       'assertion-tags',
-      'assertion-ref-types',
-      'assertion-ref-tags',
+      'doc-reference-types',
+      'doc-reference-tags',
     ]);
   }
 }

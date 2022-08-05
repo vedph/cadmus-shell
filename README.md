@@ -22,6 +22,8 @@ Quick Docker image build:
 
 ## History
 
+- 2022-08-05: thesauri names for proper names/chronotopes.
+
 ### 3.1.0
 
 - 2022-08-04: replaced `ExternalId` with `AssertedId` in comments and removed dependency from `@myrmidon/cadmus-refs-external-ids` (in `cadmus-part-general-ui` and `cadmus-part-general-pg`).
