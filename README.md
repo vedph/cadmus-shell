@@ -22,6 +22,7 @@ Quick Docker image build:
 
 ## History
 
+- 2022-08-07: updated Angular.
 - 2022-08-05: thesauri names for proper names/chronotopes.
 
 ### 3.1.0
