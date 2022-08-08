@@ -22,7 +22,9 @@ Quick Docker image build:
 
 ## History
 
-- 2022-08-08: added preview service to `cadmus-api` and increased its version number.
+- 2022-08-08:
+  - added preview service to `cadmus-api` and increased its version number.
+  - added preview keys to app state in `cadmus-state` and increased its version number.
 - 2022-08-07: updated Angular.
 - 2022-08-05: thesauri names for proper names/chronotopes.
 

@@ -31,6 +31,14 @@ export interface AppState {
    * the items browsers menu.
    */
   itemBrowserThesaurus?: Thesaurus;
+  /**
+   * The preview renderers keys. Empty when preview is disabled.
+   */
+  previewRKeys: string[];
+  /**
+   * The preview flatteners keys. Empty when preview is disabled.
+   */
+  previewFKeys: string[];
 
   loading?: boolean;
   error?: string;
@@ -39,6 +47,8 @@ export interface AppState {
 const initialState: AppState = {
   facets: [],
   flags: [],
+  previewRKeys: [],
+  previewFKeys: [],
 };
 
 @Injectable({ providedIn: 'root' })

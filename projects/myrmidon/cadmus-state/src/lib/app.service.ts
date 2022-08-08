@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import {
   FacetService,
   FlagService,
+  PreviewService,
   ThesaurusService,
 } from '@myrmidon/cadmus-api';
 
@@ -15,7 +16,8 @@ export class AppService {
     private _store: AppStore,
     private _facetService: FacetService,
     private _flagService: FlagService,
-    private _thesaurusService: ThesaurusService
+    private _thesaurusService: ThesaurusService,
+    private _previewService: PreviewService
   ) {}
 
   public load(): void {
@@ -27,24 +29,34 @@ export class AppService {
       'model-types@en',
       'item-browsers@en',
     ]);
+    const rKeys$ = this._previewService.getKeys(false);
+    const fKeys$ = this._previewService.getKeys(true);
 
-    forkJoin([facets$, flags$, thesauri$]).subscribe(
-      ([facets, flags, thesauri]) => {
+    forkJoin({
+      facets: facets$,
+      flags: flags$,
+      thesauri: thesauri$,
+      rKeys: rKeys$,
+      fKeys: fKeys$,
+    }).subscribe({
+      next: (result) => {
         this._store.setLoading(false);
         this._store.setError(null);
 
         this._store.update({
-          facets,
-          flags,
-          typeThesaurus: thesauri['model-types'],
-          itemBrowserThesaurus: thesauri['item-browsers'],
+          facets: result.facets,
+          flags: result.flags,
+          typeThesaurus: result.thesauri['model-types'],
+          itemBrowserThesaurus: result.thesauri['item-browsers'],
+          previewRKeys: result.rKeys,
+          previewFKeys: result.fKeys
         });
       },
-      (error) => {
+      error: (error) => {
         console.error(error);
         this._store.setLoading(false);
         this._store.setError('Error loading app state');
-      }
-    );
+      },
+    });
   }
 }

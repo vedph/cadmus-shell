@@ -32,4 +32,12 @@ export class AppQuery extends Query<AppState> {
   public selectItemBrowserThesaurus(): Observable<Thesaurus | undefined> {
     return this.select((state) => state.itemBrowserThesaurus);
   }
+
+  public selectPreviewRKeys(): Observable<string[]> {
+    return this.select((state) => state.previewRKeys);
+  }
+
+  public selectPreviewFKeys(): Observable<string[]> {
+    return this.select((state) => state.previewFKeys);
+  }
 }
