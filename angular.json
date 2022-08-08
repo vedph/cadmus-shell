@@ -700,6 +700,68 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-preview-ui": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-preview-ui",
+      "sourceRoot": "projects/myrmidon/cadmus-preview-ui/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-preview-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-preview-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-preview-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-preview-ui/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-preview-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-preview-ui/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-preview-pg": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-preview-pg",
+      "sourceRoot": "projects/myrmidon/cadmus-preview-pg/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-preview-pg/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-preview-pg/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-preview-pg/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-preview-pg/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-preview-pg/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-preview-pg/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }

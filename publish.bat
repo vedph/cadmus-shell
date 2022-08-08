@@ -65,6 +65,16 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
+cd .\dist\myrmidon\cadmus-preview-pg
+call npm publish --access=public
+cd ..\..\..
+pause
+
+cd .\dist\myrmidon\cadmus-preview-ui
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-profile-core
 call npm publish --access=public
 cd ..\..\..

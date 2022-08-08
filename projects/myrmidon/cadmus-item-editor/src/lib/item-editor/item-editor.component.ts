@@ -418,7 +418,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     if (part.roleId !== 'base-text' && part.roleId) {
       key += '|' + part.roleId;
     }
-    // TODO
+    this._router.navigate(['preview', part.itemId, part.id]);
   }
 
   public deletePart(part: Part): void {

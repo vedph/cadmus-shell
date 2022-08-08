@@ -55,6 +55,12 @@
         "dist/myrmidon/cadmus-part-philology-ui/myrmidon-cadmus-part-philology-ui",
         "dist/myrmidon/cadmus-part-philology-ui"
       ],
+      "@myrmidon/cadmus-preview-pg": [
+        "dist/myrmidon/cadmus-preview-pg"
+      ],
+      "@myrmidon/cadmus-preview-ui": [
+        "dist/myrmidon/cadmus-preview-ui"
+      ],
       "@myrmidon/cadmus-profile-core": [
         "dist/myrmidon/cadmus-profile-core/myrmidon-cadmus-profile-core",
         "dist/myrmidon/cadmus-profile-core"

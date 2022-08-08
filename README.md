@@ -26,7 +26,8 @@ Quick Docker image build:
   - added preview service to `cadmus-api` and increased its version number.
   - added preview keys to app state in `cadmus-state` and increased its version number.
   - added preview button in item editor when preview is available (`cadmus-item-editor`).
-  - replaced deprecated `substr` with `substring` in the above libraries and in `cadmus-core`, `cadmus-part-general-ui`, `cadmus-profile-core`, `cadmus-thesaurus-ui`, `cadmus-ui`, `cadmus-ui-pg`, increasing their version numbers.
+  - replaced deprecated `substr` with `substring` in the above libraries and in `cadmus-core`, `cadmus-part-general-ui`, `cadmus-profile-core`, `cadmus-thesaurus-ui`, `cadmus-ui`, `cadmus-ui-pg`, `cadmus-graph-pg` increasing their version numbers.
+  - added `cadmus-preview-ui` and `cadmus-preview-pg`.
 - 2022-08-07: updated Angular.
 - 2022-08-05: thesauri names for proper names/chronotopes.
 

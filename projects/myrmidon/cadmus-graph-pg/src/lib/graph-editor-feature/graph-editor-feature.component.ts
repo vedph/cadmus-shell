@@ -19,16 +19,16 @@ export class GraphEditorFeatureComponent implements OnInit {
     this._thesService
       .getThesauriSet(['graph-node-tags', 'graph-triple-tags'])
       .pipe(take(1))
-      .subscribe(
-        (set: ThesauriSet) => {
+      .subscribe({
+        next: (set: ThesauriSet) => {
           this.nodeTagEntries = set['graph-node-tags']?.entries;
           this.tripleTagEntries = set['graph-triple-tags']?.entries;
         },
-        (error) => {
+        error: (error) => {
           if (error) {
             console.error(JSON.stringify(error));
           }
-        }
-      );
+        },
+      });
   }
 }

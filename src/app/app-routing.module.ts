@@ -116,7 +116,14 @@ const routes: Routes = [
     canActivate: [AuthJwtGuardService],
   },
   // cadmus - preview
-  // TODO add route
+  {
+    path: 'preview',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-preview-pg').then(
+        (module) => module.CadmusPreviewPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
   // fallback
   { path: '**', component: HomeComponent },
 ];

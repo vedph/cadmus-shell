@@ -148,8 +148,8 @@ export class ItemService {
   }
 
   /**
-   * Get a page of items matching the specified filters.
-   * @param filter Items filter.
+   * Get the item with the specified ID.
+   * @param id Items filter.
    * @param parts True to get also item's parts.
    * @returns Observable with paged result.
    */
