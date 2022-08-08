@@ -69,7 +69,8 @@ export class TextLayerService {
 
       while (x < line.length) {
         if (this.isWhitespace(line.charAt(x))) {
-          l.tokens.push(line.substr(xBeg, x - xBeg));
+          // l.tokens.push(line.substr(xBeg, x - xBeg));
+          l.tokens.push(line.substring(xBeg, x));
           x++;
           while (x < line.length && this.isWhitespace(line.charAt(x))) {
             x++;
@@ -80,7 +81,7 @@ export class TextLayerService {
         }
       }
       if (xBeg < x) {
-        l.tokens.push(line.substr(xBeg));
+        l.tokens.push(line.substring(xBeg));
       }
       results.push(l);
     }
@@ -131,11 +132,13 @@ export class TextLayerService {
   private renderTokenAtEnd(pt: TokenPoint, token: string, sb: string[]): void {
     if (pt.at) {
       // ...to]
-      sb.push(token.substr(pt.at - 1, pt.run));
+      // sb.push(token.substr(pt.at - 1, pt.run));
+      sb.push(token.substring(pt.at - 1, (pt.run || 0) + pt.at - 1));
       sb.push('</span>');
       // ...ken
       if (pt.at - 1 + (pt.run || 0) < token.length) {
-        sb.push(token.substr(pt.at - 1 + (pt.run || 0)));
+        // sb.push(token.substr(pt.at - 1 + (pt.run || 0)));
+        sb.push(token.substring(pt.at - 1 + (pt.run || 0)));
       }
     } else {
       // ...token]
@@ -161,7 +164,7 @@ export class TextLayerService {
     // 1.token's left-part
     if (loc.primary.at) {
       // to...
-      sb.push(token.substr(0, loc.primary.at - 1));
+      sb.push(token.substring(0, loc.primary.at - 1));
     }
 
     // 2.span: [
@@ -190,7 +193,7 @@ export class TextLayerService {
     // 1.token's left-part (=before at)
     if (loc.primary.at) {
       // to...
-      sb.push(token.substr(0, loc.primary.at - 1));
+      sb.push(token.substring(0, loc.primary.at - 1));
     }
 
     // 2.span: [
@@ -199,7 +202,7 @@ export class TextLayerService {
     // 3.token's right-part (...ken or ...token)
     if (loc.primary.at) {
       // ...ken
-      sb.push(token.substr(loc.primary.at - 1));
+      sb.push(token.substring(loc.primary.at - 1));
     } else {
       // ...token
       sb.push(token);
@@ -337,7 +340,7 @@ export class TextLayerService {
         if (p?.nodeName === 'SPAN') {
           p = p.parentElement;
         }
-        const y = parseInt(p!.getAttribute('id')!.substr(1), 10);
+        const y = parseInt(p!.getAttribute('id')!.substring(1), 10);
         // return [y, y];
         return { start: y, end: y };
 
@@ -366,7 +369,7 @@ export class TextLayerService {
           // collect y if inside
           if (inside) {
             const iy = parseInt(
-              (child as Element)!.getAttribute('id')!.substr(1),
+              (child as Element)!.getAttribute('id')!.substring(1),
               10
             );
             if (!yMin || iy < yMin) {

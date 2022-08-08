@@ -179,7 +179,7 @@ export class ThesaurusService {
   public getScopedId(id: string, scopeId?: string): string {
     // an ID starting with ! should not be scoped
     if (id.startsWith('!')) {
-      return id.substr(1);
+      return id.substring(1);
     }
     // just ret the ID if we were just requested to strip the initial !
     if (!scopeId) {
@@ -190,7 +190,7 @@ export class ThesaurusService {
     if (i === -1) {
       return id + '.' + scopeId;
     }
-    return id.substr(0, i) + '.' + scopeId + id.substr(i);
+    return id.substring(0, i) + '.' + scopeId + id.substring(i);
   }
 
   /**
@@ -202,16 +202,16 @@ export class ThesaurusService {
    */
   public getUnscopedId(id: string): string {
     if (id.startsWith('!')) {
-      id = id.substr(1);
+      id = id.substring(1);
     }
     let i = id.lastIndexOf('.');
     if (i > 0) {
-      id = id.substr(0, i);
+      id = id.substring(0, i);
     }
 
     i = id.lastIndexOf('@');
     if (i > -1) {
-      id = id.substr(0, i);
+      id = id.substring(0, i);
     }
     return id;
   }

@@ -115,6 +115,8 @@ const routes: Routes = [
       ),
     canActivate: [AuthJwtGuardService],
   },
+  // cadmus - preview
+  // TODO add route
   // fallback
   { path: '**', component: HomeComponent },
 ];

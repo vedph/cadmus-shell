@@ -26,6 +26,7 @@ import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { PartsScopeEditorComponent } from './parts-scope-editor/parts-scope-editor.component';
 import { MissingPartsComponent } from './missing-parts/missing-parts.component';
+import { HasPreviewPipe } from './has-preview.pipe';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -63,6 +64,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     ItemEditorComponent,
     MissingPartsComponent,
     PartsScopeEditorComponent,
+    HasPreviewPipe,
   ],
   exports: [ItemEditorComponent],
 })

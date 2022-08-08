@@ -23,7 +23,7 @@ export class CsvThesaurusReader {
 
   private parseLanguage(id: string): string {
     const i = id.lastIndexOf('@');
-    return i > -1 ? id.substr(i + 1) : 'en';
+    return i > -1 ? id.substring(i + 1) : 'en';
   }
 
   private getThesaurus(): Thesaurus | null {
@@ -79,7 +79,7 @@ export class CsvThesaurusReader {
         const prev = this.getThesaurus();
         this.reset();
         this._id = row[0];
-        this._targetId = row[1].substr(1);
+        this._targetId = row[1].substring(1);
         // return the previous thesaurus if any
         if (prev) {
           return prev;

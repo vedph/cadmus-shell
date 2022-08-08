@@ -137,7 +137,6 @@ export class TokenTextPartComponent
       console.log(m[1].length);
       const end = m.index + m[1].length;
       if (end < text.length) {
-        //parts.push(text.substr(start, end - start));
         parts.push(text.substring(start, end));
         start = end;
       }

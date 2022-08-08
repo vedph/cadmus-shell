@@ -60,6 +60,8 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   public deletingPart$: Observable<boolean | undefined>;
   public error$: Observable<string | undefined>;
   public typeThesaurus$: Observable<Thesaurus | undefined>;
+  public previewRKeys$: Observable<string[]>;
+  public previewFKeys$: Observable<string[]>;
 
   // new part form
   public newPartType: FormControl<PartDefinition | null>;
@@ -134,6 +136,9 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._appQuery.selectFacets();
     this.typeThesaurus$ = this._appQuery.selectTypeThesaurus();
+    this.previewRKeys$ = this._appQuery.selectPreviewRKeys();
+    this.previewFKeys$ = this._appQuery.selectPreviewFKeys();
+
     this.loading$ = this._query.selectLoading();
     this.saving$ = this._query.selectSaving();
     this.deletingPart$ = this._query.selectDeletingPart();
@@ -297,7 +302,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     // strip :suffix if any
     const i = typeId.lastIndexOf(':');
     if (i > -1) {
-      typeId = typeId.substr(0, i);
+      typeId = typeId.substring(0, i);
     }
     const entry = state.typeThesaurus.entries?.find((e) => e.id === typeId);
     return entry ? entry.value : typeId;
@@ -404,6 +409,16 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
           }
         : {}
     );
+  }
+
+  public previewPart(part: Part): void {
+    // build the preview key: this is equal to the part's type ID
+    // eventually followed by | and its role ID, unless this is "base-text"
+    let key = part.typeId;
+    if (part.roleId !== 'base-text' && part.roleId) {
+      key += '|' + part.roleId;
+    }
+    // TODO
   }
 
   public deletePart(part: Part): void {

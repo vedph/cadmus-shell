@@ -121,7 +121,7 @@ export class ThesaurusNodesService {
     nodes.forEach((node) => {
       const i = node.id.lastIndexOf('.');
       if (i > -1) {
-        node.parentId = node.id.substr(0, i);
+        node.parentId = node.id.substring(0, i);
       }
     });
 

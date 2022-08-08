@@ -71,7 +71,7 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
     // item ID
     this.itemId = route.snapshot.params['iid'];
     // type ID (from "TYPEID/:pid")
-    this.typeId = route.snapshot.routeConfig!.path!.substr(
+    this.typeId = route.snapshot.routeConfig!.path!.substring(
       0,
       route.snapshot.routeConfig!.path!.indexOf('/')
     );

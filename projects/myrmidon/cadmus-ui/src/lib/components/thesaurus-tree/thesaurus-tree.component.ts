@@ -26,7 +26,7 @@ export const renderLabelFromLastColon = (label: string): string => {
     return label;
   }
   const i = label.lastIndexOf(':');
-  return i > -1 && i + 1 < label.length ? label.substr(i + 1).trim() : label;
+  return i > -1 && i + 1 < label.length ? label.substring(i + 1).trim() : label;
 };
 
 /**

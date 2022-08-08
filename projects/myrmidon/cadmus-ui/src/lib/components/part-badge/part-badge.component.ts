@@ -95,7 +95,7 @@ export class PartBadgeComponent {
     // strip :suffix if any
     const i = typeId.lastIndexOf(':');
     if (i > -1) {
-      typeId = typeId.substr(0, i);
+      typeId = typeId.substring(0, i);
     }
     const entry = this._typeThesaurus.entries?.find((e) => e.id === typeId);
     return entry ? entry.value : typeId;

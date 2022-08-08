@@ -153,8 +153,8 @@ export class LibraryRouteService {
     const i = key.indexOf(' ');
     if (i > -1) {
       return {
-        partKey: key.substr(0, i),
-        frKey: key.substr(i + 1),
+        partKey: key.substring(0, i),
+        frKey: key.substring(i + 1),
       };
     } else {
       return {

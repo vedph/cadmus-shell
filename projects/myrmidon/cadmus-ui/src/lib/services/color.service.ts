@@ -35,9 +35,9 @@ export class ColorService {
     m = rgb.match(/^#?([0-9a-f]{6})$/i);
     if (m && m[1]) {
       return [
-        parseInt(m[1].substr(0, 2), 16),
-        parseInt(m[1].substr(2, 2), 16),
-        parseInt(m[1].substr(4, 2), 16),
+        parseInt(m[1].substring(0, 2), 16),
+        parseInt(m[1].substring(2, 4), 16),
+        parseInt(m[1].substring(4, 6), 16),
       ];
     }
     return null;
