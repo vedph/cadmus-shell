@@ -9,6 +9,7 @@ export * from './lib/services/graph.service';
 export * from './lib/services/item-browser.service';
 export * from './lib/services/item.service';
 export * from './lib/services/operator-guard.service';
+export * from './lib/services/preview.service';
 export * from './lib/services/thesaurus.service';
 export * from './lib/services/user-level.service';
 export * from './lib/services/user.service';
