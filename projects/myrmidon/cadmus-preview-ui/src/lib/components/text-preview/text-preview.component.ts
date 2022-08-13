@@ -12,7 +12,10 @@ import { Item, LayerPartInfo, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { PartPreviewSource } from '../part-preview/part-preview.component';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { TextBlockEventArgs } from '@myrmidon/cadmus-text-block-view';
+import {
+  TextBlock,
+  TextBlockEventArgs,
+} from '@myrmidon/cadmus-text-block-view';
 
 /**
  * Layered text preview component.
@@ -47,7 +50,7 @@ export class TextPreviewComponent implements OnInit {
   public item?: Item;
   public layers: LayerPartInfo[];
   public rows: TextBlockRow[];
-  public selectedLayer: FormControl<LayerPartInfo|null>;
+  public selectedLayer: FormControl<LayerPartInfo | null>;
 
   constructor(
     private _previewService: PreviewService,
@@ -63,10 +66,22 @@ export class TextPreviewComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  private getLayerTypeId(roleId: string): string {
-    // a role ID like "fr.it.vedph.note" becomes "it_vedph_note__"
-    // which is prefixed to the fragment index when building blocks
-    return roleId.substring(3).replace('.', '_') + '__';
+  private getLayerTypeId(layer: LayerPartInfo): string {
+    const dotRegex = /\./g;
+    let id = layer.typeId.replace(dotRegex, '_');
+    if (layer.roleId) {
+      id += '__' + layer.roleId.replace(dotRegex, '_');
+    }
+    return id;
+  }
+
+  private adjustBlockWs(blocks: TextBlock[]): void {
+    const head = /^\s+/;
+    const tail = /\s+$/;
+    for (let i = 0; i < blocks.length; i++) {
+      blocks[i].text = blocks[i].text.replace(head, '\xa0');
+      blocks[i].text = blocks[i].text.replace(tail, '\xa0');
+    }
   }
 
   private refresh(): void {
@@ -93,7 +108,7 @@ export class TextPreviewComponent implements OnInit {
             rows: this._previewService.getTextBlocks(
               this._source!.partId,
               layers.map((l) => l.id),
-              layers.map((l) => this.getLayerTypeId(l.roleId!))
+              layers.map((l) => this.getLayerTypeId(l))
             ),
           })
             .pipe(take(1))
@@ -101,6 +116,10 @@ export class TextPreviewComponent implements OnInit {
               next: (result) => {
                 this.busy = false;
                 this.item = result.item;
+                // convert initial/final WS into nbsp
+                for (let i = 0; i < result.rows.length; i++) {
+                  this.adjustBlockWs(result.rows[i].blocks);
+                }
                 this.rows = result.rows;
                 // TODO optionally select layer
               },
