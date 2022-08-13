@@ -21,7 +21,7 @@ export interface TextBlock {
   id: string;
   text: string;
   decoration?: string;
-  htmlDecoration?: string;
+  htmlDecoration?: boolean;
   tip?: string;
   layerIds: string[];
 }
@@ -104,14 +104,34 @@ export class PreviewService {
    * specified ID with all the layers specified.
    *
    * @param id The base text part's ID.
-   * @param layerIds The layer parts IDs.
+   * @param layerPartIds The layer parts IDs.
+   * @param layerIds The IDs to assign to each layer.
    */
   public getTextBlocks(
     id: string,
-    layerIds: string[]
+    layerPartIds: string[],
+    layerIds?: string[]
   ): Observable<TextBlockRow[]> {
+    let httpParams = new HttpParams();
+
+    // encode the optional layer IDs as suffixes of part IDs
+    if (layerPartIds.length) {
+      for (let i = 0; i < layerPartIds.length; i++) {
+        let id = layerPartIds[i];
+        if (layerIds && i < layerIds.length) {
+          id += '=' + layerIds[i];
+        }
+        httpParams = httpParams.append('layerId', layerPartIds[i]);
+      }
+    }
+
     return this._http
-      .get<TextBlockRow[]>(this._env.get('apiUrl') + `preview/text-parts/${id}`)
+      .get<TextBlockRow[]>(
+        this._env.get('apiUrl') + `preview/text-parts/${id}`,
+        {
+          params: httpParams,
+        }
+      )
       .pipe(retry(3), catchError(this._error.handleError));
   }
 }

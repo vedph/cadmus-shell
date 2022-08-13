@@ -75,7 +75,7 @@ export class PartPreviewComponent implements OnInit {
         error: (error) => {
           this.busy = false;
           if (error) {
-            console.log(JSON.stringify(error));
+            console.error(JSON.stringify(error));
           }
           this._snackbar.open('Error previewing part ' + this._source!.partId);
         },

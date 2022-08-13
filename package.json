@@ -42,6 +42,7 @@
     "@myrmidon/cadmus-refs-doc-references": "^0.1.2",
     "@myrmidon/cadmus-refs-historical-date": "0.1.2",
     "@myrmidon/cadmus-refs-proper-name": "0.0.4",
+    "@myrmidon/cadmus-text-block-view": "^0.0.6",
     "@myrmidon/ng-mat-tools": "0.1.0",
     "@myrmidon/ng-tools": "0.1.0",
     "@types/diff-match-patch": "^1.0.32",

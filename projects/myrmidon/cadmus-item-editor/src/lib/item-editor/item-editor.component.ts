@@ -412,13 +412,12 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   }
 
   public previewPart(part: Part): void {
-    // build the preview key: this is equal to the part's type ID
-    // eventually followed by | and its role ID, unless this is "base-text"
-    let key = part.typeId;
-    if (part.roleId !== 'base-text' && part.roleId) {
-      key += '|' + part.roleId;
+    // TODO layer parts redirection to base-text
+    if (part.roleId === 'base-text') {
+      this._router.navigate(['preview', part.itemId, part.id, 'text']);
+    } else {
+      this._router.navigate(['preview', part.itemId, part.id]);
     }
-    this._router.navigate(['preview', part.itemId, part.id]);
   }
 
   public deletePart(part: Part): void {

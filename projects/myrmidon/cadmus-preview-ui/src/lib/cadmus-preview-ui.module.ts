@@ -17,14 +17,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { CadmusTextBlockViewModule } from '@myrmidon/cadmus-text-block-view';
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import { NgToolsModule } from '@myrmidon/ng-tools';
 
 import { PartPreviewComponent } from './components/part-preview/part-preview.component';
+import { TextPreviewComponent } from './components/text-preview/text-preview.component';
 
 @NgModule({
-  declarations: [PartPreviewComponent],
+  declarations: [PartPreviewComponent, TextPreviewComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -45,10 +47,11 @@ import { PartPreviewComponent } from './components/part-preview/part-preview.com
     MatSnackBarModule,
     MatTooltipModule,
     // Cadmus
+    CadmusTextBlockViewModule,
     CadmusApiModule,
     NgToolsModule,
     NgMatToolsModule,
   ],
-  exports: [PartPreviewComponent],
+  exports: [PartPreviewComponent, TextPreviewComponent],
 })
 export class CadmusPreviewUiModule {}

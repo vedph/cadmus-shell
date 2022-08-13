@@ -1,0 +1,42 @@
+/*
+Preview styles. By convention they all start with prefix "pv-".
+*/
+
+.pv-muted {
+  color: silver;
+}
+.cadmus-text-block-view-col:hover {
+  background-color: #ffdd26;
+}
+
+/* layer ID-based styles */
+
+div[class^="fr_it_vedph_apparatus__"],
+div[class*=" fr_it_vedph_apparatus__"] {
+  background-color: lightsalmon;
+}
+
+div[class^="fr_it_vedph_chronology__"],
+div[class*=" fr_it_vedph_chronology__"] {
+  background-color: palegoldenrod;
+}
+
+div[class^="fr_it_vedph_comment__"],
+div[class*=" fr_it_vedph_comment__"] {
+  background-color: palegreen;
+}
+
+div[class^="fr_it_vedph_orthography__"],
+div[class*=" fr_it_vedph_orthography__"] {
+  background-color: palevioletred;
+}
+
+div[class^="fr_it_vedph_quotations__"],
+div[class*=" fr_it_vedph_quotations__"] {
+  background-color: paleturquoise;
+}
+
+div[class^="fr_it_vedph_witnesses__"],
+div[class*=" fr_it_vedph_witnesses__"] {
+  background-color: peachpuff;
+}
