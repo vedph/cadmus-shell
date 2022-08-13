@@ -37,7 +37,7 @@ export class TextPreviewComponent implements OnInit {
   }
   public set source(value: PartPreviewSource | undefined | null) {
     this._source = value;
-    this.refresh();
+    this.loadItem();
   }
 
   /**
@@ -51,6 +51,7 @@ export class TextPreviewComponent implements OnInit {
   public layers: LayerPartInfo[];
   public rows: TextBlockRow[];
   public selectedLayer: FormControl<LayerPartInfo | null>;
+  public frHtml?: string;
 
   constructor(
     private _previewService: PreviewService,
@@ -64,9 +65,19 @@ export class TextPreviewComponent implements OnInit {
     this.selectedLayer = formBuilder.control(null);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.selectedLayer.valueChanges.subscribe((_) => {
+      if (!this.busy) {
+        this.loadLayer();
+      }
+    });
+    this.loadItem();
+  }
 
-  private getLayerTypeId(layer: LayerPartInfo): string {
+  private getLayerTypeId(layer: LayerPartInfo): string | null {
+    if (!layer) {
+      return null;
+    }
     let id = layer.typeId;
     if (layer.roleId) {
       id += '|' + layer.roleId;
@@ -74,7 +85,7 @@ export class TextPreviewComponent implements OnInit {
     return id;
   }
 
-  private adjustBlockWs(blocks: TextBlock[]): void {
+  private adjustBlockWS(blocks: TextBlock[]): void {
     const head = /^\s+/;
     const tail = /\s+$/;
     for (let i = 0; i < blocks.length; i++) {
@@ -83,7 +94,40 @@ export class TextPreviewComponent implements OnInit {
     }
   }
 
-  private refresh(): void {
+  private loadLayer(): void {
+    const layer = this.selectedLayer.value;
+    const layers = layer ? [layer] : [];
+    this.busy = true;
+
+    this._previewService
+      .getTextBlocks(
+        this._source!.partId,
+        layers.map((l) => l.id),
+        layers.map((l) => this.getLayerTypeId(l))
+      )
+      .pipe(take(1))
+      .subscribe({
+        next: (rows) => {
+          this.busy = false;
+          // convert initial/final WS into nbsp
+          for (let i = 0; i < rows.length; i++) {
+            this.adjustBlockWS(rows[i].blocks);
+          }
+          this.rows = rows;
+        },
+        error: (error) => {
+          this.busy = false;
+          if (error) {
+            console.error(JSON.stringify(error));
+          }
+          this._snackbar.open(
+            'Error previewing text part ' + this._source!.partId
+          );
+        },
+      });
+  }
+
+  private loadItem(): void {
     if (this.busy) {
       return;
     }
@@ -93,45 +137,16 @@ export class TextPreviewComponent implements OnInit {
       this.rows = [];
       return;
     }
-    // load text part's layers info
-    this.busy = true;
-    this._itemService
-      .getItemLayerInfo(this._source.itemId, false)
+    forkJoin({
+      item: this._itemService.getItem(this._source!.itemId, false),
+      layers: this._itemService.getItemLayerInfo(this._source.itemId, false),
+    })
       .pipe(take(1))
       .subscribe({
-        next: (layers) => {
-          // once got layers, get item and rows of blocks merged with them
-          this.layers = layers;
-          forkJoin({
-            item: this._itemService.getItem(this._source!.itemId, false),
-            rows: this._previewService.getTextBlocks(
-              this._source!.partId,
-              layers.map((l) => l.id),
-              layers.map((l) => this.getLayerTypeId(l))
-            ),
-          })
-            .pipe(take(1))
-            .subscribe({
-              next: (result) => {
-                this.busy = false;
-                this.item = result.item;
-                // convert initial/final WS into nbsp
-                for (let i = 0; i < result.rows.length; i++) {
-                  this.adjustBlockWs(result.rows[i].blocks);
-                }
-                this.rows = result.rows;
-                // TODO optionally select layer
-              },
-              error: (error) => {
-                this.busy = false;
-                if (error) {
-                  console.error(JSON.stringify(error));
-                }
-                this._snackbar.open(
-                  'Error previewing text part ' + this._source!.partId
-                );
-              },
-            });
+        next: (result) => {
+          this.busy = false;
+          this.item = result.item;
+          this.layers = result.layers;
         },
         error: (error) => {
           this.busy = false;
@@ -139,13 +154,45 @@ export class TextPreviewComponent implements OnInit {
             console.error(JSON.stringify(error));
           }
           this._snackbar.open(
-            'Error getting layer info for item ' + this._source!.itemId
+            'Error previewing text part ' + this._source!.partId
           );
         },
       });
   }
 
+  private showFragment(index: number): void {
+    if (this.busy || !this.selectedLayer.value) {
+      return;
+    }
+    this.busy = true;
+    this._previewService
+      .renderFragment(this.selectedLayer.value.id, index)
+      .pipe(take(1))
+      .subscribe({
+        next: (r) => {
+          this.busy = false;
+          this.frHtml = r.result;
+        },
+        error: (error) => {
+          this.busy = false;
+          if (error) {
+            console.error(JSON.stringify(error));
+          }
+          this._snackbar.open('Error previewing part ' + this._source!.partId);
+        },
+      });
+  }
+
   public onBlockClick(args: TextBlockEventArgs): void {
-    alert('Block ' + (args.decoration ? 'dec ' : '') + args.block.id);
+    if (!args.block.layerIds?.length) {
+      return;
+    }
+    const m = /[0-9]+$/.exec(args.block.layerIds[0]);
+    if (!m?.length) {
+      return;
+    }
+    this.showFragment(+m);
+
+    // alert('Block ' + (args.decoration ? 'dec ' : '') + args.block.id);
   }
 }

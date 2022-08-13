@@ -110,7 +110,7 @@ export class PreviewService {
   public getTextBlocks(
     id: string,
     layerPartIds: string[],
-    layerIds?: string[]
+    layerIds?: (string | null)[]
   ): Observable<TextBlockRow[]> {
     let httpParams = new HttpParams();
 

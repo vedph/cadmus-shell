@@ -17,15 +17,15 @@
     <div>
       <mat-form-field *ngIf="layers?.length">
         <mat-select [formControl]="selectedLayer" placeholder="layer">
-          <mat-option value="-">---</mat-option>
-          <mat-option *ngFor="let e of layers" [value]="e.id">{{
-            e.roleId | flatLookup: typeEntries:"id":"value"
+          <mat-option value="null">---</mat-option>
+          <mat-option *ngFor="let l of layers" [value]="l">{{
+            l.roleId | flatLookup: typeEntries:"id":"value"
           }}</mat-option>
         </mat-select>
-        <span *ngIf="selectedLayer.value">{{
-          selectedLayer.value.fragmentCount
-        }}</span>
       </mat-form-field>
+      <span style="margin-left: 6px" *ngIf="selectedLayer.value">{{
+        selectedLayer.value.fragmentCount
+      }}</span>
     </div>
   </div>
 
@@ -39,4 +39,7 @@
       ></cadmus-text-block-view>
     </div>
   </div>
+
+  <!-- fragment -->
+  <div id="fragment" *ngIf="frHtml" [innerHtml]="frHtml | safeHtml: 'html'"></div>
 </div>

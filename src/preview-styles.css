@@ -5,8 +5,13 @@ Preview styles. By convention they all start with prefix "pv-".
 .pv-muted {
   color: silver;
 }
+.cadmus-text-block-view-col {
+  border: 1px solid transparent;
+  padding: 1px;
+}
 .cadmus-text-block-view-col:hover {
-  background-color: #ffdd26;
+  border: 1px solid #ffdd26;
+  padding: 1px;
 }
 
 /* layer ID-based styles */
