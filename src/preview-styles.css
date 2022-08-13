@@ -11,32 +11,32 @@ Preview styles. By convention they all start with prefix "pv-".
 
 /* layer ID-based styles */
 
-div[class^="fr_it_vedph_apparatus__"],
-div[class*=" fr_it_vedph_apparatus__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.apparatus"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.apparatus"] {
   background-color: lightsalmon;
 }
 
-div[class^="fr_it_vedph_chronology__"],
-div[class*=" fr_it_vedph_chronology__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.chronology"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.chronology"] {
   background-color: palegoldenrod;
 }
 
-div[class^="fr_it_vedph_comment__"],
-div[class*=" fr_it_vedph_comment__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.comment"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.comment"] {
   background-color: palegreen;
 }
 
-div[class^="fr_it_vedph_orthography__"],
-div[class*=" fr_it_vedph_orthography__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.orthography"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.orthography"] {
   background-color: palevioletred;
 }
 
-div[class^="fr_it_vedph_quotations__"],
-div[class*=" fr_it_vedph_quotations__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.quotations"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.quotations"] {
   background-color: paleturquoise;
 }
 
-div[class^="fr_it_vedph_witnesses__"],
-div[class*=" fr_it_vedph_witnesses__"] {
+div[class^="it.vedph.token-text-layer|fr.it.vedph.witnesses"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.witnesses"] {
   background-color: peachpuff;
 }

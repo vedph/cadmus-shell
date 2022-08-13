@@ -67,10 +67,9 @@ export class TextPreviewComponent implements OnInit {
   ngOnInit(): void {}
 
   private getLayerTypeId(layer: LayerPartInfo): string {
-    const dotRegex = /\./g;
-    let id = layer.typeId.replace(dotRegex, '_');
+    let id = layer.typeId;
     if (layer.roleId) {
-      id += '__' + layer.roleId.replace(dotRegex, '_');
+      id += '|' + layer.roleId;
     }
     return id;
   }

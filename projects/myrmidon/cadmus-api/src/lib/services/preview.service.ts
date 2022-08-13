@@ -121,7 +121,7 @@ export class PreviewService {
         if (layerIds && i < layerIds.length) {
           id += '=' + layerIds[i];
         }
-        httpParams = httpParams.append('layerId', layerPartIds[i]);
+        httpParams = httpParams.append('layerId', id);
       }
     }
 
