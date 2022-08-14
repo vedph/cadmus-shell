@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import {
   Item,
@@ -31,7 +32,7 @@ import { DialogService } from '@myrmidon/ng-mat-tools';
 
 import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.component';
 import { AuthJwtService, User } from '@myrmidon/auth-jwt-login';
-import { UserLevelService } from '@myrmidon/cadmus-api';
+import { ItemService, UserLevelService } from '@myrmidon/cadmus-api';
 
 /**
  * Item editor. This can edit a new or existing item's metadata and parts.
@@ -83,6 +84,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     private _appQuery: AppQuery,
     private _query: EditItemQuery,
     private _editItemService: EditItemService,
+    private _itemService: ItemService,
     private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService,
     private _authService: AuthJwtService,
@@ -414,9 +416,14 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   public previewPart(part: Part): void {
     if (part.roleId?.startsWith('fr.')) {
       // layer parts redirect to base-text
-      this._router.navigate(['preview', part.itemId, part.id, 'text'], {
-        queryParams: { lid: part.roleId },
-      });
+      this._itemService
+        .getBaseTextPart(part.itemId)
+        .pipe(take(1))
+        .subscribe((p) => {
+          this._router.navigate(['preview', part.itemId, p.part.id, 'text'], {
+            queryParams: { lid: part.roleId },
+          });
+        });
     } else if (part.roleId === 'base-text') {
       this._router.navigate(['preview', part.itemId, part.id, 'text']);
     } else {
