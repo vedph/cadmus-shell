@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CadmusTextBlockViewModule } from '@myrmidon/cadmus-text-block-view';
@@ -45,6 +46,7 @@ import { TextPreviewComponent } from './components/text-preview/text-preview.com
     MatSelectModule,
     MatProgressBarModule,
     MatSnackBarModule,
+    MatTabsModule,
     MatTooltipModule,
     // Cadmus
     CadmusTextBlockViewModule,

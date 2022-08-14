@@ -17,7 +17,7 @@
     <div>
       <mat-form-field *ngIf="layers?.length">
         <mat-select [formControl]="selectedLayer" placeholder="layer">
-          <mat-option value="null">---</mat-option>
+          <mat-option [value]="{ id: 'all' }">all</mat-option>
           <mat-option *ngFor="let l of layers" [value]="l">{{
             l.roleId | flatLookup: typeEntries:"id":"value"
           }}</mat-option>
@@ -40,6 +40,15 @@
     </div>
   </div>
 
-  <!-- fragment -->
-  <div id="fragment" *ngIf="frHtml" [innerHtml]="frHtml | safeHtml: 'html'"></div>
+  <!-- fragments -->
+  <div id="fragments" *ngIf="frHtml?.length">
+    <mat-tab-group>
+      <mat-tab
+        *ngFor="let html of frHtml; let i = index"
+        [label]="$any(frLabels[i] | flatLookup: typeEntries:'id':'value')"
+      >
+        <div [innerHtml]="html | safeHtml: 'html'"></div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

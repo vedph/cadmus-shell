@@ -412,8 +412,12 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   }
 
   public previewPart(part: Part): void {
-    // TODO layer parts redirection to base-text
-    if (part.roleId === 'base-text') {
+    if (part.roleId?.startsWith('fr.')) {
+      // layer parts redirect to base-text
+      this._router.navigate(['preview', part.itemId, part.id, 'text'], {
+        queryParams: { lid: part.roleId },
+      });
+    } else if (part.roleId === 'base-text') {
       this._router.navigate(['preview', part.itemId, part.id, 'text']);
     } else {
       this._router.navigate(['preview', part.itemId, part.id]);

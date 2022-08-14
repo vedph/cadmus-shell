@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
   PreviewService,
   ItemService,
   TextBlockRow,
+  RenditionResult,
 } from '@myrmidon/cadmus-api';
 import { Item, LayerPartInfo, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
@@ -51,7 +52,8 @@ export class TextPreviewComponent implements OnInit {
   public layers: LayerPartInfo[];
   public rows: TextBlockRow[];
   public selectedLayer: FormControl<LayerPartInfo | null>;
-  public frHtml?: string;
+  public frHtml: string[];
+  public frLabels: string[];
 
   constructor(
     private _previewService: PreviewService,
@@ -61,6 +63,8 @@ export class TextPreviewComponent implements OnInit {
   ) {
     this.layers = [];
     this.rows = [];
+    this.frHtml = [];
+    this.frLabels = [];
     // form
     this.selectedLayer = formBuilder.control(null);
   }
@@ -86,17 +90,16 @@ export class TextPreviewComponent implements OnInit {
   }
 
   private adjustBlockWS(blocks: TextBlock[]): void {
-    const head = /^\s+/;
-    const tail = /\s+$/;
+    // we want to use mid dot instead of space because the visualized
+    // blocks might include some spacing between them
     for (let i = 0; i < blocks.length; i++) {
-      blocks[i].text = blocks[i].text.replace(head, '\xa0');
-      blocks[i].text = blocks[i].text.replace(tail, '\xa0');
+      blocks[i].text = blocks[i].text.replace(' ', '\xB7');
     }
   }
 
   private loadLayer(): void {
     const layer = this.selectedLayer.value;
-    const layers = layer ? [layer] : [];
+    const layers = !layer || layer.id === 'all' ? this.layers : [layer];
     this.busy = true;
 
     this._previewService
@@ -147,6 +150,15 @@ export class TextPreviewComponent implements OnInit {
           this.busy = false;
           this.item = result.item;
           this.layers = result.layers;
+          // select layer if requested
+          if (this._source!.layerId) {
+            this.selectedLayer.setValue(
+              this.layers.find((l) => l.roleId === this._source!.layerId) || null
+            );
+            if (this.selectedLayer.value) {
+              this.loadLayer();
+            }
+          }
         },
         error: (error) => {
           this.busy = false;
@@ -160,25 +172,45 @@ export class TextPreviewComponent implements OnInit {
       });
   }
 
-  private showFragment(index: number): void {
-    if (this.busy || !this.selectedLayer.value) {
+  private parseLayerId(id: string): string[] {
+    return /^([^|]+)\|(.+)([0-9]+)$/.exec(id)!;
+  }
+
+  private showFragments(layerIds: string[]): void {
+    if (this.busy || !layerIds.length) {
       return;
     }
     this.busy = true;
-    this._previewService
-      .renderFragment(this.selectedLayer.value.id, index)
+    // load all the fragments linked to this block
+    const loaders$: Observable<RenditionResult>[] = [];
+    const labels: string[] = [];
+    for (let i = 0; i < layerIds.length; i++) {
+      const m = this.parseLayerId(layerIds[i]);
+      labels.push(m[2]);
+      const layer = this.layers.find(
+        (l) => l.typeId === m[1] && (!l.roleId || l.roleId === m[2])
+      )!;
+      loaders$.push(
+        this._previewService.renderFragment(layer.id, +m[3]).pipe(take(1))
+      );
+    }
+
+    forkJoin(loaders$)
       .pipe(take(1))
       .subscribe({
-        next: (r) => {
+        next: (renditions) => {
           this.busy = false;
-          this.frHtml = r.result;
+          this.frHtml = renditions.map((r) => r.result);
+          this.frLabels = labels;
         },
         error: (error) => {
           this.busy = false;
           if (error) {
             console.error(JSON.stringify(error));
           }
-          this._snackbar.open('Error previewing part ' + this._source!.partId);
+          this._snackbar.open(
+            'Error previewing text part ' + this._source!.partId
+          );
         },
       });
   }
@@ -187,12 +219,6 @@ export class TextPreviewComponent implements OnInit {
     if (!args.block.layerIds?.length) {
       return;
     }
-    const m = /[0-9]+$/.exec(args.block.layerIds[0]);
-    if (!m?.length) {
-      return;
-    }
-    this.showFragment(+m);
-
-    // alert('Block ' + (args.decoration ? 'dec ' : '') + args.block.id);
+    this.showFragments(args.block.layerIds);
   }
 }

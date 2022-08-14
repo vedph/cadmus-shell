@@ -12,6 +12,7 @@ import { Item } from '@myrmidon/cadmus-core';
 export interface PartPreviewSource {
   itemId: string;
   partId: string;
+  // layer type i.e. layer part's role ID
   layerId?: string;
 }
 

@@ -19,6 +19,7 @@ export class TextPreviewFeatureComponent implements OnInit {
     this.source = {
       itemId: route.snapshot.params['iid'],
       partId: route.snapshot.params['pid'],
+      layerId: route.snapshot.queryParams['lid']
     };
     appQuery
       .selectTypeThesaurus()
