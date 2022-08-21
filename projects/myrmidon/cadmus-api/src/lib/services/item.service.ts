@@ -23,6 +23,7 @@ import {
   ErrorService,
   ErrorWrapper,
 } from '@myrmidon/ng-tools';
+import { FlagMatching } from '@myrmidon/cadmus-core';
 
 export interface RolePartId {
   roleId: string;
@@ -59,8 +60,15 @@ export class ItemService {
     if (filter.groupId) {
       httpParams = httpParams.set('groupId', filter.groupId);
     }
-    if (filter.flags) {
-      httpParams = httpParams.set('flags', filter.flags.toString());
+    if (filter.flagMatching !== FlagMatching.none) {
+      httpParams = httpParams.set(
+        'flags',
+        filter.flags ? filter.flags.toString() : '0'
+      );
+      httpParams = httpParams.set(
+        'flagMatching',
+        filter.flagMatching ? filter.flagMatching.toString() : '0'
+      );
     }
     if (filter.userId) {
       httpParams = httpParams.set('userId', filter.userId);

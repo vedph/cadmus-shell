@@ -23,6 +23,19 @@ export interface Item extends HasVersion {
 }
 
 /**
+ * Flags matching mode.
+ */
+export enum FlagMatching {
+  // the none value is frontend-side only, as in the backend
+  // the flags property in ItemFilter is nullable
+  none = -1,
+  bitsAllSet = 0,
+  bitsAnySet,
+  bitsAllClear,
+  bitsAnyClear
+}
+
+/**
  * Filter for items.
  */
 export interface ItemFilter {
@@ -33,6 +46,7 @@ export interface ItemFilter {
   facetId?: string;
   groupId?: string;
   flags?: number;
+  flagMatching?: FlagMatching;
   minModified?: Date;
   maxModified?: Date;
   userId?: string;

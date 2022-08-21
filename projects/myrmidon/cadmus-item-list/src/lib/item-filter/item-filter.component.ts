@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ItemFilter } from '@myrmidon/cadmus-core';
+import { FlagMatching, ItemFilter } from '@myrmidon/cadmus-core';
 
 import { ItemsLookupService } from '../services/items-lookup.service';
 import { ItemsLookupQuery } from '../state/items-lookup.query';
@@ -24,6 +24,7 @@ export class ItemFilterComponent implements OnInit {
   public description: FormControl<string | null>;
   public facet: FormControl<string | null>;
   public group: FormControl<string | null>;
+  public flagMatching: FormControl<FlagMatching>;
   public flags: FormControl<number[] | null>;
   public minModified: FormControl<Date | null>;
   public maxModified: FormControl<Date | null>;
@@ -42,6 +43,9 @@ export class ItemFilterComponent implements OnInit {
     this.facet = formBuilder.control(null);
     this.group = formBuilder.control(null);
     this.flags = formBuilder.control(null);
+    this.flagMatching = formBuilder.control(FlagMatching.none, {
+      nonNullable: true,
+    });
     this.minModified = formBuilder.control(null);
     this.maxModified = formBuilder.control(null);
     this.user = formBuilder.control(null);
@@ -52,6 +56,7 @@ export class ItemFilterComponent implements OnInit {
       facet: this.facet,
       group: this.group,
       flags: this.flags,
+      flagMatching: this.flagMatching,
       minModified: this.minModified,
       maxModified: this.maxModified,
       user: this.user,
@@ -102,6 +107,7 @@ export class ItemFilterComponent implements OnInit {
     this.facet.setValue(filter.facetId || null);
     this.group.setValue(filter.groupId || null);
     this.flags.setValue(this.flagsToArray(filter.flags));
+    this.flagMatching.setValue(filter.flagMatching || FlagMatching.none);
     this.minModified.setValue(filter.minModified || null);
     this.maxModified.setValue(filter.maxModified || null);
     this.form.markAsPristine();
@@ -116,6 +122,7 @@ export class ItemFilterComponent implements OnInit {
       facetId: this.facet.value || undefined,
       groupId: this.group.value || undefined,
       flags: this.arrayToFlags(this.flags.value),
+      flagMatching: this.flagMatching.value,
       userId: this.user.value ? this.user.value : undefined,
       minModified: this.minModified.value ? this.minModified.value : undefined,
       maxModified: this.maxModified.value ? this.maxModified.value : undefined,

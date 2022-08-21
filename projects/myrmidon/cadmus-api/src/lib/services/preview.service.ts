@@ -50,14 +50,14 @@ export class PreviewService {
   /**
    * Gets all the Cadmus objects keys registered for preview.
    *
-   * @param flatteners If set to true, get keys for text flatteners.
-   * If false, get keys for JSON renderers.
+   * @param type A character: J=JSON renderer keys, F=text flattener keys,
+   * C=item composer keys. The default is J.
    * @returns List of unique keys.
    */
-  public getKeys(flatteners: boolean): Observable<string[]> {
+  public getKeys(type: string): Observable<string[]> {
     const url = this._env.get('apiUrl') + 'preview/keys';
     let httpParams = new HttpParams();
-    httpParams = httpParams.set('flatteners', flatteners);
+    httpParams = httpParams.set('type', type || 'J');
     return this._http
       .get<string[]>(url, {
         params: httpParams,
