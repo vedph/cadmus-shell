@@ -29,15 +29,17 @@ export class AppService {
       'model-types@en',
       'item-browsers@en',
     ]);
-    const rKeys$ = this._previewService.getKeys(false);
-    const fKeys$ = this._previewService.getKeys(true);
+    const jKeys$ = this._previewService.getKeys('J');
+    const fKeys$ = this._previewService.getKeys('F');
+    const cKeys$ = this._previewService.getKeys('C');
 
     forkJoin({
       facets: facets$,
       flags: flags$,
       thesauri: thesauri$,
-      rKeys: rKeys$,
+      jKeys: jKeys$,
       fKeys: fKeys$,
+      cKeys: cKeys$
     }).subscribe({
       next: (result) => {
         this._store.setLoading(false);
@@ -48,8 +50,9 @@ export class AppService {
           flags: result.flags,
           typeThesaurus: result.thesauri['model-types'],
           itemBrowserThesaurus: result.thesauri['item-browsers'],
-          previewRKeys: result.rKeys,
-          previewFKeys: result.fKeys
+          previewJKeys: result.jKeys,
+          previewFKeys: result.fKeys,
+          previewCKeys: result.cKeys
         });
       },
       error: (error) => {

@@ -301,7 +301,7 @@
                     *ngIf="
                       part
                         | hasPreview
-                          : (previewRKeys$ | async)
+                          : (previewJKeys$ | async)
                           : (previewFKeys$ | async)
                     "
                     (click)="previewPart(part)"

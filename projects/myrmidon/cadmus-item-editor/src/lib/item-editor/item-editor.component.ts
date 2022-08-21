@@ -61,7 +61,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   public deletingPart$: Observable<boolean | undefined>;
   public error$: Observable<string | undefined>;
   public typeThesaurus$: Observable<Thesaurus | undefined>;
-  public previewRKeys$: Observable<string[]>;
+  public previewJKeys$: Observable<string[]>;
   public previewFKeys$: Observable<string[]>;
 
   // new part form
@@ -138,7 +138,7 @@ export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._appQuery.selectFacets();
     this.typeThesaurus$ = this._appQuery.selectTypeThesaurus();
-    this.previewRKeys$ = this._appQuery.selectPreviewRKeys();
+    this.previewJKeys$ = this._appQuery.selectPreviewJKeys();
     this.previewFKeys$ = this._appQuery.selectPreviewFKeys();
 
     this.loading$ = this._query.selectLoading();

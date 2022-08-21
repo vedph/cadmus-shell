@@ -2,6 +2,7 @@
 
 - [Cadmus Shell](#cadmus-shell)
   - [History](#history)
+    - [3.1.1](#311)
     - [3.1.0](#310)
     - [3.0.0](#300)
     - [2.0.3](#203)
@@ -16,13 +17,20 @@ All the version numbers of this refactoring, having a number of breaking changes
 
 Quick Docker image build:
 
-1. `npm run build-lib`
-2. update version in `env.js` and then `ng build`
-3. `docker build . -t vedph2020/cadmus-shell:3.1.0 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+1. `npm run build-lib`.
+2. update version in `env.js` and then `ng build`.
+3. `docker build . -t vedph2020/cadmus-shell:3.1.1 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
-- 2022-08-21: added matching mode to flags in items filter, API service, and core models.
+### 3.1.1
+
+- 2022-08-21: added matching mode to flags in items filter, API service, and core models. Now items can be filtered by flags not only by looking at all the flags set, but also to any flag set, all flags clear, and any flags clear. Affected libraries:
+  - cadmus-core
+  - cadmus-api
+  - cadmus-state
+  - cadmus-item-list
+  - cadmus-item-editor
 - 2022-08-08:
   - added preview service to `cadmus-api` and increased its version number.
   - added preview keys to app state in `cadmus-state` and increased its version number.

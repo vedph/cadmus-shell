@@ -33,11 +33,15 @@ export class AppQuery extends Query<AppState> {
     return this.select((state) => state.itemBrowserThesaurus);
   }
 
-  public selectPreviewRKeys(): Observable<string[]> {
-    return this.select((state) => state.previewRKeys);
+  public selectPreviewJKeys(): Observable<string[]> {
+    return this.select((state) => state.previewJKeys);
   }
 
   public selectPreviewFKeys(): Observable<string[]> {
     return this.select((state) => state.previewFKeys);
+  }
+
+  public selectPreviewCKeys(): Observable<string[]> {
+    return this.select((state) => state.previewCKeys);
   }
 }

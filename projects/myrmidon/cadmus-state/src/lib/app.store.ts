@@ -32,13 +32,17 @@ export interface AppState {
    */
   itemBrowserThesaurus?: Thesaurus;
   /**
-   * The preview renderers keys. Empty when preview is disabled.
+   * The preview JSON renderers keys. Empty when preview is disabled.
    */
-  previewRKeys: string[];
+  previewJKeys: string[];
   /**
-   * The preview flatteners keys. Empty when preview is disabled.
+   * The preview text flatteners keys. Empty when preview is disabled.
    */
   previewFKeys: string[];
+  /**
+   * The preview item composer keys. Empty when preview is disabled.
+   */
+  previewCKeys: string[];
 
   loading?: boolean;
   error?: string;
@@ -47,8 +51,9 @@ export interface AppState {
 const initialState: AppState = {
   facets: [],
   flags: [],
-  previewRKeys: [],
+  previewJKeys: [],
   previewFKeys: [],
+  previewCKeys: [],
 };
 
 @Injectable({ providedIn: 'root' })
