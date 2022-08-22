@@ -16,8 +16,8 @@ export class ItemsLookupService {
   ) {}
 
   private loadFacets(): void {
-    this._facetService.getFacets().subscribe(
-      (facets) => {
+    this._facetService.getFacets().subscribe({
+      next: (facets) => {
         this._store.update((state) => {
           return {
             ...state,
@@ -25,15 +25,15 @@ export class ItemsLookupService {
           };
         });
       },
-      (err) => {
+      error: (err) => {
         this._store.setError(err);
-      }
-    );
+      },
+    });
   }
 
   private loadFlags(): void {
-    this._flagService.getFlags().subscribe(
-      (flags) => {
+    this._flagService.getFlags().subscribe({
+      next: (flags) => {
         this._store.update((state) => {
           return {
             ...state,
@@ -41,15 +41,15 @@ export class ItemsLookupService {
           };
         });
       },
-      (err) => {
+      error: (err) => {
         this._store.setError(err);
-      }
-    );
+      },
+    });
   }
 
   private loadUsers(): void {
-    this._userService.getAllUsers().subscribe(
-      (page: DataPage<UserInfo>) => {
+    this._userService.getAllUsers().subscribe({
+      next: (page: DataPage<UserInfo>) => {
         this._store.update((state) => {
           return {
             ...state,
@@ -63,10 +63,10 @@ export class ItemsLookupService {
           };
         });
       },
-      (err) => {
+      error: (err) => {
         this._store.setError(err);
-      }
-    );
+      },
+    });
   }
 
   public load(): void {

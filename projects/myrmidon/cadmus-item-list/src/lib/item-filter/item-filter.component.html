@@ -56,7 +56,7 @@
     <div *ngIf="lookup.flags && lookup.flags.length > 0" gdArea="flags">
       <div>
         <mat-form-field>
-          <mat-select [formControl]="flagMatching" placeholder="mode">
+          <mat-select [formControl]="flagMatching" placeholder="flags">
             <mat-option value="-1">(flags ignored)</mat-option>
             <mat-option value="0">all set</mat-option>
             <mat-option value="1">any set</mat-option>
@@ -69,7 +69,7 @@
         <mat-form-field>
           <mat-select
             multiple="true"
-            placeholder="flags"
+            placeholder="flags value"
             formControlName="flags"
           >
             <mat-option *ngFor="let f of lookup.flags" [value]="f.id">

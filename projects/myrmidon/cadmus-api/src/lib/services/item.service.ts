@@ -60,7 +60,7 @@ export class ItemService {
     if (filter.groupId) {
       httpParams = httpParams.set('groupId', filter.groupId);
     }
-    if (filter.flagMatching !== FlagMatching.none) {
+    if (filter.flagMatching !== undefined && +filter.flagMatching > -1) {
       httpParams = httpParams.set(
         'flags',
         filter.flags ? filter.flags.toString() : '0'

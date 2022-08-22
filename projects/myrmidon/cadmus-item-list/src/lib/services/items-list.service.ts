@@ -14,18 +14,18 @@ export class ItemsListService {
     const promise: Promise<boolean> = new Promise((resolve, reject) => {
       this._itemsStore.setLoading(true);
 
-      this._itemService.deleteItem(id).subscribe(
-        (_) => {
+      this._itemService.deleteItem(id).subscribe({
+        next: (_) => {
           this._itemsStore.remove(id);
           this._itemsStore.setLoading(false);
           resolve(true);
         },
-        (error) => {
+        error: (error) => {
           console.error(error);
           this._itemsStore.setLoading(false);
           reject(error);
-        }
-      );
+        },
+      });
     });
     return promise;
   }
