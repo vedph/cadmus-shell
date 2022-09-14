@@ -23,6 +23,8 @@ Quick Docker image build:
 
 ## History
 
+- 2022-09-14: updated Angular.
+
 ### 3.1.1
 
 - 2022-08-21: added matching mode to flags in items filter, API service, and core models. Now items can be filtered by flags not only by looking at all the flags set, but also to any flag set, all flags clear, and any flags clear. Affected libraries:
