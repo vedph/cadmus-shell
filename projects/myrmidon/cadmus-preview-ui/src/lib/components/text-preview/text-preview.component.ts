@@ -153,7 +153,8 @@ export class TextPreviewComponent implements OnInit {
           // select layer if requested
           if (this._source!.layerId) {
             this.selectedLayer.setValue(
-              this.layers.find((l) => l.roleId === this._source!.layerId) || null
+              this.layers.find((l) => l.roleId === this._source!.layerId) ||
+                null
             );
             if (this.selectedLayer.value) {
               this.loadLayer();
@@ -191,7 +192,9 @@ export class TextPreviewComponent implements OnInit {
         (l) => l.typeId === m[1] && (!l.roleId || l.roleId === m[2])
       )!;
       loaders$.push(
-        this._previewService.renderFragment(layer.id, +m[3]).pipe(take(1))
+        this._previewService
+          .renderFragment(this._source!.itemId, layer.id, +m[3])
+          .pipe(take(1))
       );
     }
 

@@ -64,7 +64,10 @@ export class PartPreviewComponent implements OnInit {
     this.busy = true;
     forkJoin({
       item: this._itemService.getItem(this._source.itemId, false),
-      preview: this._previewService.renderPart(this._source.partId),
+      preview: this._previewService.renderPart(
+        this._source.itemId,
+        this._source.partId
+      ),
     })
       .pipe(take(1))
       .subscribe({

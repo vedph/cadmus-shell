@@ -69,12 +69,18 @@ export class PreviewService {
   /**
    * Render the part with the specified ID.
    *
-   * @param id The part's ID.
+   * @param itemId The item's ID.
+   * @param partId The part's ID.
    * @returns Rendition.
    */
-  public renderPart(id: string): Observable<RenditionResult> {
+  public renderPart(
+    itemId: string,
+    partId: string
+  ): Observable<RenditionResult> {
     return this._http
-      .get<RenditionResult>(this._env.get('apiUrl') + `preview/parts/${id}`)
+      .get<RenditionResult>(
+        this._env.get('apiUrl') + `preview/items/${itemId}/parts/${partId}`
+      )
       .pipe(retry(3), catchError(this._error.handleError));
   }
 
@@ -83,17 +89,20 @@ export class PreviewService {
    * Render the fragment at the specified index in the part with the specified
    * ID.
    *
-   * @param id The part's ID.
+   * @param itemId The item's ID.
+   * @param partId The part's ID.
    * @param frIndex The fragment's index (0-N).
    * @returns Rendition.
    */
   public renderFragment(
-    id: string,
+    itemId: string,
+    partId: string,
     frIndex: number
   ): Observable<RenditionResult> {
     return this._http
       .get<RenditionResult>(
-        this._env.get('apiUrl') + `preview/parts/${id}/${frIndex}`
+        this._env.get('apiUrl') +
+          `preview/items/${itemId}/parts/${partId}/${frIndex}`
       )
       .pipe(retry(3), catchError(this._error.handleError));
   }

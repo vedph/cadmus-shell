@@ -2,6 +2,7 @@
 
 - [Cadmus Shell](#cadmus-shell)
   - [History](#history)
+    - [3.1.2](#312)
     - [3.1.1](#311)
     - [3.1.0](#310)
     - [3.0.0](#300)
@@ -19,10 +20,16 @@ Quick Docker image build:
 
 1. `npm run build-lib`.
 2. update version in `env.js` and then `ng build`.
-3. `docker build . -t vedph2020/cadmus-shell:3.1.1 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:3.1.2 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
+### 3.1.2
+
+- 2022-10-04:
+  - changed two endpoint addresses in preview API service. This affected `@myrmidon/cadmus-api` and `@myrmidon/cadmus-preview-ui`.
+  - updated Angular.
+  - added styles for apparatus preview.
 - 2022-09-14: updated Angular.
 
 ### 3.1.1
