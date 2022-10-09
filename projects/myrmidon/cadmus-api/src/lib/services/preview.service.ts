@@ -65,7 +65,7 @@ export class PreviewService {
       .pipe(retry(3), catchError(this._error.handleError));
   }
 
-  // preview/parts/{id}
+  // preview/items/{itemId}/parts/{partId}
   /**
    * Render the part with the specified ID.
    *
@@ -84,7 +84,7 @@ export class PreviewService {
       .pipe(retry(3), catchError(this._error.handleError));
   }
 
-  // preview/parts/{id}/{frIndex}
+  // preview/items/{itemId}parts/{partId}/{frIndex}
   /**
    * Render the fragment at the specified index in the part with the specified
    * ID.

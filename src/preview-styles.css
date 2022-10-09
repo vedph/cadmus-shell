@@ -5,6 +5,15 @@ Preview styles. By convention they all start with prefix "pv-".
 .pv-muted {
   color: silver;
 }
+.pv-flex-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pv-flex-row * {
+  flex: 0 0 auto;
+}
 .cadmus-text-block-view-col {
   border: 1px solid transparent;
   padding: 1px;
@@ -94,4 +103,105 @@ div[class*=" it.vedph.token-text-layer|fr.it.vedph.witnesses"] {
 
 .apparatus-note {
   font-style: italic;
+}
+
+/* comment layer */
+
+.comment a {
+  text-decoration: none;
+}
+.comment a:hover {
+  text-decoration: underline;
+}
+.comment-tag {
+  color: silver;
+  font-weight: bold;
+  padding: 6px;
+  border: 1px solid silver;
+  border-radius: 6px;
+}
+.comment-text {
+  margin: 8px;
+  column-count: 4;
+  column-width: 400px;
+}
+.comment-category {
+  background-color: #afd3ff;
+  border: 1px solid #afd3ff;
+  border-radius: 6px;
+  padding: 6px;
+}
+.comment-keywords {
+  line-height: 200%;
+}
+.comment-kw-x {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-kw-l {
+  background-color: #f5f3e1;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-kw-v {
+  color: #827609;
+}
+.comment-hdr {
+  color: royalblue;
+  border-bottom: 1px solid royalblue;
+  margin: 8px 0;
+  font-variant: small-caps;
+}
+.comment-references {
+  line-height: 200%;
+}
+.comment-ref-y {
+  background-color: #35c6ea;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-ref-t {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-ref-c {
+}
+.comment-ref-n {
+  font-style: italic;
+}
+.comment-ids {
+  line-height: 200%;
+}
+.comment-id-t {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-id-r {
+  font-weight: bold;
+  color: orange;
+}
+.comment-id-n {
+  font-style: italic;
+}
+.comment-assertion {
+  border: 1px solid orange;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 4px;
+  background-color: #fefefe;
+}
+.comment-assertion-refs {
 }
