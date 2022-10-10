@@ -55,6 +55,14 @@ div[class*=" it.vedph.token-text-layer|fr.it.vedph.witnesses"] {
   background-color: peachpuff;
 }
 
+/* note */
+
+.note-text {
+  margin: 8px;
+  column-count: 4;
+  column-width: 400px;
+}
+
 /* apparatus layer */
 
 .apparatus-lemma {
@@ -195,6 +203,12 @@ div[class*=" it.vedph.token-text-layer|fr.it.vedph.witnesses"] {
 }
 .comment-id-n {
   font-style: italic;
+}
+.comment-id-s {
+  border: 1px solid orange;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
 }
 .comment-assertion {
   border: 1px solid orange;
