@@ -178,8 +178,6 @@ export class TextLayerService {
    * Render the specified token intersecting the specified range start location.
    * The received token starts a multi-tokens range.
    * @param loc location.
-   * @param locPortion the index of the token's portion (0-N). This is used
-   * to build a unique ID for each HTML span rendering a layer fragment.
    * @param token token.
    * @param sb target strings array.
    * @param isSelected True if the token is selected.
@@ -704,29 +702,27 @@ export class TextLayerService {
    * @param matcher The matcher function, which receives a node
    * to match, and returns 1=match, 0=no match, -1=stop the
    * find operation with a no match.
+   * @return 1=match, 0=no match, -1=stop the find operation with a no match.
    */
-  private findNode(node: Node, matcher: (n: Node) => number): Node | null {
+  private matchNode(node: Node, matcher: (n: Node) => number): number {
     // self
     const n = matcher(node);
-    if (n === 1) {
-      return node;
-    }
-    if (n === -1) {
-      return null;
+    if (n) {
+      return n;
     }
 
     // children
     if (node.hasChildNodes()) {
       for (let i = 0; i < node.childNodes.length; i++) {
         const child = node.childNodes[i];
-        const found = this.findNode(child, matcher);
-        if (found) {
-          return found;
+        const m = this.matchNode(child, matcher);
+        if (m) {
+          return m;
         }
       }
     }
 
-    return null;
+    return 0;
   }
 
   private selHasAnySpan(range: SelectedRange): boolean {
@@ -734,10 +730,10 @@ export class TextLayerService {
     if (
       // the selected text node must not be child of a span
       range.startContainer.parentElement?.tagName === 'SPAN' ||
-      range.startContainer.parentElement?.tagName === 'SPAN' ||
+      range.endContainer.parentElement?.tagName === 'SPAN' ||
       // the nodes tree from the common ancestor, from the start node
       // up to the end node, must not include any span
-      this.findNode(range.commonAncestorContainer, (node: Node) => {
+      this.matchNode(range.commonAncestorContainer, (node: Node) => {
         // start checking only when start node reached
         if (node === range.startContainer) {
           inside = true;
@@ -757,7 +753,7 @@ export class TextLayerService {
           return 1;
         }
         return 0;
-      })
+      }) === 1
     ) {
       return true;
     }
