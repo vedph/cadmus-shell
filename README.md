@@ -2,6 +2,7 @@
 
 - [Cadmus Shell](#cadmus-shell)
   - [History](#history)
+    - [3.1.4](#314)
     - [3.1.3](#313)
     - [3.1.2](#312)
     - [3.1.1](#311)
@@ -21,11 +22,16 @@ Quick Docker image build:
 
 1. `npm run build-lib`.
 2. update version in `env.js` and then `ng build`.
-3. `docker build . -t vedph2020/cadmus-shell:3.1.3 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:3.1.4 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
-- 2022-10-25: in `@myrmidon/cadmus-core` fix to `textLayerService.selHasAnySpan`: check for SPAN element did not stop when adding a new selection and another selection in the context of the same ancestor is found after the insertion point.
+### 3.1.4
+
+- 2022-10-25:
+  - in `@myrmidon/cadmus-core` fix to `textLayerService.selHasAnySpan`: check for SPAN element did not stop when adding a new selection and another selection in the context of the same ancestor is found after the insertion point.
+  - updated `rangy` to 1.3.1.
+  - updated Angular.
 
 ### 3.1.3
 
