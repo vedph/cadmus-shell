@@ -2,6 +2,7 @@
 
 - [Cadmus Shell](#cadmus-shell)
   - [History](#history)
+    - [3.1.5](#315)
     - [3.1.4](#314)
     - [3.1.3](#313)
     - [3.1.2](#312)
@@ -22,11 +23,16 @@ Quick Docker image build:
 
 1. `npm run build-lib`.
 2. update version in `env.js` and then `ng build`.
-3. `docker build . -t vedph2020/cadmus-shell:3.1.4 -t vedph2020/cadmus-shell:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-shell:3.1.5 -t vedph2020/cadmus-shell:latest` (replace with the current version).
 
 ## History
 
-- 2022-11-03: updated Angular and packages.
+### 3.1.5
+
+- 2022-11-03:
+  - updated Angular and packages.
+  - fixes to events editor.
+  - hierarchical thesauri for events and relations in events editor. When specified, selecting an event type triggers filtering of relations according to the selected ID prefix. This is equal to the ID of the selected entry up to the last dot, i.e. from event type `person.crm:E67_birth` we filter all the relation entries starting with `person.`. This allows different granularity levels in filtering: for instance, should we have `person.birth.crm:E67_birth` (prefix `person.birth.`), we could have two relation entries `person.birth.P96_by_mother` and `person.birth.P97_from_father`, which are available only when a person's birth event is selected (rather than just a person's event). If no thesauri are specified, you can just fill the IDs without constraints.
 
 ### 3.1.4
 

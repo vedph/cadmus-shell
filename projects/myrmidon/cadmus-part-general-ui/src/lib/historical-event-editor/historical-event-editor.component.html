@@ -16,17 +16,21 @@
         </mat-form-field>
         &nbsp;
         <!-- type (bound) -->
-        <mat-form-field *ngIf="eventTypeEntries?.length">
-          <mat-select [formControl]="type" placeholder="type">
-            <mat-option *ngFor="let e of eventTypeEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
+        <div *ngIf="eventTypeEntries?.length">
+          <cadmus-thesaurus-tree
+            [entries]="eventTypeEntries"
+            rootLabel="types"
+            [renderLabel]="renderLabel"
+            (entryChange)="onTypeEntryChange($event)"
+          ></cadmus-thesaurus-tree>
           <mat-error
             *ngIf="$any(type).errors?.required && (type.dirty || type.touched)"
             >type required</mat-error
           >
-        </mat-form-field>
+          <div *ngIf="type.value" class="sel-type">
+            {{ type.value }}
+          </div>
+        </div>
         <!-- type (free) -->
         <mat-form-field *ngIf="!eventTypeEntries?.length">
           <input matInput [formControl]="type" placeholder="type" />
@@ -153,11 +157,13 @@
         <form [formGroup]="reForm" (submit)="saveCurrentEntity()">
           <fieldset>
             <!-- relation (bound) -->
-            <mat-form-field *ngIf="relationEntries?.length">
+            <mat-form-field *ngIf="(currentRelEntries | async) as entries">
               <mat-select [formControl]="relation" placeholder="relation">
-                <mat-option *ngFor="let e of relationEntries" [value]="e.id">{{
-                  e.value
-                }}</mat-option>
+                <mat-option
+                  *ngFor="let e of entries"
+                  [value]="e.id"
+                  >{{ e.value }}</mat-option
+                >
               </mat-select>
               <mat-error
                 *ngIf="
@@ -169,7 +175,11 @@
             </mat-form-field>
             <!-- relation (free) -->
             <mat-form-field *ngIf="!relationEntries?.length">
-              <input matInput [formControl]="relation" placeholder="relation" />
+              <input
+                matInput
+                [formControl]="relation"
+                placeholder="relation"
+              />
               <mat-error
                 *ngIf="
                   $any(relation).errors?.required &&

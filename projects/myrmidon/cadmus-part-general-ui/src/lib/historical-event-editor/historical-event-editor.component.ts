@@ -5,9 +5,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { AssertedChronotope } from '@myrmidon/cadmus-refs-asserted-chronotope';
 import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+import { renderLabelFromLastColon } from '@myrmidon/cadmus-ui';
+
 import { HistoricalEvent, RelatedEntity } from '../historical-events-part';
 
 @Component({
@@ -29,12 +33,12 @@ export class HistoricalEventEditorComponent implements OnInit {
   }
 
   /**
-   * Thesaurus event-types.
+   * Thesaurus event-types (hierarchical).
    */
   @Input()
   public eventTypeEntries: ThesaurusEntry[] | undefined;
   /**
-   * Thesaurus event-relations.
+   * Thesaurus event-relations (hierarchical).
    */
   @Input()
   public relationEntries: ThesaurusEntry[] | undefined;
@@ -80,6 +84,7 @@ export class HistoricalEventEditorComponent implements OnInit {
   public initialAssertion?: Assertion;
 
   // related entity
+  public currentRelEntries: BehaviorSubject<ThesaurusEntry[]>;
   public currentEntity?: RelatedEntity;
   public relation: FormControl<string | null>;
   public id: FormControl<string | null>;
@@ -117,6 +122,7 @@ export class HistoricalEventEditorComponent implements OnInit {
       assertion: this.assertion,
     });
     // related entity
+    this.currentRelEntries = new BehaviorSubject<ThesaurusEntry[]>([]);
     this.relation = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(500),
@@ -137,6 +143,38 @@ export class HistoricalEventEditorComponent implements OnInit {
     }
   }
 
+  public renderLabel(label: string): string {
+    return renderLabelFromLastColon(label);
+  }
+
+  private updateRelEntries(prefix: string): void {
+    if (!this.relationEntries?.length) {
+      return;
+    }
+    const entries = this.relationEntries.filter((e) => e.id.startsWith(prefix));
+    this.currentRelEntries.next(entries);
+  }
+
+  private getTypeEntryPrefix(id: string): string {
+    let end = id.lastIndexOf('.');
+    if (end == -1) {
+      end = id.length;
+    } else {
+      end++; // include ending . in prefix
+    }
+    return id.substring(0, end);
+  }
+
+  public onTypeEntryChange(entry: ThesaurusEntry): void {
+    setTimeout(() => {
+      this.type.setValue(entry.id);
+      // filter related entries according to type
+      if (this.relationEntries?.length) {
+        this.updateRelEntries(this.getTypeEntryPrefix(entry.id));
+      }
+    }, 0);
+  }
+
   private updateForm(model: HistoricalEvent | undefined): void {
     if (!model) {
       this.form.reset();
@@ -152,6 +190,10 @@ export class HistoricalEventEditorComponent implements OnInit {
     this.hasAssertion.setValue(model.assertion ? true : false);
     this.initialAssertion = model.assertion;
     this.relatedEntities.setValue(model.relatedEntities || []);
+
+    if (this.relationEntries?.length) {
+      this.updateRelEntries(this.getTypeEntryPrefix(model.type));
+    }
     this.form.markAsPristine();
   }
 
@@ -213,22 +255,20 @@ export class HistoricalEventEditorComponent implements OnInit {
       id: this.id.value!.trim(),
       relation: this.relation.value!.trim(),
     };
+    // nope if already present
     if (
       this.relatedEntities.value.find(
-        (e) => e.id === entity.id && e.relation === e.relation
+        (e) => e.id === entity.id && e.relation === entity.relation
       )
     ) {
       this.setCurrentEntity(undefined);
       return;
     }
+    // replace
     if (this._currentEntityIndex > -1) {
-      this.relatedEntities.setValue(
-        [...this.relatedEntities.value].splice(
-          this._currentEntityIndex,
-          1,
-          entity
-        )
-      );
+      const entities = [...this.relatedEntities.value];
+      entities.splice(this._currentEntityIndex, 1, entity);
+      this.relatedEntities.setValue(entities);
     } else {
       this.relatedEntities.setValue([...this.relatedEntities.value, entity]);
     }
@@ -243,7 +283,9 @@ export class HistoricalEventEditorComponent implements OnInit {
     }
     const i = this.relatedEntities.value.findIndex((e) => e.id === entity.id);
     if (i > -1) {
-      this.relatedEntities.value.splice(i, 1);
+      const entities = [...this.relatedEntities.value];
+      entities.splice(i, 1);
+      this.relatedEntities.setValue(entities);
       this.relatedEntities.updateValueAndValidity();
       this.relatedEntities.markAsDirty();
     }
