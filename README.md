@@ -26,6 +26,8 @@ Quick Docker image build:
 
 ## History
 
+- 2022-11-03: updated Angular and packages.
+
 ### 3.1.4
 
 - 2022-10-25:
