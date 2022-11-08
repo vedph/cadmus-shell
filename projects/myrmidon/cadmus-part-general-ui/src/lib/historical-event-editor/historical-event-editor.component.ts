@@ -62,6 +62,18 @@ export class HistoricalEventEditorComponent implements OnInit {
    */
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
+  /**
+   * The number of event type portions to cut from the event type ID when
+   * building the prefix used to filter the corresponding relations IDs.
+   * By default this is 0, i.e. the whole type ID (plus a final dot) is
+   * used as prefix. For instance, the ID "person.birth" generates prefix
+   * "person.birth.". The portions of an ID are defined by splitting it at
+   * each dot: so, should this property be 1, we would split the ID into
+   * "person" and "birth", remove the last 1 tail(s), thus getting "person",
+   * join back the portions and append a final dot, generating "person.".
+   */
+  @Input()
+  public eventTypeTailCut: number;
 
   @Output()
   public modelChange: EventEmitter<HistoricalEvent>;
@@ -94,6 +106,7 @@ export class HistoricalEventEditorComponent implements OnInit {
     this.modelChange = new EventEmitter<HistoricalEvent>();
     this.editorClose = new EventEmitter<any>();
     this._currentEntityIndex = -1;
+    this.eventTypeTailCut = 0;
     // form
     this.eid = formBuilder.control(null, [
       Validators.required,
@@ -156,13 +169,16 @@ export class HistoricalEventEditorComponent implements OnInit {
   }
 
   private getTypeEntryPrefix(id: string): string {
-    let end = id.lastIndexOf('.');
-    if (end == -1) {
-      end = id.length;
-    } else {
-      end++; // include ending . in prefix
+    let p = id;
+    if (this.eventTypeTailCut > 0) {
+      const tokens = p.split('.');
+      if (tokens.length >= this.eventTypeTailCut) {
+        tokens.splice(tokens.length - this.eventTypeTailCut);
+      }
+      p = tokens.join('.');
     }
-    return id.substring(0, end);
+    p += '.';
+    return p;
   }
 
   public onTypeEntryChange(entry: ThesaurusEntry): void {

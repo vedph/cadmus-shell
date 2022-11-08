@@ -27,6 +27,11 @@ Quick Docker image build:
 
 ## History
 
+- 2022-11-08:
+  - updated Angular.
+  - changed prefix building in historical event editor.
+  - added lookup pipe to selected event type in historical event editor.
+
 ### 3.1.5
 
 - 2022-11-03:

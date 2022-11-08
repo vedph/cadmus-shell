@@ -28,7 +28,7 @@
             >type required</mat-error
           >
           <div *ngIf="type.value" class="sel-type">
-            {{ type.value }}
+            {{ type.value | flatLookup: eventTypeEntries:"id":"value" }}
           </div>
         </div>
         <!-- type (free) -->
@@ -157,13 +157,11 @@
         <form [formGroup]="reForm" (submit)="saveCurrentEntity()">
           <fieldset>
             <!-- relation (bound) -->
-            <mat-form-field *ngIf="(currentRelEntries | async) as entries">
+            <mat-form-field *ngIf="currentRelEntries | async as entries">
               <mat-select [formControl]="relation" placeholder="relation">
-                <mat-option
-                  *ngFor="let e of entries"
-                  [value]="e.id"
-                  >{{ e.value }}</mat-option
-                >
+                <mat-option *ngFor="let e of entries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
               </mat-select>
               <mat-error
                 *ngIf="
@@ -175,11 +173,7 @@
             </mat-form-field>
             <!-- relation (free) -->
             <mat-form-field *ngIf="!relationEntries?.length">
-              <input
-                matInput
-                [formControl]="relation"
-                placeholder="relation"
-              />
+              <input matInput [formControl]="relation" placeholder="relation" />
               <mat-error
                 *ngIf="
                   $any(relation).errors?.required &&
